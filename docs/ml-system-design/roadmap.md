@@ -6,7 +6,7 @@ sidebar_position: 2
 
 How to take a model and turn it into a working, scalable production system. Framed around a repeatable 9-step formula plus worked problem categories.
 
-## The 9-Step Framework
+## The [9-Step Framework](./the-9-step-framework.md)
 1. [ ] **Problem formulation** — translate a business need into an ML problem
 2. [ ] **Metrics** — offline metrics (what you optimize in dev) vs online metrics (what you measure in production, e.g. CTR, retention)
 3. [ ] **Architectural components** — sketch the MVP: data → features → model → serving
@@ -17,7 +17,7 @@ How to take a model and turn it into a working, scalable production system. Fram
 8. [ ] **Online testing & deployment** — A/B tests, shadow deployment, canary rollout
 9. [ ] **Scaling, monitoring, and updates** — drift detection, retraining cadence, rollback plans
 
-## Case Studies to Work Through
+## [Case Studies](./case-studies.md) to Work Through
 - [ ] **Recommendation systems** — candidate generation + ranking, cold start
 - [ ] **Search & ranking** — retrieval, learning-to-rank, relevance
 - [ ] **News feed / ads ranking**
