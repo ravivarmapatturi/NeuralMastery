@@ -18,9 +18,11 @@ No labels — the goal is to discover structure that's already latent in the dat
 
 ## Dimensionality Reduction
 
-**PCA (Principal Component Analysis)**: projects data onto the directions of maximum variance — the eigenvectors of the data's covariance matrix (see [Linear Algebra](../mathematics-for-ai/linear-algebra.md)). Fast, deterministic, and the standard first move for compressing features or visualizing high-dimensional data, though it only captures *linear* structure.
+**PCA (Principal Component Analysis)**: projects data onto the directions of maximum variance — the eigenvectors of the data's covariance matrix (see [Linear Algebra](../mathematics-for-ai/linear-algebra.md)). Fast, deterministic, and the standard first move for compressing features or visualizing high-dimensional data, though it only captures *linear* structure. **Kernel PCA** extends it to nonlinear structure via the same kernel trick as SVM; **Truncated SVD** skips mean-centering to handle sparse data like text. See [PCA, Kernel PCA & Truncated SVD, In Full Depth](./pca-svd.md) for the eigenvector derivation, scree plots for choosing how many components to keep, and how PCA connects directly to SVD.
 
-**t-SNE and UMAP**: nonlinear dimensionality reduction, mainly used for *visualizing* high-dimensional data (like embeddings) in 2D/3D. They preserve local neighborhood structure well, but the resulting axes aren't interpretable and distances between distant clusters shouldn't be over-interpreted.
+**ICA (Independent Component Analysis)**: separates mixed signals into statistically independent sources — the "cocktail party problem." A fundamentally different goal from PCA's variance-maximization. See [ICA, t-SNE & UMAP, In Full Depth](./ica-tsne-umap.md) for the non-Gaussianity trick that makes it work.
+
+**t-SNE and UMAP**: nonlinear dimensionality reduction, mainly used for *visualizing* high-dimensional data (like embeddings) in 2D/3D. They preserve local neighborhood structure well, but the resulting axes aren't interpretable and distances between distant clusters shouldn't be over-interpreted. See [ICA, t-SNE & UMAP, In Full Depth](./ica-tsne-umap.md#t-sne-t-distributed-stochastic-neighbor-embedding) for exactly what these plots can and can't be trusted to show.
 
 ## Anomaly Detection
 
