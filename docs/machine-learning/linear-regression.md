@@ -8,6 +8,26 @@ sidebar_position: 4.5
 
 ![Linear Regression at a glance — hypothesis, cost, gradient, and update rule](./img/linear-regression-at-a-glance.png)
 
+## What Is Linear Regression?
+
+In plain terms: linear regression finds the straight line that best fits a set of data points, so you can predict a continuous output from one or more inputs.
+
+Take a familiar example: predicting a student's **exam score** from how many **hours they studied**. Plot each student as a point — hours studied on the x-axis, score on the y-axis — and you'll typically see a trend: more hours, generally, a higher score. Linear regression draws the single straight line through that cloud of points that fits it best.
+
+![Study hours vs. exam score, with a fitted regression line](./img/linear-regression-scatter-fit.png)
+
+You already know the equation for a line from algebra: $y = mx + b$, where $m$ is the slope and $b$ is where the line crosses the y-axis. Linear regression uses the exact same equation, just with different letters and one important addition — a *hat*:
+
+$$\hat{y} = w \cdot x + b$$
+
+The hat on $\hat{y}$ (read "y-hat") matters: it means *predicted* value, not the actual observed value $y$. Real data is noisy — two students who both studied 5 hours won't score identically — so the line can't pass through every point exactly. $\hat{y}$ is the line's best estimate for a given $x$; the gap between $\hat{y}$ and the real $y$ for any point is called the **residual**, and it's exactly what the rest of this page is about minimizing.
+
+**Simple vs. multiple linear regression:** the one-input example above is *simple* linear regression. Most real problems use several inputs at once — predicting a house's price from its size, location, and age, for instance — which is *multiple* linear regression: $\hat{y} = w_1 x_1 + w_2 x_2 + \cdots + w_d x_d + b$. Section 1 below writes this generally using vectors so both cases are the same formula.
+
+**A warning worth internalizing early:** a strong fit tells you $x$ and $y$ move together — it does *not* tell you $x$ *causes* $y$. Students who study more may also be more motivated overall, and that motivation — not the studying itself — could be doing some of the work. Linear regression describes correlation; establishing causation requires a controlled experiment, not just a good fit.
+
+Everything above is the intuition. Everything below is the actual math that makes it work — precisely, not just approximately.
+
 ## 1. The Hypothesis
 
 Linear regression assumes the target is a linear function of the input, plus noise:
@@ -112,6 +132,12 @@ The model — and its statistical guarantees — rely on a few assumptions worth
 - **Homoscedasticity**: the variance of the residuals is constant across all values of $x$ — not, say, growing larger for bigger predictions.
 - **Normally distributed residuals**: needed specifically for the statistical validity of confidence intervals and hypothesis tests on the coefficients (see [Probability & Statistics](../mathematics-for-ai/probability-statistics.md)), not for the point predictions themselves.
 - **No severe multicollinearity**: highly correlated features make $X^TX$ near-singular, causing the normal equation's coefficients to become unstable and hard to interpret.
+
+**How to actually check these**: plot the residuals (actual − predicted) against $x$. A healthy fit looks like random scatter centered on zero, with no pattern and roughly constant spread:
+
+![Residual plot for the study hours vs. exam score fit — scattered randomly around zero](./img/linear-regression-residuals.png)
+
+If you instead saw a curve (points systematically above zero for small/large $x$ and below for the middle, or vice versa), that would signal a nonlinear relationship — linearity violated. If the spread visibly widens or narrows across $x$, that's heteroscedasticity — homoscedasticity violated. This one plot is the fastest real-world check for two of the five assumptions above.
 
 ## 9. Minimal Implementation
 
