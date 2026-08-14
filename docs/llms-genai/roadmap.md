@@ -6,7 +6,7 @@ sidebar_position: 2
 
 This is where classical deep learning turns into ChatGPT-class systems. Assumes you've covered [Deep Learning](../deep-learning/roadmap.md) first.
 
-## 1. Foundation Model & Transformer Internals
+## 1. [Foundation Model & Transformer Internals](./foundation-model-internals.md)
 - [ ] Tokenization: BPE, WordPiece, SentencePiece
 - [ ] Embeddings and the embedding table
 - [ ] KV cache — why it makes autoregressive decoding fast
@@ -15,7 +15,7 @@ This is where classical deep learning turns into ChatGPT-class systems. Assumes 
 - [ ] Grouped-Query Attention (GQA) vs Multi-Head Attention
 - [ ] Context window limits and why they exist
 
-## 2. Training Pipeline
+## 2. [Training Pipeline](./training-pipeline.md)
 - [ ] Pretraining: next-token prediction at scale
 - [ ] Supervised Fine-Tuning (SFT)
 - [ ] RLHF — Reinforcement Learning from Human Feedback
@@ -25,14 +25,14 @@ This is where classical deep learning turns into ChatGPT-class systems. Assumes 
 - [ ] Knowledge distillation
 - [ ] Quantization (int8, int4, GPTQ, AWQ) for inference
 
-## 3. Prompt Engineering
+## 3. [Prompt Engineering](./prompt-engineering.md)
 - [ ] Zero-shot, one-shot, few-shot prompting
 - [ ] Chain-of-Thought and self-consistency
 - [ ] ReAct (reasoning + acting) prompting
 - [ ] Structured output (JSON/XML) prompting
 - [ ] Prompt injection and jailbreaking — attack and defense
 
-## 4. Retrieval-Augmented Generation (RAG)
+## 4. [Retrieval-Augmented Generation (RAG)](./rag.md)
 - [ ] RAG architecture: retriever + generator
 - [ ] Chunking strategies (fixed, semantic, recursive, parent-child)
 - [ ] Embedding model selection
@@ -42,19 +42,19 @@ This is where classical deep learning turns into ChatGPT-class systems. Assumes 
 - [ ] Evaluating RAG: faithfulness, relevance, context precision/recall
 - [ ] Failure modes: hallucination despite correct context, "lost in the middle," stale knowledge
 
-## 5. Evaluation
+## 5. [Evaluation](./evaluation-and-serving.md)
 - [ ] Perplexity and other intrinsic metrics
 - [ ] LLM-as-judge evaluation
 - [ ] Benchmark suites (MMLU, HellaSwag, etc.) — what they do and don't tell you
 - [ ] Evaluating for hallucination, toxicity, bias
 
-## 6. Multimodal & Generative Models
+## 6. [Multimodal & Generative Models](./multimodal-generative-models.md)
 - [ ] Vision-Language Models (VLMs)
 - [ ] Vision-Language-Action models (VLAs)
 - [ ] Diffusion models vs autoregressive generation
 - [ ] Diffusion Language Models (DLMs)
 
-## 7. Serving & Production (LLMOps)
+## 7. [Serving & Production (LLMOps)](./evaluation-and-serving.md#serving--inference-optimization)
 - [ ] Inference optimization: batching, speculative decoding, Paged Attention
 - [ ] Cost/latency tradeoffs at scale
 - [ ] Guardrails and safety filtering in production
