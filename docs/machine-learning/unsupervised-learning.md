@@ -24,8 +24,16 @@ No labels — the goal is to discover structure that's already latent in the dat
 
 **t-SNE and UMAP**: nonlinear dimensionality reduction, mainly used for *visualizing* high-dimensional data (like embeddings) in 2D/3D. They preserve local neighborhood structure well, but the resulting axes aren't interpretable and distances between distant clusters shouldn't be over-interpreted. See [ICA, t-SNE & UMAP, In Full Depth](./ica-tsne-umap.md#t-sne-t-distributed-stochastic-neighbor-embedding) for exactly what these plots can and can't be trusted to show.
 
+## Association Rule Mining
+
+Finding "if X, then usually Y" patterns in transactional data — the algorithms behind "customers who bought this also bought that." See [Association Rule Mining: Apriori & FP-Growth, In Full Depth](./association-rules.md) for support/confidence/lift, the Apriori principle for pruning an otherwise-intractable search space, and FP-Growth's faster tree-based alternative.
+
+## Topic Modeling
+
+Discovering the themes running through a text collection with no labels — LDA (Latent Dirichlet Allocation, a completely different algorithm from the LDA classifier above despite the shared name) models documents as topic mixtures via a Bayesian generative process; BERTopic clusters modern embeddings instead. See [Topic Modeling: LDA & BERTopic, In Full Depth](./topic-modeling.md) for the full generative story and why embedding-based BERTopic captures synonyms that bag-of-words LDA structurally cannot.
+
 ## Anomaly Detection
 
-Identifying points that don't fit the normal pattern of the data — fraud transactions, defective products, network intrusions. Approaches range from simple statistical thresholds (points far from the mean), to density-based methods (isolation forests, DBSCAN's noise points), to autoencoders (trained to reconstruct normal data well; anomalies reconstruct poorly).
+Identifying points that don't fit the normal pattern of the data — fraud transactions, defective products, network intrusions. Approaches range from simple statistical thresholds (points far from the mean), to density-based methods (isolation forests, DBSCAN's noise points), to autoencoders (trained to reconstruct normal data well; anomalies reconstruct poorly). See [Anomaly Detection: Isolation Forest, LOF & One-Class SVM, In Full Depth](./anomaly-detection.md) for why randomly-split trees isolate anomalies faster than normal points, and a full comparison across all four approaches.
 
 Next: [Model Evaluation & Metrics](./model-evaluation-metrics.md) — how to know whether any of these models are actually good.

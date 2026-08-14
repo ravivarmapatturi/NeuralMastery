@@ -12,5 +12,6 @@ Neural networks from first principles up to the Transformer architecture behind 
 - **[Convolutional Neural Networks (CNNs)](./cnns.md)** — convolution, pooling, the ResNet lineage
 - **[Sequence Models](./sequence-models.md)** — RNNs, LSTM/GRU, sequence-to-sequence
 - **[Attention & Transformers](./attention-transformers.md)** — self-attention, multi-head attention, positional encoding
+- **[Autoencoders & VAE](./autoencoders.md)** — unsupervised compression, the reparameterization trick, VQ-VAE
 
 See the [roadmap](./roadmap.md) for the full ordered path through this section.

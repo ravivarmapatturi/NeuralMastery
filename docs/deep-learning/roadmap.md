@@ -46,7 +46,13 @@ Neural networks from first principles up to the architectures that dominate mode
 - [ ] The full Transformer block: attention + feed-forward + norm + residual
 - [ ] Vision Transformers (ViT) — attention beyond text
 
-## 6. Common Problems & SOTA Solutions
+## 6. [Autoencoders & Variational Autoencoders](./autoencoders.md)
+- [ ] The encoder/bottleneck/decoder architecture and why the bottleneck forces learning
+- [ ] Sparse and Denoising Autoencoder variants
+- [ ] VAE: probabilistic latent space, the KL regularization term, the reparameterization trick
+- [ ] VQ-VAE's discrete latent codebook
+
+## 7. Common Problems & SOTA Solutions
 - [ ] **Vanishing gradients in deep nets** → residual connections, normalization
 - [ ] **Overfitting on limited image data** → data augmentation, transfer learning, pretrained backbones
 - [ ] **Quadratic cost of self-attention on long sequences** → Flash Attention, sparse/linear attention
