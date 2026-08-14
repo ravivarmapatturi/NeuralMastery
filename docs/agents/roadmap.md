@@ -6,13 +6,13 @@ sidebar_position: 2
 
 How LLMs go from answering questions to taking actions, using tools, and coordinating with each other.
 
-## 1. Agent Fundamentals
+## 1. [Agent Fundamentals](./agent-fundamentals.md)
 - [ ] What makes something an "agent" vs a single LLM call
 - [ ] Tool use / function calling — how models decide to call tools and parse results
 - [ ] Designing tools: naming, descriptions, argument schemas
 - [ ] Agent memory: short-term (context) vs long-term (persisted) memory
 
-## 2. Agent Architectures
+## 2. [Agent Architectures](./agent-architectures.md)
 - [ ] ReAct (Reasoning + Acting) loop
 - [ ] Plan-and-Execute pattern
 - [ ] Reflection / self-critique loops
@@ -20,14 +20,14 @@ How LLMs go from answering questions to taking actions, using tools, and coordin
 - [ ] Sub-agents and orchestrator patterns
 
 ## 3. Protocols
-- [ ] **MCP (Model Context Protocol)** — standardizing how agents connect to tools and data sources
+- [ ] **[MCP (Model Context Protocol)](./mcp/overview.md)** — standardizing how agents connect to tools and data sources
   - [ ] MCP servers vs clients
   - [ ] Resources, tools, and prompts in MCP
-- [ ] **A2A (Agent-to-Agent)** — how independent agents discover and communicate with each other
+- [ ] **[A2A (Agent-to-Agent)](./a2a/overview.md)** — how independent agents discover and communicate with each other
   - [ ] Agent cards / capability discovery
   - [ ] Task delegation between agents
 
-## 4. Multi-Agent Systems
+## 4. [Multi-Agent Systems](./multi-agent-systems.md)
 - [ ] Coordination patterns: hierarchical, peer-to-peer, blackboard
 - [ ] Shared state and conflict resolution
 - [ ] When multi-agent actually beats a single well-prompted agent (and when it doesn't)
