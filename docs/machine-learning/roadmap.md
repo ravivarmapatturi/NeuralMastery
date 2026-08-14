@@ -6,7 +6,7 @@ sidebar_position: 2
 
 Classical ML: the algorithms, the workflow around them, and the problems that show up constantly in practice.
 
-## 1. ML Workflow Fundamentals
+## 1. [ML Workflow Fundamentals](./ml-workflow-fundamentals.md)
 - [ ] Supervised vs unsupervised vs semi-supervised vs self-supervised learning
 - [ ] Train / validation / test splits, cross-validation
 - [ ] Data leakage — what it is and how it silently ruins models
@@ -14,7 +14,7 @@ Classical ML: the algorithms, the workflow around them, and the problems that sh
 - [ ] Handling missing data, outliers, imbalanced classes
 - [ ] Sampling strategies (stratified, bootstrap, SMOTE)
 
-## 2. Supervised Learning
+## 2. [Supervised Learning](./supervised-learning.md)
 - [ ] Linear & logistic regression (and their assumptions)
 - [ ] Decision trees, Random Forests, Gradient Boosting (XGBoost, LightGBM)
 - [ ] Support Vector Machines
@@ -22,12 +22,12 @@ Classical ML: the algorithms, the workflow around them, and the problems that sh
 - [ ] Naive Bayes
 - [ ] Ensemble methods: bagging vs boosting vs stacking
 
-## 3. Unsupervised Learning
+## 3. [Unsupervised Learning](./unsupervised-learning.md)
 - [ ] k-Means, hierarchical clustering, DBSCAN
 - [ ] Dimensionality reduction: PCA, t-SNE, UMAP
 - [ ] Anomaly detection
 
-## 4. Model Evaluation & Metrics
+## 4. [Model Evaluation & Metrics](./model-evaluation-metrics.md)
 - [ ] Bias-variance tradeoff, underfitting vs overfitting
 - [ ] Regularization: L1, L2, dropout, early stopping
 - [ ] Classification metrics: precision, recall, F1, ROC-AUC, PR-AUC
