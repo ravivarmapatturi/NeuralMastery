@@ -28,14 +28,18 @@ The workhorse of classical ML: learn a mapping from inputs to known outputs, the
 
 ## Support Vector Machines
 
-Finds the hyperplane that separates classes with the *maximum margin* — the widest possible gap between classes. Uses the "kernel trick" to handle non-linear boundaries by implicitly mapping data into a higher-dimensional space without ever computing that mapping directly. Historically dominant before deep learning for problems with limited data and a clear margin between classes.
+Finds the hyperplane that separates classes with the *maximum margin* — the widest possible gap between classes. Uses the "kernel trick" to handle non-linear boundaries by implicitly mapping data into a higher-dimensional space without ever computing that mapping directly. Historically dominant before deep learning for problems with limited data and a clear margin between classes. See [Support Vector Machines (SVM & SVR), In Full Depth](./support-vector-machines.md) for the margin-maximization derivation, the soft margin, and exactly how the kernel trick avoids computing the high-dimensional mapping.
 
 ## k-Nearest Neighbors
 
-Predicts a new point's label by looking at the $k$ closest points in the training set (by some distance metric — often Euclidean or cosine, see [Linear Algebra](../mathematics-for-ai/linear-algebra.md)) and taking a majority vote (classification) or average (regression). No real training phase — all the cost is at prediction time, which is exactly why approximate nearest-neighbor search (covered in [Databases](../databases/roadmap.md)) matters at scale.
+Predicts a new point's label by looking at the $k$ closest points in the training set (by some distance metric — often Euclidean or cosine, see [Linear Algebra](../mathematics-for-ai/linear-algebra.md)) and taking a majority vote (classification) or average (regression). No real training phase — all the cost is at prediction time, which is exactly why approximate nearest-neighbor search (covered in [Databases](../databases/roadmap.md)) matters at scale. See [K-Nearest Neighbors, In Full Depth](./k-nearest-neighbors.md) for the curse of dimensionality and why KNN's boundary looks so different from every other classifier's.
 
-## Naive Bayes
+## Naive Bayes, LDA & QDA
 
-Applies Bayes' theorem (see [Probability & Statistics](../mathematics-for-ai/probability-statistics.md)) with the "naive" assumption that features are conditionally independent given the class. That assumption is almost never literally true, yet Naive Bayes remains a strong, fast baseline for text classification and spam filtering.
+Naive Bayes applies Bayes' theorem (see [Probability & Statistics](../mathematics-for-ai/probability-statistics.md)) with the "naive" assumption that features are conditionally independent given the class. That assumption is almost never literally true, yet Naive Bayes remains a strong, fast baseline for text classification and spam filtering. LDA and QDA are close relatives — generative classifiers that model each class as a Gaussian, differing only in whether classes share one covariance (LDA, linear boundary) or each get their own (QDA, curved boundary). See [Naive Bayes, LDA & QDA, In Full Depth](./naive-bayes-lda-qda.md) for the full derivation and a direct visual comparison of the two boundary shapes.
+
+## SGD Classifier & Regressor
+
+Not a separate algorithm — a generic training engine that unifies linear/logistic regression, ridge/lasso, and linear SVM into one configurable loss+penalty framework, trained via mini-batch SGD instead of a closed form. See [SGD Classifier & Regressor, In Full Depth](./sgd-classifier-regressor.md) for the full loss/penalty comparison table and why this framing matters for datasets too large to fit in memory.
 
 Next: [Unsupervised Learning](./unsupervised-learning.md) — finding structure without labels.
