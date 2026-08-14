@@ -8,7 +8,7 @@ The workhorse of classical ML: learn a mapping from inputs to known outputs, the
 
 ## Linear & Logistic Regression
 
-**Linear regression** fits $\hat{y} = \mathbf{w}^T \mathbf{x} + b$, minimizing squared error. Assumes a linear relationship between features and target, and that errors are roughly normally distributed. Its simplicity is a feature — it's interpretable (each weight tells you the effect of that feature) and has a convex loss surface (see [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md)), so training is guaranteed to find the global optimum.
+**Linear regression** fits $\hat{y} = \mathbf{w}^T \mathbf{x} + b$, minimizing squared error. Assumes a linear relationship between features and target, and that errors are roughly normally distributed. Its simplicity is a feature — it's interpretable (each weight tells you the effect of that feature) and has a convex loss surface (see [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md)), so training is guaranteed to find the global optimum. See [Linear Regression, In Full Depth](./linear-regression.md) for the full gradient derivation, the closed-form normal equation, and a from-scratch implementation.
 
 **Logistic regression** applies a sigmoid to the linear output to produce a probability, and is trained with cross-entropy loss instead of squared error. Despite the name, it's a *classification* algorithm — one of the most-used baseline classifiers because it's fast, interpretable, and surprisingly hard to beat on many tabular problems.
 
