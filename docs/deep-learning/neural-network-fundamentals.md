@@ -1,0 +1,41 @@
+---
+sidebar_position: 3
+---
+
+# Neural Network Fundamentals
+
+A neural network is a stack of the linear algebra and calculus from [Mathematics for AI](../mathematics-for-ai/roadmap.md), arranged so the whole thing can learn from data.
+
+## The Perceptron and MLPs
+
+A single perceptron computes $y = \sigma(\mathbf{w}^T \mathbf{x} + b)$ — a weighted sum of inputs, plus a bias, passed through a nonlinear activation $\sigma$. Stack layers of these ("multi-layer perceptron," MLP) and you get a **universal function approximator** — with enough neurons, an MLP can approximate any continuous function, which is the theoretical justification for why neural networks work at all.
+
+## Activation Functions
+
+Without a nonlinear activation, stacking linear layers is pointless — any composition of linear functions is still just a linear function. The nonlinearity is what gives depth its power.
+
+- **Sigmoid** $\sigma(x) = \frac{1}{1+e^{-x}}$: squashes to $(0,1)$, historically popular but suffers from vanishing gradients at extremes.
+- **Tanh**: squashes to $(-1,1)$, zero-centered (a minor training advantage over sigmoid).
+- **ReLU** $\max(0, x)$: the modern default — cheap to compute, doesn't saturate for positive inputs, but can "die" (output zero forever) if a neuron's weights drift so its input is always negative.
+- **GELU / SwiGLU**: smoother variants used in modern Transformers (GPT, LLaMA-family models) — empirically train better than plain ReLU at scale.
+
+## Forward Pass and Backpropagation
+
+**Forward pass**: input flows through each layer's linear transform + activation, producing a prediction, which is compared to the true value via a loss function.
+
+**Backpropagation**: apply the chain rule (see [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md)) working *backward* from the loss, computing how much each weight in every layer contributed to the error. Every deep learning framework (PyTorch, TensorFlow) automates this via **autograd** — you write the forward pass, and the framework builds the computation graph needed to compute gradients automatically.
+
+Worth doing by hand once: for a tiny 2-layer network, write out $\frac{\partial L}{\partial W_1}$ using the chain rule on paper. It demystifies what `.backward()` is actually doing.
+
+## Weight Initialization
+
+Starting all weights at zero (or the same value) breaks training — every neuron in a layer would compute the identical gradient and stay identical forever ("symmetry"). Good initialization schemes address this and also control the scale of activations/gradients as they pass through many layers:
+
+- **Xavier/Glorot initialization**: scales initial weights based on the number of input and output units — designed to keep activation variance roughly constant across layers, works well with sigmoid/tanh.
+- **He initialization**: similar idea, tuned for ReLU-family activations (which zero out half their inputs on average, so need larger initial variance to compensate).
+
+## Gradient Descent Variants in Practice
+
+Full batch, mini-batch, and stochastic gradient descent were covered in [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md) — in deep learning, mini-batch SGD (usually with the Adam optimizer) is essentially universal. The batch size you choose is a genuine tradeoff: larger batches give more stable gradient estimates and better hardware utilization, but smaller batches often generalize slightly better and let you fit larger models in limited GPU memory.
+
+Next: [Training Deep Networks](./training-deep-networks.md) — the techniques that make it possible to train networks dozens or hundreds of layers deep.

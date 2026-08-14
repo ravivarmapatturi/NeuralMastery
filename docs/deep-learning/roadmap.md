@@ -6,14 +6,14 @@ sidebar_position: 2
 
 Neural networks from first principles up to the architectures that dominate modern AI.
 
-## 1. Neural Network Fundamentals
+## 1. [Neural Network Fundamentals](./neural-network-fundamentals.md)
 - [ ] The perceptron, multi-layer perceptrons
 - [ ] Activation functions: sigmoid, tanh, ReLU, GELU, SwiGLU
 - [ ] Forward pass and backpropagation (the calculus, worked by hand once)
 - [ ] Weight initialization (Xavier, He)
 - [ ] Batch, mini-batch, and stochastic gradient descent
 
-## 2. Training Deep Networks
+## 2. [Training Deep Networks](./training-deep-networks.md)
 - [ ] Loss functions: cross-entropy, MSE, contrastive/triplet loss
 - [ ] Batch Normalization vs Layer Normalization vs RMSNorm
 - [ ] Dropout and other regularization for deep nets
@@ -21,17 +21,17 @@ Neural networks from first principles up to the architectures that dominate mode
 - [ ] Residual (skip) connections — why they enable very deep networks
 - [ ] Learning rate schedules, warmup, gradient clipping
 
-## 3. Convolutional Neural Networks (CNNs)
+## 3. [Convolutional Neural Networks (CNNs)](./cnns.md)
 - [ ] Convolution, pooling, receptive fields
 - [ ] Classic architectures: LeNet → AlexNet → ResNet → EfficientNet
 - [ ] Applications: image classification, object detection, segmentation
 
-## 4. Sequence Models
+## 4. [Sequence Models](./sequence-models.md)
 - [ ] RNNs, the vanishing gradient problem
 - [ ] LSTM and GRU
 - [ ] Sequence-to-sequence models, encoder-decoder
 
-## 5. Attention & Transformers
+## 5. [Attention & Transformers](./attention-transformers.md)
 - [ ] Self-attention and the Query/Key/Value formulation
 - [ ] Why scale by √dₖ
 - [ ] Multi-head attention
