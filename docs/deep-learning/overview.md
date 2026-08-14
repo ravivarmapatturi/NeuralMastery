@@ -7,6 +7,7 @@ sidebar_position: 1
 Neural networks from first principles up to the Transformer architecture behind every modern LLM.
 
 - **[Neural Network Fundamentals](./neural-network-fundamentals.md)** — perceptrons, activations, backpropagation, initialization
+- **[Activation Functions](./activation-functions.md)**, **[Loss Functions](./loss-functions.md)**, **[Optimizers](./optimizers.md)**, **[Initialization/Regularization/Scheduling](./initialization-regularization-scheduling.md)** — every building block, in full depth
 - **[Training Deep Networks](./training-deep-networks.md)** — normalization, regularization, residual connections
 - **[Convolutional Neural Networks (CNNs)](./cnns.md)** — convolution, pooling, the ResNet lineage
 - **[Sequence Models](./sequence-models.md)** — RNNs, LSTM/GRU, sequence-to-sequence

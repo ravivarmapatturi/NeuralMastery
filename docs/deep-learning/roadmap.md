@@ -13,6 +13,12 @@ Neural networks from first principles up to the architectures that dominate mode
 - [ ] Weight initialization (Xavier, He)
 - [ ] Batch, mini-batch, and stochastic gradient descent
 
+## Building Blocks, In Full Depth
+- [ ] [Activation Functions](./activation-functions.md) — every variant, side by side, and when to use which
+- [ ] [Loss Functions](./loss-functions.md) — regression, classification, metric learning, and segmentation losses
+- [ ] [Optimizers](./optimizers.md) — SGD → Momentum → Adam → AdamW/Lion/LAMB, derived and visualized
+- [ ] [Weight Initialization, Regularization & LR Scheduling](./initialization-regularization-scheduling.md)
+
 ## 2. [Training Deep Networks](./training-deep-networks.md)
 - [ ] Loss functions: cross-entropy, MSE, contrastive/triplet loss
 - [ ] Batch Normalization vs Layer Normalization vs RMSNorm

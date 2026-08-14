@@ -19,6 +19,8 @@ Without a nonlinear activation, stacking linear layers is pointless — any comp
 - **ReLU** $\max(0, x)$: the modern default — cheap to compute, doesn't saturate for positive inputs, but can "die" (output zero forever) if a neuron's weights drift so its input is always negative.
 - **GELU / SwiGLU**: smoother variants used in modern Transformers (GPT, LLaMA-family models) — empirically train better than plain ReLU at scale.
 
+See [Activation Functions, In Full Depth](./activation-functions.md) for the complete catalog — Leaky ReLU, ELU, SELU, Swish, Mish, Softplus, and the specific tradeoffs (saturation, zero-centering, dead units) that decide which one to reach for.
+
 ## Forward Pass and Backpropagation
 
 **Forward pass**: input flows through each layer's linear transform + activation, producing a prediction, which is compared to the true value via a loss function.
