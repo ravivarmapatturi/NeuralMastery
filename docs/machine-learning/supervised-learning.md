@@ -42,4 +42,8 @@ Naive Bayes applies Bayes' theorem (see [Probability & Statistics](../mathematic
 
 Not a separate algorithm — a generic training engine that unifies linear/logistic regression, ridge/lasso, and linear SVM into one configurable loss+penalty framework, trained via mini-batch SGD instead of a closed form. See [SGD Classifier & Regressor, In Full Depth](./sgd-classifier-regressor.md) for the full loss/penalty comparison table and why this framing matters for datasets too large to fit in memory.
 
+## Time Series Forecasting
+
+A structurally different problem from everything above: predicting the future of a single sequence, where order carries the information and examples are never independent. See [Time Series Forecasting: ARIMA, SARIMA, Prophet & TFT, In Full Depth](./time-series-forecasting.md) for trend/seasonality decomposition, the classical statistical models, and how attention-based deep learning (TFT) extends the same problem.
+
 Next: [Unsupervised Learning](./unsupervised-learning.md) — finding structure without labels.
