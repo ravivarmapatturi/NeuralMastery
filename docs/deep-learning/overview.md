@@ -4,6 +4,12 @@ sidebar_position: 1
 
 # Deep Learning Overview
 
-> TODO: fill in the overview for Deep Learning.
+Neural networks from first principles up to the Transformer architecture behind every modern LLM.
 
-Neural network architectures, training techniques, and state-of-the-art models.
+- **[Neural Network Fundamentals](./neural-network-fundamentals.md)** — perceptrons, activations, backpropagation, initialization
+- **[Training Deep Networks](./training-deep-networks.md)** — normalization, regularization, residual connections
+- **[Convolutional Neural Networks (CNNs)](./cnns.md)** — convolution, pooling, the ResNet lineage
+- **[Sequence Models](./sequence-models.md)** — RNNs, LSTM/GRU, sequence-to-sequence
+- **[Attention & Transformers](./attention-transformers.md)** — self-attention, multi-head attention, positional encoding
+
+See the [roadmap](./roadmap.md) for the full ordered path through this section.
