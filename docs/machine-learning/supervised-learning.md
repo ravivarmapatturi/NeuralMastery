@@ -10,7 +10,9 @@ The workhorse of classical ML: learn a mapping from inputs to known outputs, the
 
 **Linear regression** fits $\hat{y} = \mathbf{w}^T \mathbf{x} + b$, minimizing squared error. Assumes a linear relationship between features and target, and that errors are roughly normally distributed. Its simplicity is a feature — it's interpretable (each weight tells you the effect of that feature) and has a convex loss surface (see [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md)), so training is guaranteed to find the global optimum. See [Linear Regression, In Full Depth](./linear-regression.md) for the full gradient derivation, the closed-form normal equation, and a from-scratch implementation.
 
-**Logistic regression** applies a sigmoid to the linear output to produce a probability, and is trained with cross-entropy loss instead of squared error. Despite the name, it's a *classification* algorithm — one of the most-used baseline classifiers because it's fast, interpretable, and surprisingly hard to beat on many tabular problems.
+**Regularized variants** add a penalty on the weights to fight overfitting when features are correlated or numerous: [Ridge Regression](./ridge-regression.md) (L2 penalty, shrinks weights smoothly), [Lasso Regression](./lasso-regression.md) (L1 penalty, shrinks some weights to exactly zero — automatic feature selection), and [Elastic Net](./elastic-net.md) (a tunable blend of both, generally the safest default of the three).
+
+**Logistic regression** applies a sigmoid to the linear output to produce a probability, and is trained with cross-entropy loss instead of squared error. Despite the name, it's a *classification* algorithm — one of the most-used baseline classifiers because it's fast, interpretable, and surprisingly hard to beat on many tabular problems. See [Logistic Regression, In Full Depth](./logistic-regression.md) for the full derivation, including why its gradient has the exact same shape as linear regression's despite a completely different loss function.
 
 ## Tree-Based Methods
 
