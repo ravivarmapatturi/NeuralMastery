@@ -6,18 +6,18 @@ sidebar_position: 2
 
 The tools you'll actually type into a terminal.
 
-## 1. Core ML/DL
+## 1. [Core ML/DL](./core-ml-dl-frameworks.md)
 - [ ] PyTorch — tensors, autograd, `nn.Module`, training loops
 - [ ] Hugging Face `transformers` and `datasets`
 - [ ] Experiment tracking: Weights & Biases / MLflow
 
-## 2. LLM / Agent Frameworks
+## 2. [LLM / Agent Frameworks](./llm-agent-frameworks.md)
 - [ ] LangChain — chains, retrievers, agents
 - [ ] LlamaIndex — data indexing and retrieval for RAG
 - [ ] An MCP SDK (Python or TypeScript) — building MCP servers/clients
 - [ ] An agent framework (e.g. LangGraph, CrewAI) for multi-agent orchestration
 
-## 3. Serving & MLOps / LLMOps
+## 3. [Serving & MLOps / LLMOps](./serving-mlops.md)
 - [ ] Model serving: vLLM, TorchServe, Triton
 - [ ] Containerization & deployment basics (Docker)
 - [ ] CI/CD for ML: automated retraining and evaluation pipelines
