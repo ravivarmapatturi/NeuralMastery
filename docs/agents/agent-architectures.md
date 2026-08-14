@@ -10,6 +10,8 @@ Different ways to structure the loop between reasoning and acting, each with dif
 
 The foundational pattern: at each step, the model produces a short reasoning trace ("I need to find X"), then an action (a tool call), observes the result, and loops — reason, act, observe, reason, act, observe — until it has enough information to answer. Interleaving reasoning with action lets the model course-correct based on real results, rather than committing to a full plan upfront that might be wrong. See [Prompt Engineering — ReAct](../llms-genai/prompt-engineering.md#react-reasoning--acting) for the prompting technique this is built on.
 
+![ReAct loop: Thought, Action, Observation, repeating until enough information to answer](./img/react-loop.png)
+
 ## Plan-and-Execute
 
 Instead of interleaving reasoning and action one step at a time, the model first produces a full multi-step plan, then executes each step (possibly with a separate, cheaper model or the same model in a simpler "execution" mode), only returning to re-planning if a step fails or new information changes the picture. Generally more efficient than pure ReAct for tasks with a predictable structure, since it avoids re-reasoning about the whole task at every single step — but less adaptive to surprises mid-task.

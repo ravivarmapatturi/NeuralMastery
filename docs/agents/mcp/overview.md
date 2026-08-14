@@ -13,6 +13,8 @@ MCP defines a standard protocol between two roles:
 - **MCP servers** expose capabilities — tools the model can call, resources (data) it can read, and prompt templates — over a standard interface.
 - **MCP clients** (typically the AI application, e.g. an IDE or agent framework) connect to one or more MCP servers and make their capabilities available to the LLM, without needing custom code per server.
 
+![MCP architecture: one AI application connecting to multiple MCP servers, each exposing tools, resources, and prompts](../img/mcp-architecture.png)
+
 This is analogous to what USB-C did for device connectors, or what LSP (Language Server Protocol) did for code editors and language tooling — a shared interface so an $M \times N$ integration problem (every app × every tool) becomes an $M + N$ problem (every app supports MCP; every tool exposes an MCP server).
 
 ## Resources, Tools, and Prompts

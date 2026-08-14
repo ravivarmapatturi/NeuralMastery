@@ -10,6 +10,8 @@ The architecture behind GPT, Claude, LLaMA, and essentially every modern large m
 
 For each token, the model computes three vectors via learned linear projections: a **Query** (what am I looking for), a **Key** (what do I contain, for others to find), and a **Value** (what do I actually offer if selected).
 
+![Self-attention: token embeddings produce Query, Key, and Value, which combine into a weighted output](./img/attention-qkv.png)
+
 Attention scores between token $i$ and token $j$ are computed as $Q_i \cdot K_j$ (a dot product — see [Linear Algebra](../mathematics-for-ai/linear-algebra.md)), scaled and passed through softmax to get weights, which are then used to compute a weighted sum of all Value vectors:
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$

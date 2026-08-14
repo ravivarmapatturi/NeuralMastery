@@ -91,6 +91,8 @@ Because $J$ is convex, this loop is guaranteed to converge to the global minimum
 
 ## 7. Closed-Form vs. Gradient Descent
 
+![Two paths to the same minimum — normal equation vs gradient descent](./img/linear-regression-two-paths.png)
+
 | | Normal equation | Gradient descent |
 |---|---|---|
 | Result | Exact minimum in one step | Approximate, improves each iteration |

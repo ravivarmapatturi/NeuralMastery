@@ -6,6 +6,8 @@ sidebar_position: 3
 
 A repeatable structure for approaching any "design an ML system for X" problem — in an interview or in a real project kickoff.
 
+![The 9-step ML system design framework, from problem formulation through scaling and monitoring, with a feedback loop back to model development](./img/nine-step-framework.png)
+
 ## 1. Problem Formulation
 
 Translate a vague business goal ("increase engagement") into a concrete ML problem ("predict the probability a user clicks this post, rank by that probability"). This step is where most real-world ML projects succeed or fail — a well-specified ML problem with a mediocre model beats a vague problem with a great model. Ask: what exactly are we predicting, for whom, and what decision does that prediction drive?
