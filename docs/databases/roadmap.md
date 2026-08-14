@@ -6,14 +6,14 @@ sidebar_position: 2
 
 Every AI system needs somewhere to put data — structured, vector, and graph.
 
-## 1. Relational (MySQL, Postgres)
+## 1. [Relational (MySQL, Postgres)](./relational/overview.md)
 - [ ] Relational model, normalization
 - [ ] SQL fundamentals: joins, aggregations, window functions
 - [ ] Indexing and query planning
 - [ ] Transactions and ACID guarantees
 - [ ] When relational is (and isn't) the right tool for ML metadata/feature storage
 
-## 2. Vector Databases
+## 2. [Vector Databases](./vector/overview.md)
 - [ ] What a vector database actually stores and searches (embeddings + approximate nearest neighbor)
 - [ ] Distance metrics: cosine, dot product, Euclidean
 - [ ] Indexing algorithms: HNSW, IVF, product quantization
@@ -21,7 +21,7 @@ Every AI system needs somewhere to put data — structured, vector, and graph.
 - [ ] Production-scale options (Pinecone, Weaviate, Milvus, pgvector) and how to choose
 - [ ] Hybrid search: combining vector similarity with keyword/metadata filters
 
-## 3. Graph Databases
+## 3. [Graph Databases](./graph/overview.md)
 - [ ] Property graph model: nodes, edges, properties
 - [ ] Neo4j and Cypher query language basics
 - [ ] When a graph model beats relational (highly connected data, multi-hop queries)

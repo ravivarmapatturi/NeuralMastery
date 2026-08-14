@@ -2,6 +2,34 @@
 sidebar_position: 1
 ---
 
-# Vector Databases (ChromaDB & others)
+# Vector Databases
 
-> TODO: fill in content for Vector Databases (ChromaDB & others).
+Purpose-built for the exact operation RAG and semantic search depend on: given a query vector, find the most similar vectors among millions or billions, fast.
+
+## What a Vector Database Actually Stores and Searches
+
+Every item (a document chunk, an image, a product) is represented as an embedding — a high-dimensional vector (see [Linear Algebra](../../mathematics-for-ai/linear-algebra.md)) produced by a model trained so that semantically similar items end up close together in that vector space. A vector database indexes these vectors so that, given a new query vector, it can efficiently find the nearest ones — **Approximate Nearest Neighbor (ANN)** search, since exact nearest-neighbor search over millions of high-dimensional vectors is too slow for real-time use.
+
+## Distance Metrics
+
+- **Cosine similarity**: measures the angle between vectors, ignoring magnitude — the standard choice for text embeddings, where direction encodes meaning.
+- **Dot product**: similar to cosine but sensitive to magnitude too — used when the embedding model was specifically trained with dot-product similarity in mind.
+- **Euclidean distance**: straight-line distance — more common for non-text embeddings (e.g. some image or audio embeddings).
+
+Which metric to use is typically dictated by how the embedding model itself was trained, not a free choice at query time.
+
+## Indexing Algorithms
+
+- **HNSW (Hierarchical Navigable Small World)**: builds a multi-layer graph structure where search starts at a coarse top layer and progressively narrows down — the most widely used ANN algorithm today, offering an excellent speed/accuracy tradeoff.
+- **IVF (Inverted File Index)**: clusters vectors into buckets ("cells") ahead of time; at query time, only search the most relevant few buckets instead of the entire dataset.
+- **Product Quantization**: compresses vectors by splitting them into sub-vectors and quantizing each independently, trading some accuracy for a large reduction in memory footprint — often combined with IVF for very large-scale deployments (billions of vectors).
+
+## ChromaDB and Beyond
+
+**ChromaDB** is a lightweight, embedded vector database — easy to run locally with no separate server, making it a common choice for prototyping and smaller-scale RAG applications. For production at larger scale, dedicated services (Pinecone, Weaviate, Milvus) or **pgvector** (a vector extension for Postgres, letting you keep vectors alongside your existing relational data — see [Relational Databases](../relational/overview.md)) are common choices. The right pick depends on scale, whether you want a managed service vs. self-hosted, and whether you'd rather keep vectors in the same database as your other structured data.
+
+## Hybrid Search
+
+Pure vector similarity can miss exact matches a keyword search would catch instantly (product IDs, exact names). **Hybrid search** combines vector similarity with traditional keyword/metadata filtering, merging both result sets — covered in more depth in [RAG — Hybrid Search & Re-ranking](../../llms-genai/rag.md#hybrid-search--re-ranking), since this is precisely the retrieval step every RAG pipeline depends on.
+
+Next: [Graph Databases](../graph/overview.md) — for when relationships between entities matter more than similarity.
