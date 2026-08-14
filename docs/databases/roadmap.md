@@ -32,7 +32,3 @@ Every AI system needs somewhere to put data — structured, vector, and graph.
 - [ ] **Pure vector search misses exact keyword matches** → hybrid search + re-ranking
 - [ ] **Stale embeddings after content updates** → versioned re-indexing pipelines
 - [ ] **Multi-hop reasoning fails with flat vector retrieval** → GraphRAG / knowledge graph augmentation
-
-## Further practice
-- [amitshekhariitbhu/ai-engineering-interview-questions — Vector Databases and Embeddings](https://github.com/amitshekhariitbhu/ai-engineering-interview-questions) (Apache-2.0)
-- Official docs: [ChromaDB](https://docs.trychroma.com/), [Neo4j](https://neo4j.com/docs/), [Postgres](https://www.postgresql.org/docs/)

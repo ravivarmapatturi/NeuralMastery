@@ -42,8 +42,3 @@ Classical ML: the algorithms, the workflow around them, and the problems that sh
 - [ ] **Curse of dimensionality** → feature selection, PCA, regularization
 - [ ] **Slow training on huge tabular data** → gradient boosting libraries (XGBoost/LightGBM), distributed training
 - [ ] **Explainability** → SHAP, LIME, feature importance
-
-## Further practice
-- [deep-ml.com](https://www.deep-ml.com/) — implement classical ML algorithms from scratch
-- Chip Huyen's [*Machine Learning Interviews Book*](https://huyenchip.com/ml-interviews-book/) — 200+ knowledge questions on classical ML
-- [alirezadir/AIMLInterviews — ML Fundamentals](https://github.com/alirezadir/AIMLInterviews/blob/main/src/ml-fundamental.md) (MIT licensed)

@@ -58,7 +58,3 @@ This is where classical deep learning turns into ChatGPT-class systems. Assumes 
 - [ ] Inference optimization: batching, speculative decoding, Paged Attention
 - [ ] Cost/latency tradeoffs at scale
 - [ ] Guardrails and safety filtering in production
-
-## Further practice
-- [amitshekhariitbhu/ai-engineering-interview-questions](https://github.com/amitshekhariitbhu/ai-engineering-interview-questions) (Apache-2.0) — extensive LLM/RAG/agents Q&A bank, the primary reference for this section
-- [alirezadir/AIMLInterviews — ML Fundamentals §5-6](https://github.com/alirezadir/AIMLInterviews/blob/main/src/ml-fundamental.md) (MIT) — foundation model & multimodal breadth topics

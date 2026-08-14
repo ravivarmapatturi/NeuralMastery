@@ -37,7 +37,3 @@ How LLMs go from answering questions to taking actions, using tools, and coordin
 - [ ] **Agent gets stuck in loops** → step limits, reflection checkpoints, human-in-the-loop escalation
 - [ ] **Tool-calling hallucination** (calling tools that don't exist, malformed args) → strict schemas, validation, retries
 - [ ] **Runaway cost/latency in multi-agent chains** → caching, cheaper models for sub-tasks, parallelization
-
-## Further practice
-- [amitshekhariitbhu/ai-engineering-interview-questions — AI Agents and Agentic Systems](https://github.com/amitshekhariitbhu/ai-engineering-interview-questions) (Apache-2.0)
-- [alirezadir/Agentic-AI-Systems](https://github.com/alirezadir/Agentic-AI-Systems) (referenced from AIMLInterviews, MIT) — dedicated agentic systems chapter

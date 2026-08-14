@@ -28,9 +28,5 @@ One path through everything on this site, from zero to job-ready. Each section l
 - The math and ML foundations aren't optional even if you only care about LLMs/agents — attention is linear algebra, RLHF is optimization, and evaluation is statistics.
 - Revisit Interview Prep continuously, not just at the end — it's the fastest way to find your weak spots early.
 
-## Sources informing this roadmap
-This curriculum structure was cross-checked against several respected open resources so nothing major is missing:
-- [amitshekhariitbhu/ai-engineering-interview-questions](https://github.com/amitshekhariitbhu/ai-engineering-interview-questions) (Apache-2.0)
-- [alirezadir/AIMLInterviews](https://github.com/alirezadir/AIMLInterviews) (MIT)
-- [chiphuyen/ml-interviews-book](https://huyenchip.com/ml-interviews-book/) (© Chip Huyen — topic structure referenced, content not mirrored)
-- [deep-ml.com](https://www.deep-ml.com/) — practice-problem structure referenced for the hands-on angle
+## Want more practice?
+See [Open Source AI Resources](../resources/open-source-ai-resources.md) for a running list of external practice sites and interview-prep resources.

@@ -46,7 +46,3 @@ Neural networks from first principles up to the architectures that dominate mode
 - [ ] **Quadratic cost of self-attention on long sequences** → Flash Attention, sparse/linear attention
 - [ ] **Slow inference** → quantization, distillation, pruning
 - [ ] **Training instability at scale** → careful init, warmup, gradient clipping, mixed precision
-
-## Further practice
-- [deep-ml.com](https://www.deep-ml.com/) — deep learning problems (CNNs, RNNs, transformers, attention) and the GPT-from-scratch project track
-- [amitshekhariitbhu/ai-engineering-interview-questions — LLM Fundamentals](https://github.com/amitshekhariitbhu/ai-engineering-interview-questions) (Apache-2.0 licensed) for attention/transformer internals

@@ -31,7 +31,3 @@ How to take a model and turn it into a working, scalable production system. Fram
 - [ ] **Feedback loops biasing the model** → randomized exploration, counterfactual evaluation
 - [ ] **Model staleness / concept drift** → monitoring dashboards, scheduled retraining, online learning
 - [ ] **Scaling inference to millions of requests** → caching, batching, model distillation, horizontal scaling
-
-## Further practice
-- [alirezadir/AIMLInterviews — ML System Design](https://github.com/alirezadir/AIMLInterviews/blob/main/src/MLSD/ml-system-design.md) (MIT) — the source of the 9-step formula above, plus a large bank of worked sample questions
-- Chip Huyen — [Machine Learning Systems Design: 30 open-ended questions](https://huyenchip.com/machine-learning-systems-design/toc.html) and her Stanford course CS 329S
