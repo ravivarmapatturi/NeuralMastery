@@ -19,15 +19,12 @@ const config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  // TODO: update once the GitHub repo for this site is created
-  // e.g. https://<username>.github.io (user page) or https://<username>.github.io/neuralmastery/ (project repo)
-  url: 'https://neuralmastery.github.io',
-  baseUrl: '/',
+  url: 'https://ravivarmapatturi.github.io',
+  baseUrl: '/NeuralMastery/',
 
   // GitHub pages deployment config.
-  // TODO: update organizationName/projectName to match the real GitHub repo before deploying
-  organizationName: 'neuralmastery', // Usually your GitHub org/user name.
-  projectName: 'neuralmastery', // Usually your repo name.
+  organizationName: 'ravivarmapatturi', // GitHub username.
+  projectName: 'NeuralMastery', // GitHub repo name.
 
   onBrokenLinks: 'throw',
 
@@ -46,9 +43,8 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          // TODO: update once the GitHub repo exists, or remove to drop "edit this page" links.
           editUrl:
-            'https://github.com/neuralmastery/neuralmastery/tree/main/platform/',
+            'https://github.com/ravivarmapatturi/NeuralMastery/tree/main/',
         },
         blog: false,
         theme: {
