@@ -2,6 +2,8 @@
 sidebar_position: 5.1
 ---
 
+import DecisionBoundaryPlayground from '@site/src/components/viz/DecisionBoundaryPlayground';
+
 # Decision Trees, In Full Depth
 
 Every model covered so far — [Linear](./linear-regression.md), [Ridge/Lasso](./ridge-regression.md), [Logistic Regression](./logistic-regression.md) — draws a straight (or smoothly curved) boundary through feature space. A decision tree draws something completely different: a sequence of yes/no questions, splitting the data into rectangular regions.
@@ -21,6 +23,10 @@ Because every split tests exactly one feature against a threshold, the resulting
 ![Decision tree decision regions — an axis-aligned staircase boundary, contrasted with logistic regression's single straight line](./img/tree-decision-regions.png)
 
 Compare this directly to [Logistic Regression's single straight boundary](./logistic-regression.md#the-decision-boundary). A tree can carve out *any* shape given enough splits (it's far more flexible), but that flexibility is exactly why trees overfit so easily — a deep enough tree can wall off every individual training point into its own tiny region, memorizing noise rather than learning a real pattern.
+
+Click to place points and drag **Max depth** up to watch the staircase get finer — real Gini-impurity splits, computed live:
+
+<DecisionBoundaryPlayground defaultMode="tree" />
 
 ## How a Split Is Chosen
 

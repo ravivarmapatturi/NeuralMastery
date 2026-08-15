@@ -2,6 +2,8 @@
 sidebar_position: 6.1
 ---
 
+import DecisionBoundaryPlayground from '@site/src/components/viz/DecisionBoundaryPlayground';
+
 # K-Means & Hierarchical Clustering, In Full Depth
 
 Every model since [Linear Regression](./linear-regression.md) has learned from labeled examples. Clustering is different: no labels at all — the goal is to discover groups that already exist in the data, purely from how points relate to each other.
@@ -20,6 +22,10 @@ Every model since [Linear Regression](./linear-regression.md) has learned from l
 **What K-Means is actually optimizing**: it minimizes **inertia** — the total squared distance from each point to its assigned centroid, $\sum_i \|\mathbf{x}_i - \mu_{c(i)}\|^2$. This is the *unsupervised* analog of the [squared-error cost function](./linear-regression.md#2-the-cost-function-mean-squared-error) from linear regression — same functional form, just minimized over cluster assignments and centroid positions instead of over a fitted line.
 
 **Choosing $k$**: since there's no ground truth to check against, use the **elbow method** — plot inertia against $k$ for several candidate values, and look for the point where adding another cluster stops reducing inertia much (a bend in the curve). More rigorous alternatives include the silhouette score, which measures how well-separated clusters actually are.
+
+Click to place your own points (no labels needed — that's the point) and watch real Lloyd's-algorithm assignment/update steps converge live:
+
+<DecisionBoundaryPlayground defaultMode="kmeans" />
 
 **Weaknesses**:
 - **Assumes spherical, similarly-sized clusters** — because it minimizes distance-to-centroid, K-Means implicitly assumes clusters are round blobs. It fails badly on elongated or non-convex shapes:

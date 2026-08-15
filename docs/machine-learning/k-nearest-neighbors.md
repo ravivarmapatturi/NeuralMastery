@@ -2,6 +2,8 @@
 sidebar_position: 5.6
 ---
 
+import DecisionBoundaryPlayground from '@site/src/components/viz/DecisionBoundaryPlayground';
+
 # K-Nearest Neighbors, In Full Depth
 
 Every model so far — [linear](./linear-regression.md), [tree-based](./decision-tree.md), [SVM](./support-vector-machines.md) — learns a fixed set of parameters from the training data, then discards the training data at prediction time. KNN does the opposite: it learns nothing, and keeps the entire training set around, making a fresh decision for every new prediction.
@@ -13,6 +15,10 @@ To predict for a new point: find the $k$ closest points in the training set, and
 ![KNN's decision boundary — jagged and locally adaptive, following the density of nearby points rather than a fixed shape](./img/knn-boundary.png)
 
 Compare this boundary directly to [logistic regression's straight line](./logistic-regression.md#the-decision-boundary), [the decision tree's staircase](./decision-tree.md#why-the-boundary-looks-like-a-staircase), and [LDA's line vs. QDA's curve](./naive-bayes-lda-qda.md#lda-vs-qda) below — KNN's boundary is the most locally flexible of all of them, bending to follow wherever the actual point density shifts from one class to the other, with no global functional form constraining its shape at all.
+
+Click to place your own points and watch a real KNN boundary recompute live — then switch the algorithm selector to compare against a real decision tree on the same points:
+
+<DecisionBoundaryPlayground />
 
 ## "Training" Is Instant — Prediction Is the Expensive Part
 

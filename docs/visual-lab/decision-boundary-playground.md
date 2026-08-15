@@ -1,0 +1,20 @@
+---
+sidebar_position: 9
+---
+
+import DecisionBoundaryPlayground from '@site/src/components/viz/DecisionBoundaryPlayground';
+
+# Decision Boundary Playground
+
+Click to place points, pick an algorithm, and watch a real decision boundary recompute live — a hand-written [KNN](../machine-learning/k-nearest-neighbors.md) classifier, a real Gini-impurity [decision tree](../machine-learning/decision-tree.md), and real Lloyd's-algorithm [k-means](../machine-learning/kmeans-hierarchical-clustering.md#k-means) clustering, all sharing the same canvas and the same points.
+
+<DecisionBoundaryPlayground />
+
+## What to Try
+
+- Place a tight little island of class B points inside a larger region of class A, then switch between **KNN** and **Decision Tree** on the exact same points — KNN's boundary curves smoothly around the island; the tree carves it out with rectangular, axis-aligned cuts. Same data, structurally different boundary shapes.
+- On **KNN**, drag *k* from 1 up to 9 — at k=1 the boundary is jagged and follows every single point (including noise); as k grows the boundary smooths out, trading variance for bias.
+- On **Decision Tree**, push **Max depth** to 6 with only a handful of points — watch it wall off individual points into their own tiny regions, a live example of the [overfitting](../machine-learning/decision-tree.md#why-the-boundary-looks-like-a-staircase) the page above warns about.
+- Switch to **K-Means**, place three loose clusters of unlabeled points, and watch the centroids (marked ✕) settle into place — then add an outlier point far from everything and watch which centroid gets pulled toward it.
+
+Back to [Visual Lab Overview](./overview.md).
