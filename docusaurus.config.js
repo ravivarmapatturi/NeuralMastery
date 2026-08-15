@@ -50,7 +50,23 @@ const config = {
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
         },
-        blog: false,
+        blog: {
+          path: 'news',
+          routeBasePath: 'news',
+          blogTitle: 'AI News',
+          blogDescription:
+            'A running, dated roundup of what is actually happening in AI — frontier model releases, funding and acquisitions, research breakthroughs, and industry moves. Every item links straight to its original source; nothing here is original reporting, and no credit for any of it belongs to Neural Mastery.',
+          blogSidebarTitle: 'Recent updates',
+          blogSidebarCount: 10,
+          postsPerPage: 10,
+          showReadingTime: true,
+          feedOptions: {
+            type: ['rss', 'atom'],
+            xslt: true,
+            title: 'Neural Mastery — AI News',
+            description: 'A dated roundup of AI industry news, always linked back to its original source.',
+          },
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -90,6 +106,11 @@ const config = {
             label: 'Learn',
           },
           {
+            to: '/news',
+            label: 'AI News',
+            position: 'left',
+          },
+          {
             // TODO: replace with your real YouTube channel URL
             href: 'https://www.youtube.com/@YOUR_CHANNEL_HANDLE',
             label: 'YouTube',
@@ -106,6 +127,10 @@ const config = {
               {
                 label: 'Get Started',
                 to: '/docs/intro',
+              },
+              {
+                label: 'AI News',
+                to: '/news',
               },
             ],
           },

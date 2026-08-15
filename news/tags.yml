@@ -1,0 +1,18 @@
+frontier-models:
+  label: Frontier Models
+  description: New model releases from OpenAI, Anthropic, Google, Meta, and other frontier labs.
+research:
+  label: Research
+  description: Papers, breakthroughs, and notable results.
+funding:
+  label: Funding & M&A
+  description: Venture rounds, valuations, and acquisitions.
+industry:
+  label: Industry & Safety
+  description: Company moves, industry alliances, security incidents, and policy.
+markets:
+  label: Markets
+  description: AI-related stock moves, infrastructure financing, and hardware.
+weekly-roundup:
+  label: Weekly Roundup
+  description: The recurring dated news roundup format.
