@@ -116,8 +116,30 @@ Everything between "a model that works in a notebook" and "a model that reliably
 
 ## 20. [Security & Reproducibility](./security-and-reproducibility.md)
 - [ ] IAM, secrets management, API auth/RBAC, TLS, container/dependency scanning
-- [ ] LLM-specific: prompt injection, data leakage, jailbreaks, excessive agency, PII protection
+- [ ] LLM-specific: prompt injection, data leakage, jailbreaks, excessive agency, PII protection (see [AI Security](../ai-security/roadmap.md) for the full depth)
 - [ ] Reproducibility checklist: code, data, model, params, environment, seeds, hardware
+
+## 20.1. [ML & LLM Testing](./ml-and-llm-testing.md)
+- [ ] Statistical tests, schema tests, model behavior tests, regression tests
+- [ ] LLM-specific: prompt tests, golden datasets, hallucination/jailbreak/tool-call/structured-output tests, agent trajectory tests
+
+## 20.2. [Production Reliability](./production-reliability.md)
+- [ ] Retries, timeouts, circuit breakers
+- [ ] Fallback models, graceful degradation
+- [ ] Rate limits, backpressure, queues
+- [ ] Idempotency, distributed locks
+- [ ] Disaster recovery, rollback
+
+## 20.3. [AI Cost Engineering](./ai-cost-engineering.md)
+- [ ] Training cost, inference cost (cost per 1M tokens)
+- [ ] GPU/memory utilization, caching, batching, quantization
+- [ ] Model routing, distillation, prompt/context compression
+- [ ] The quality vs. latency vs. cost tradeoff
+
+## 20.4. [Legal, Licensing & Governance](./legal-licensing-and-governance.md)
+- [ ] Model licenses, dataset licenses, copyright
+- [ ] Privacy: PII, GDPR, HIPAA
+- [ ] AI governance, model cards, data cards, audit trails
 
 ## 21. [The Full MLOps Architecture, Priority Stack & Learning Path](./mlops-architecture-and-roadmap.md)
 - [ ] The complete end-to-end architecture, source data to monitored production
