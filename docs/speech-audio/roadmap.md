@@ -1,0 +1,22 @@
+---
+sidebar_position: 2
+---
+
+# Speech & Audio AI — Roadmap
+
+## 1. [Audio Fundamentals](./audio-fundamentals.md)
+- [ ] Digital audio: sampling rate, bit depth, the Nyquist theorem
+- [ ] The Fourier transform: time domain to frequency domain
+- [ ] Spectrograms: the Short-Time Fourier Transform (STFT)
+- [ ] Mel spectrograms and MFCCs (Mel-Frequency Cepstral Coefficients)
+
+## 2. [Speech & Audio Tasks](./speech-audio-tasks.md)
+- [ ] ASR (Automatic Speech Recognition): CTC, encoder-decoder, and Whisper-style approaches
+- [ ] TTS (Text-to-Speech): the acoustic-model + vocoder pipeline, end-to-end neural TTS
+- [ ] Speaker recognition and verification
+- [ ] Speaker diarization ("who spoke when")
+- [ ] Audio classification (sound events, music genre)
+- [ ] Speech enhancement and noise suppression
+- [ ] Audio-language models and multimodal audio
+
+Next: [LLMs & GenAI](../llms-genai/roadmap.md) — where audio-language models connect back to the general multimodal Transformer story.
