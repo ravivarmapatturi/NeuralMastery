@@ -2,6 +2,9 @@
 sidebar_position: 4.7
 ---
 
+import LassoRegressionStudio from '@site/src/components/viz/LassoRegressionStudio';
+import PredictFirst from '@site/src/components/viz/primitives/PredictFirst';
+
 # Lasso Regression, In Full Depth
 
 [Ridge Regression](./ridge-regression.md) shrinks every weight toward zero but never eliminates any of them. Lasso uses a different penalty that can drive weights to *exactly* zero — turning regularization into automatic feature selection.
@@ -42,6 +45,22 @@ Compare directly against [Ridge's path](./ridge-regression.md#the-regularization
 ![Lasso regularization path — coefficients hit exactly zero at different thresholds as regularization strength increases](./img/lasso-path.png)
 
 Notice the qualitative difference from Ridge's curve: coefficients here go flat at *exactly* zero and stay there, at different $\lambda$ thresholds for different features — Lasso is silently doing feature selection as $\lambda$ increases, keeping only the features whose signal is strong enough to survive the penalty.
+
+<PredictFirst
+  question="Using the exact same correlated-feature dataset as the Ridge Studio, what will happen to the irrelevant feature (x3, true weight 0) as λ increases in Lasso?"
+  options={[
+    'It shrinks smoothly but never quite reaches zero, like in Ridge',
+    'It hits exactly zero at a fairly low λ and gets dropped from the model entirely',
+    'It grows larger, since Lasso favors sparse, high-magnitude coefficients',
+    'Nothing changes -- λ only affects the informative features',
+  ]}
+  correctIndex={1}
+  explanation="L1's penalty gradient stays constant magnitude all the way to zero (unlike L2's, which weakens as the weight shrinks), so once the data's pull for a genuinely irrelevant feature is weaker than that constant penalty, coordinate descent snaps it to exactly 0 and keeps it there. Try it below: x3 typically zeroes out before any other feature."
+/>
+
+Try the real coordinate-descent solver below — same dataset, same λ range as the Ridge Studio, so the two paths are directly comparable:
+
+<LassoRegressionStudio />
 
 ## When to Use Lasso Over Ridge
 

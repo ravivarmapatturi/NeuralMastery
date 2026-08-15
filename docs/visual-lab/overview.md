@@ -23,5 +23,6 @@ Each page below is one interactive component, with a short "what to try" list. M
 - **[Linear Regression Studio](./linear-regression-studio.md)** — drag the line yourself, or hand it to real gradient descent and watch it converge (or diverge) on a real dataset, loss surface included.
 - **[Logistic Regression Studio](./logistic-regression-studio.md)** — a real sigmoid fit, plus a live side-by-side of cross-entropy vs. the non-convex MSE-on-sigmoid trap, both computed from scratch.
 - **[Ridge Regression Studio](./ridge-regression-studio.md)** — a real closed-form ridge solve on a deliberately multicollinear dataset; watch unstable OLS coefficients settle down as λ increases.
+- **[Lasso Regression Studio](./lasso-regression-studio.md)** — real coordinate-descent soft-thresholding on the same dataset as Ridge; watch coefficients hit exactly zero instead of just shrinking.
 
 See the [roadmap](./roadmap.md) for what's shipped and what might come next.
