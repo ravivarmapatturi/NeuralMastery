@@ -2,6 +2,8 @@
 sidebar_position: 6
 ---
 
+import RagPipelineSimulator from '@site/src/components/viz/RagPipelineSimulator';
+
 # Retrieval-Augmented Generation (RAG)
 
 An LLM's knowledge is frozen at training time and limited to what fit in its weights. RAG fixes both problems by retrieving relevant information at query time and feeding it into the prompt as grounding context.
@@ -13,6 +15,10 @@ An LLM's knowledge is frozen at training time and limited to what fit in its wei
 3. **Generate**: feed the retrieved chunks into the LLM's context alongside the query, and let it generate an answer grounded in that retrieved content.
 
 ![RAG pipeline: offline indexing of documents into a vector DB, and query-time retrieval feeding the LLM](./img/rag-pipeline.png)
+
+Click any node below for what it does, then type a real question and watch retrieval actually run — real chunking, real cosine-similarity ranking, a real (if simplified) reranking pass:
+
+<RagPipelineSimulator />
 
 ## Chunking Strategies
 

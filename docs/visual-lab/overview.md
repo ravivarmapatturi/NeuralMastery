@@ -15,5 +15,6 @@ Each page below is one interactive component, with a short "what to try" list. M
 - **[Gradient Descent Explorer](./gradient-descent-explorer.md)** — click to set a starting point on a real loss surface, choose SGD/Momentum/Adam, and watch each one converge (or not) live.
 - **[Neural Network Playground](./neural-network-playground.md)** — a real, hand-written neural network training live on a toy dataset you pick, with full control over depth, width, and activation.
 - **[Attention Step-Through](./attention-step-through.md)** — type a sentence, watch a real attention heatmap and per-token breakdown compute live, across multiple heads.
+- **[RAG Pipeline Simulator](./rag-pipeline-simulator.md)** — a real, clickable retrieval pipeline: chunking, cosine-similarity ranking, and reranking, responding live to whatever you ask.
 
 More are being added in the same batch-by-batch, build-verified way as the rest of this site — see the [roadmap](./roadmap.md) for what's planned next.
