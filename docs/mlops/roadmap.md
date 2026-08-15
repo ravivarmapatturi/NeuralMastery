@@ -43,6 +43,9 @@ Everything between "a model that works in a notebook" and "a model that reliably
 
 ## 7. [Cloud Computing for ML](./cloud-computing.md)
 - [ ] Pick one cloud and go deep — AWS as the reference: EC2/ECS/EKS/Lambda, S3/EBS, RDS/DynamoDB, SageMaker, VPC/ALB/API Gateway, IAM/Secrets Manager/KMS, ECR
+- [ ] GCP equivalents: GCE/GKE/Vertex AI/BigQuery/Cloud Storage
+- [ ] Azure equivalents: AKS/Azure ML/Azure OpenAI/Blob Storage
+- [ ] Cloud-neutral patterns: why containers/Kubernetes/Terraform keep architecture portable across all three
 
 ## 8. [Kubernetes](./kubernetes.md)
 - [ ] Fundamentals: Pod, Deployment, Service, Namespace, ConfigMap, Secret, Volume/PV/PVC, Ingress, Job/CronJob

@@ -35,6 +35,39 @@ AWS's managed ML platform — training jobs, hyperparameter tuning, a built-in m
 
 ## The Pattern to Internalize
 
-Every cloud maps onto the same shape: compute (VMs, containers, serverless), storage (object, block, database), networking (VPC, load balancer, gateway), and identity (IAM). Learning AWS deeply and then encountering GCP or Azure is mostly a vocabulary-mapping exercise (EC2↔Compute Engine↔Azure VMs, S3↔GCS↔Blob Storage, IAM↔IAM↔Azure AD) rather than learning new concepts from scratch.
+Every cloud maps onto the same shape: compute (VMs, containers, serverless), storage (object, block, database), networking (VPC, load balancer, gateway), and identity (IAM). Learning AWS deeply and then encountering GCP or Azure is mostly a vocabulary-mapping exercise rather than learning new concepts from scratch:
+
+| Concept | AWS | GCP | Azure |
+|---|---|---|---|
+| Virtual machines | EC2 | Compute Engine (GCE) | Azure VMs |
+| Managed Kubernetes | EKS | GKE | AKS |
+| Serverless functions | Lambda | Cloud Functions / Cloud Run | Azure Functions |
+| Object storage | S3 | Cloud Storage (GCS) | Blob Storage |
+| Block storage | EBS | Persistent Disk | Managed Disks |
+| Managed relational DB | RDS | Cloud SQL | Azure SQL Database |
+| Managed NoSQL | DynamoDB | Firestore / Bigtable | Cosmos DB |
+| Data warehouse | Redshift | BigQuery | Synapse Analytics |
+| Container registry | ECR | Artifact Registry | Azure Container Registry |
+| Identity/access | IAM | Cloud IAM | Azure AD (Entra ID) |
+| Secrets management | Secrets Manager / KMS | Secret Manager / Cloud KMS | Key Vault |
+| Managed ML platform | SageMaker | Vertex AI | Azure ML |
+
+## GCP for ML
+
+- **Vertex AI**: Google's unified managed ML platform — training, hyperparameter tuning, a model registry, and managed endpoints, the direct GCP counterpart to SageMaker, with particularly strong integration with Google's own foundation models (Gemini) for teams already building on them.
+- **GKE (Google Kubernetes Engine)**: GCP's managed Kubernetes — notably where Kubernetes itself originated conceptually (Google's internal Borg system predates and inspired it), and a common choice for teams wanting the most mature managed Kubernetes experience specifically.
+- **BigQuery**: a serverless, fully-managed data warehouse — genuinely distinctive relative to AWS/Azure's warehouse offerings for how it separates storage and compute and charges per-query rather than per-provisioned-capacity, making it a common choice for large-scale, bursty analytical workloads feeding into ML feature engineering.
+- **Cloud Storage**: GCS, the direct S3 equivalent — the default backend for datasets and model artifacts in a GCP-based stack, same role as S3 in the AWS examples throughout this section.
+
+## Azure for ML
+
+- **Azure ML**: Microsoft's managed ML platform — training pipelines, a model registry, and managed endpoints, Azure's counterpart to SageMaker/Vertex AI, with deep integration into the broader Azure/Microsoft enterprise ecosystem (Active Directory, existing enterprise data estates) that's often the actual reason a team is on Azure in the first place.
+- **Azure OpenAI**: Microsoft's hosted access to OpenAI's models (GPT-4-class and others) through Azure's own infrastructure, identity, and compliance boundary — the common choice for enterprises that need OpenAI-class model capability but require it to run inside their existing Azure compliance/data-residency posture rather than calling OpenAI's API directly.
+- **AKS (Azure Kubernetes Service)**: Azure's managed Kubernetes — same role as EKS/GKE.
+- **Blob Storage**: Azure's S3/GCS equivalent object storage.
+
+## Choosing Cloud-Neutral Patterns
+
+Regardless of which cloud a stack runs on, the architecture patterns from the rest of this MLOps section — [Containers](./containers.md), [Kubernetes](./kubernetes.md), [CI/CD](./cicd-and-ml-cicd.md), [Infrastructure as Code](./infrastructure-as-code.md) — are deliberately cloud-agnostic: a Docker container, a Kubernetes manifest, and a Terraform module all run on any of the three clouds above with minimal (often zero) changes, which is exactly why containerizing and using Kubernetes/Terraform rather than deeply coupling to any one cloud's proprietary managed services is the standard way to keep a real option to migrate or run multi-cloud, even for a team that has no near-term plan to actually do so.
 
 Next: [Kubernetes](./kubernetes.md) — the layer that orchestrates containers across a fleet of the compute above.
