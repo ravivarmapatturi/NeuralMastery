@@ -16,6 +16,10 @@ The generic pattern, regardless of provider: **Model → Container → GPU VM �
 
 The general-vs-specialized tradeoff mirrors [Cloud Computing for ML](./cloud-computing.md)'s SageMaker discussion: specialized platforms get a model served faster with less infrastructure code, general clouds give more control over cost and architecture once scale justifies owning it.
 
+### Serverless Inference
+
+A distinct provisioning model worth calling out explicitly: rather than renting a GPU VM that runs continuously (billed whether or not it's handling requests), serverless GPU platforms provision GPU capacity **on demand**, per request or per short-lived session, and scale to zero when idle — you pay for actual inference time, not idle capacity. The tradeoff is **cold start latency**: spinning up a GPU worker and loading model weights from scratch takes real time (seconds to tens of seconds for a large model), which shows up as a slow first request after an idle period — serverless platforms mitigate this with techniques like keeping a small warm pool or snapshotting a loaded model's memory state, but cold starts remain the central design constraint serverless inference has to work around. The right fit is **spiky, unpredictable, or low-average-utilization traffic** (an internal tool used a few times a day, a demo endpoint) where paying for an always-on GPU would mean paying mostly for idle time; a **steady, high-volume** production workload is usually cheaper and more predictable on continuously-running, purpose-sized capacity instead.
+
 ## Local Hosting
 
 Running an LLM entirely on local hardware — a laptop, a workstation, an on-prem server — for development, privacy-sensitive workloads, or cost reasons at low volume:

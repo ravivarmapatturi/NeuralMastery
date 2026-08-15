@@ -46,9 +46,18 @@ That last point matters enough to be explicit: **Unsloth is primarily a fine-tun
 - **DeepSpeed-Inference**: Microsoft's inference-side counterpart to DeepSpeed training, with kernel optimizations and tensor parallelism for large-model serving.
 - **NVIDIA Triton Inference Server**: a *general-purpose, multi-framework* serving server — not LLM-specific like vLLM, but a backend-agnostic server that can run PyTorch, TensorFlow, ONNX, TensorRT, and (via a backend) vLLM itself, standardizing serving across many model types in one system. The right choice when a team serves LLMs *and* classical/vision models and wants one serving layer for all of it, rather than the LLM-specialized throughput vLLM offers.
 - **ExecuTorch**: PyTorch's on-device inference runtime for mobile and embedded targets.
-- **MLX**: Apple's array/ML framework, with strong support for efficient LLM inference on Apple Silicon's unified memory architecture.
+- **Core ML**: Apple's own on-device inference framework (distinct from MLX) — the standard target for shipping a model inside an iOS/macOS app, with first-class Neural Engine acceleration on Apple hardware; models are typically exported/converted to Core ML's format rather than run directly from PyTorch.
+- **MLX**: Apple's array/ML framework, with strong support for efficient LLM inference on Apple Silicon's unified memory architecture — more of a general array/research framework (NumPy/PyTorch-like) than Core ML's app-deployment-focused runtime.
 - **MLC-LLM**: a compilation-based approach (built on Apache TVM) to deploying LLMs across a wide range of hardware backends from one model definition.
 - **Apache TVM**: a general deep learning compiler stack — MLC-LLM is built on top of it; worth knowing as the underlying compiler technology rather than a tool you reach for directly for LLM serving.
 - **Ray Serve**: general-purpose distributed serving (see [APIs & Model Serving](./model-serving.md)) that can host LLM inference as one stage in a larger multi-model/multi-step serving pipeline.
+
+## The Baseline: Plain PyTorch Inference
+
+Before reaching for any engine above, the simplest possible option is just calling `model.forward()` (or `.generate()`) directly in eager-mode PyTorch — no batching optimization, no custom kernels, no KV-cache-aware memory management beyond what the model implementation does itself. This is the right starting point for prototyping, low-traffic internal tools, and anywhere the engineering cost of adopting a dedicated engine isn't yet justified by traffic volume — every engine in the tiers above exists specifically to fix a scaling problem plain PyTorch inference has (poor batching, no paged KV cache, slow per-kernel-launch overhead), and it's worth being able to name *which* problem before reaching for a heavier tool to fix it.
+
+## Edge and On-Device Inference
+
+A distinct deployment target from server-side serving above: running inference directly on a phone, laptop, or embedded device, with no network round-trip at all. This trades server-grade throughput/batching for privacy (data never leaves the device), offline capability, and zero marginal inference cost — llama.cpp/GGUF, ExecuTorch, Core ML, and MLX (all above) are the standard tools here, chosen based on target platform (llama.cpp for broad CPU/cross-platform reach, Core ML/MLX for Apple-specific deployment, ExecuTorch for PyTorch-native mobile/embedded export) rather than raw throughput, which is rarely the binding constraint for a single-user, single-request-at-a-time on-device workload.
 
 Next: [LLM Inference Optimization](./llm-inference-optimization.md) — the specific techniques (PagedAttention, quantization, speculative decoding, and more) that make the Tier 1 engines above fast.
