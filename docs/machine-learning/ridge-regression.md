@@ -3,6 +3,7 @@ sidebar_position: 4.6
 ---
 
 import RidgeRegressionStudio from '@site/src/components/viz/RidgeRegressionStudio';
+import PredictFirst from '@site/src/components/viz/primitives/PredictFirst';
 
 # Ridge Regression, In Full Depth
 
@@ -47,6 +48,18 @@ As $\lambda$ increases from 0, every weight shrinks smoothly toward zero — but
 ![Ridge regularization path — coefficients shrink smoothly toward zero as regularization strength increases](./img/ridge-path.png)
 
 Compare this to [Lasso's path](./lasso-regression.md#the-regularization-path) — the visual difference between the two curves *is* the core conceptual difference between L2 and L1 regularization.
+
+<PredictFirst
+  question="In the Studio below, set λ=0 and push Correlation to ~0.98. What happens to x1's and x2's individual coefficients?"
+  options={[
+    'Both shrink toward zero',
+    'They swing to opposite extremes (one very high, one very low) while their sum stays roughly stable',
+    'They become exactly equal to each other',
+    'Nothing changes -- correlation between features does not affect OLS',
+  ]}
+  correctIndex={1}
+  explanation="With two nearly-identical features, infinitely many (w1, w2) combinations fit the data almost equally well as long as w1+w2 stays near the true combined effect -- so ordinary least squares has no reason to prefer one specific split over another, and tiny noise in the data pushes it to an arbitrary, unstable one. Now drag λ up and watch the two coefficients settle back toward each other."
+/>
 
 Try it on a real (small, synthetic) multicollinear dataset — drag $\lambda$ from 0 and watch two deliberately correlated features fight over shared credit, then settle down:
 

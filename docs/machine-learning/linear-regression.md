@@ -3,6 +3,7 @@ sidebar_position: 4.5
 ---
 
 import LinearRegressionStudio from '@site/src/components/viz/LinearRegressionStudio';
+import PredictFirst from '@site/src/components/viz/primitives/PredictFirst';
 
 # Linear Regression, In Full Depth
 
@@ -27,6 +28,18 @@ The hat on $\hat{y}$ (read "y-hat") matters: it means *predicted* value, not the
 **Simple vs. multiple linear regression:** the one-input example above is *simple* linear regression. Most real problems use several inputs at once — predicting a house's price from its size, location, and age, for instance — which is *multiple* linear regression: $\hat{y} = w_1 x_1 + w_2 x_2 + \cdots + w_d x_d + b$. Section 1 below writes this generally using vectors so both cases are the same formula.
 
 **A warning worth internalizing early:** a strong fit tells you $x$ and $y$ move together — it does *not* tell you $x$ *causes* $y$. Students who study more may also be more motivated overall, and that motivation — not the studying itself — could be doing some of the work. Linear regression describes correlation; establishing causation requires a controlled experiment, not just a good fit.
+
+<PredictFirst
+  question="In the Gradient Descent Lab below, if you push the learning rate from the default up to its max (0.03), what happens?"
+  options={[
+    'It converges faster to the same answer',
+    'It converges, just to a slightly different answer',
+    'The loss stops decreasing and starts exploding -- it diverges',
+    'Nothing changes -- learning rate only affects speed, never the outcome',
+  ]}
+  correctIndex={2}
+  explanation="Gradient descent's convergence guarantee only holds below a certain learning rate. Push it too high and each step overshoots the minimum by more than the last step undershot it -- the error compounds instead of shrinking. Try it below: drag the learning rate slider in Gradient Descent Lab mode past ~0.03 and watch w and b blow up in the step log."
+/>
 
 **Before the math below — try fitting the line yourself.** Drag the slope and intercept and watch MSE respond live:
 

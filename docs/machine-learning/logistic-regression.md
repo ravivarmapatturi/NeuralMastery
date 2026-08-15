@@ -3,6 +3,7 @@ sidebar_position: 4.9
 ---
 
 import LogisticRegressionStudio from '@site/src/components/viz/LogisticRegressionStudio';
+import PredictFirst from '@site/src/components/viz/primitives/PredictFirst';
 
 # Logistic Regression, In Full Depth
 
@@ -13,6 +14,18 @@ Despite the name, logistic regression is a *classification* algorithm, not a reg
 Linear regression predicts an unbounded real number. That's wrong for classification — if you're predicting "is this email spam?", you want an output between 0 and 1 that behaves like a probability, not a number that could be -40 or +1000.
 
 Logistic regression fixes this with one change: take the linear regression output and squash it through the **sigmoid function**.
+
+<PredictFirst
+  question="In Gradient Descent Lab mode, both loss functions start from the same deliberately bad (w, b). Which one gets stuck?"
+  options={[
+    'Cross-Entropy gets stuck; MSE (naive) escapes fine',
+    'MSE (naive) gets stuck; Cross-Entropy escapes fine',
+    'Both get stuck equally',
+    'Neither gets stuck -- both converge at the same rate',
+  ]}
+  correctIndex={1}
+  explanation="MSE-on-sigmoid's gradient carries an extra factor of the sigmoid's own derivative, p̂(1-p̂), which is at most 0.25 and shrinks toward 0 the more confidently wrong a prediction is -- exactly the region the bad starting point sits in. Cross-entropy's gradient has no such factor, so it keeps pushing at full strength regardless of how saturated the current prediction is. Run it below and watch MSE's step log flatline while Cross-Entropy keeps moving."
+/>
 
 Same study-hours story as [Linear Regression](./linear-regression.md#what-is-linear-regression), now predicting pass/fail instead of a score. Drag $w$ and $b$ and watch the sigmoid curve — and the accuracy — respond live:
 
