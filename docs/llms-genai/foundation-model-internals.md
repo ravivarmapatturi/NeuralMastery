@@ -2,6 +2,8 @@
 sidebar_position: 3
 ---
 
+import InferenceFlowVisualizer from '@site/src/components/viz/InferenceFlowVisualizer';
+
 # Foundation Model & Transformer Internals
 
 The engineering details that turn the Transformer architecture (see [Attention & Transformers](../deep-learning/attention-transformers.md)) into a model you can actually run efficiently at billions of parameters.
@@ -46,6 +48,10 @@ Token  →  fed back in as the next input, autoregressively
 ```
 
 Every arrow above is one section of this page or [Attention & Transformers](../deep-learning/attention-transformers.md) — the goal of what follows is that none of these steps stay a black box.
+
+The same pipeline, clickable, with a live sampling playground at the end:
+
+<InferenceFlowVisualizer />
 
 ## Tokenization
 

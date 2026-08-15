@@ -17,5 +17,6 @@ Each page below is one interactive component, with a short "what to try" list. M
 - **[Attention Step-Through](./attention-step-through.md)** — type a sentence, watch a real attention heatmap and per-token breakdown compute live, across multiple heads.
 - **[RAG Pipeline Simulator](./rag-pipeline-simulator.md)** — a real, clickable retrieval pipeline: chunking, cosine-similarity ranking, and reranking, responding live to whatever you ask.
 - **[Agent Execution Graph](./agent-execution-graph.md)** — step through a scripted ReAct loop one Thought/Action/Observation at a time, or watch it play automatically.
+- **[LLM Inference Flow Visualizer](./inference-flow-visualizer.md)** — the text-to-token pipeline as a clickable graph, with a real live temperature/top-k/top-p sampling playground.
 
 More are being added in the same batch-by-batch, build-verified way as the rest of this site — see the [roadmap](./roadmap.md) for what's planned next.

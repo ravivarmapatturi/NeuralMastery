@@ -1,0 +1,21 @@
+---
+sidebar_position: 8
+---
+
+import InferenceFlowVisualizer from '@site/src/components/viz/InferenceFlowVisualizer';
+
+# LLM Inference Flow Visualizer
+
+The full [text-to-token pipeline](../llms-genai/foundation-model-internals.md#the-full-pipeline-text-to-token) as a clickable graph, from raw text through tokenization, embeddings, the Transformer block stack, and out through the LM head to a sampled token fed back in autoregressively. The sampling playground at the bottom is real math, not a mockup: real softmax with temperature scaling, real top-k truncation, real top-p (nucleus) truncation, over a small fixed set of next-token candidates.
+
+<InferenceFlowVisualizer />
+
+## What to Try
+
+- Click through every node top to bottom, including the four nodes inside the dashed loop-back arrow — that loop is the [Transformer Block × N](../llms-genai/foundation-model-internals.md#the-full-pipeline-text-to-token) repeating, not four separate one-time steps.
+- Set **Temperature** near 0.1 and watch the distribution collapse almost entirely onto "mat" (the highest-logit candidate) — low temperature makes the model nearly deterministic. Push it toward 2.0 and watch the distribution flatten out instead.
+- Set **Top-k** to 1 — no matter what temperature or top-p are set to, only one token can ever be sampled. This is exactly [greedy decoding](../llms-genai/foundation-model-internals.md#sampling-from-logits-to-a-token).
+- Bring **Top-p** down to ~0.5 and watch how many candidates get cut varies with temperature — top-p's candidate set size adapts to how peaked the distribution already is, which is why it's generally preferred over a fixed top-k in production.
+- Notice the autoregressive feedback arrow from **Token** back to **Embeddings** — the newly sampled token doesn't re-enter through the tokenizer, it's already a token ID; it just needs a fresh embedding lookup before flowing through the block stack again for the *next* token.
+
+Back to [Visual Lab Overview](./overview.md).
