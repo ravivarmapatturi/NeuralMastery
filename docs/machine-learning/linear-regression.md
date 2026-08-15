@@ -173,4 +173,4 @@ For a small, well-conditioned dataset, both should converge to (nearly) the same
 
 ---
 
-This is the level of depth every algorithm in [Machine Learning](./roadmap.md) will eventually get here — derived, not just named. See [Model Evaluation & Metrics](./model-evaluation-metrics.md) for how to judge whether the resulting model is actually good.
+Next: [Model Evaluation & Metrics](./model-evaluation-metrics.md) for how to judge whether the resulting model is actually good.
