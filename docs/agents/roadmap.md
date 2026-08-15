@@ -16,8 +16,14 @@ How LLMs go from answering questions to taking actions, using tools, and coordin
 - [ ] ReAct (Reasoning + Acting) loop
 - [ ] Plan-and-Execute pattern
 - [ ] Reflection / self-critique loops
+- [ ] Routing and the supervisor pattern
 - [ ] Single-agent vs multi-agent systems
 - [ ] Sub-agents and orchestrator patterns
+- [ ] Memory and state: short-term vs long-term, episodic vs semantic
+- [ ] Human-in-the-loop: approval gates, escalation, active correction
+- [ ] Durable execution: retries, checkpoints, long-running agents
+- [ ] Sandboxing for code/computer-use actions
+- [ ] Application patterns: browser agents, coding agents, computer-use agents, autonomous research agents
 
 ## 3. Protocols
 - [ ] **[MCP (Model Context Protocol)](./mcp/overview.md)** — standardizing how agents connect to tools and data sources

@@ -8,7 +8,7 @@ When one agent isn't enough — and the coordination problems that come with add
 
 ## Coordination Patterns
 
-- **Hierarchical (orchestrator/sub-agent)**: one agent breaks down and delegates work to specialized sub-agents, then combines results — see [Agent Architectures](./agent-architectures.md). Easiest to reason about and debug, since there's a clear owner of the overall task.
+- **Hierarchical (orchestrator/sub-agent)**: one agent breaks down and delegates work to specialized sub-agents, then combines results — see [Agent Architectures](./agent-architectures.md#sub-agents-and-orchestrator-patterns). Easiest to reason about and debug, since there's a clear owner of the overall task. The [supervisor pattern](./agent-architectures.md#supervisor-pattern) is the more dynamic version of this — looping and re-routing between sub-agents based on intermediate results, rather than a fixed one-shot delegation plan.
 - **Peer-to-peer**: agents communicate directly with each other as equals, without a central coordinator — more flexible, but harder to guarantee the task actually converges to a result, and harder to debug when something goes wrong.
 - **Blackboard**: agents don't talk to each other directly at all — they read and write to a shared state/workspace ("the blackboard"), and react to changes in it. Useful when the set of contributing agents isn't fixed in advance.
 
