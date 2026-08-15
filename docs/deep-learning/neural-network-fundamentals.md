@@ -2,6 +2,8 @@
 sidebar_position: 3
 ---
 
+import NeuralNetworkPlayground from '@site/src/components/viz/NeuralNetworkPlayground';
+
 # Neural Network Fundamentals
 
 A neural network is a stack of the linear algebra and calculus from [Mathematics for AI](../mathematics-for-ai/roadmap.md), arranged so the whole thing can learn from data.
@@ -28,6 +30,12 @@ See [Activation Functions, In Full Depth](./activation-functions.md) for the com
 **Backpropagation**: apply the chain rule (see [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md)) working *backward* from the loss, computing how much each weight in every layer contributed to the error. Every deep learning framework (PyTorch, TensorFlow) automates this via **autograd** — you write the forward pass, and the framework builds the computation graph needed to compute gradients automatically.
 
 Worth doing by hand once: for a tiny 2-layer network, write out $\frac{\partial L}{\partial W_1}$ using the chain rule on paper. It demystifies what `.backward()` is actually doing.
+
+Or skip the pen and paper and watch it happen: the playground below is a real forward/backward pass, hand-written the same way (no `.backward()`, no autograd library), training live on a toy 2D dataset.
+
+<NeuralNetworkPlayground />
+
+**What to try**: start with **Blobs** (linearly separable — even a single hidden layer solves it almost instantly), then switch to **XOR** and watch a 1-hidden-layer network fail to separate it no matter how long you train — the textbook demonstration of why depth matters, made concrete. Then add a second hidden layer and watch it succeed. Try **Circles** and **Moons** with `tanh` vs. `ReLU` and see which converges faster for each shape.
 
 ## Weight Initialization
 

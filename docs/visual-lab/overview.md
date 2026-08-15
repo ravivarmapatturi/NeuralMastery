@@ -13,5 +13,6 @@ Each page below is one interactive component, with a short "what to try" list. M
 ## What's Here So Far
 
 - **[Gradient Descent Explorer](./gradient-descent-explorer.md)** — click to set a starting point on a real loss surface, choose SGD/Momentum/Adam, and watch each one converge (or not) live.
+- **[Neural Network Playground](./neural-network-playground.md)** — a real, hand-written neural network training live on a toy dataset you pick, with full control over depth, width, and activation.
 
 More are being added in the same batch-by-batch, build-verified way as the rest of this site — see the [roadmap](./roadmap.md) for what's planned next.
