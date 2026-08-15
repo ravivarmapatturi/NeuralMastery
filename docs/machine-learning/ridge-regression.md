@@ -2,6 +2,8 @@
 sidebar_position: 4.6
 ---
 
+import RidgeRegressionStudio from '@site/src/components/viz/RidgeRegressionStudio';
+
 # Ridge Regression, In Full Depth
 
 Ordinary linear regression (see [Linear Regression](./linear-regression.md)) has a failure mode: when features are highly correlated, or there are more features than examples, $(X^TX)^{-1}$ becomes unstable — small changes in the data cause huge swings in the fitted weights. Ridge regression fixes this by penalizing large weights directly in the loss function.
@@ -45,6 +47,10 @@ As $\lambda$ increases from 0, every weight shrinks smoothly toward zero — but
 ![Ridge regularization path — coefficients shrink smoothly toward zero as regularization strength increases](./img/ridge-path.png)
 
 Compare this to [Lasso's path](./lasso-regression.md#the-regularization-path) — the visual difference between the two curves *is* the core conceptual difference between L2 and L1 regularization.
+
+Try it on a real (small, synthetic) multicollinear dataset — drag $\lambda$ from 0 and watch two deliberately correlated features fight over shared credit, then settle down:
+
+<RidgeRegressionStudio />
 
 ## Choosing λ
 

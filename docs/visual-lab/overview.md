@@ -22,5 +22,6 @@ Each page below is one interactive component, with a short "what to try" list. M
 - **[Embedding Space Explorer](./embedding-space-explorer.md)** — a real from-scratch PCA projection, cosine-similarity nearest neighbors, and the king − man + woman ≈ queen analogy, live.
 - **[Linear Regression Studio](./linear-regression-studio.md)** — drag the line yourself, or hand it to real gradient descent and watch it converge (or diverge) on a real dataset, loss surface included.
 - **[Logistic Regression Studio](./logistic-regression-studio.md)** — a real sigmoid fit, plus a live side-by-side of cross-entropy vs. the non-convex MSE-on-sigmoid trap, both computed from scratch.
+- **[Ridge Regression Studio](./ridge-regression-studio.md)** — a real closed-form ridge solve on a deliberately multicollinear dataset; watch unstable OLS coefficients settle down as λ increases.
 
 See the [roadmap](./roadmap.md) for what's shipped and what might come next.

@@ -15,6 +15,7 @@ sidebar_position: 2
 - [x] [Embedding Space Explorer](./embedding-space-explorer.md) — real from-scratch PCA projection, cosine-similarity nearest neighbors, and word-vector analogy, live
 - [x] [Linear Regression Studio](./linear-regression-studio.md) — drag-the-line fitting, MSE/outlier experiment, and a real gradient descent lab with a live loss surface, on a real dataset
 - [x] [Logistic Regression Studio](./logistic-regression-studio.md) — real sigmoid fitting plus a live cross-entropy vs. MSE-on-sigmoid convexity comparison
+- [x] [Ridge Regression Studio](./ridge-regression-studio.md) — real closed-form ridge solve on a multicollinear dataset, live regularization path
 
 ## Planned, in order
-Nothing queued right now. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site — per a platform-wide gap-analysis request, the next candidates are applying this same "drag it, break it, watch it converge" treatment to more flagship pages (Decision Trees, SVM, Ridge/Lasso, ...), one page at a time.
+Nothing queued right now. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site — per a platform-wide gap-analysis request, the next candidates are applying this same "drag it, break it, watch it converge" treatment to more flagship pages (Lasso, Decision Trees, SVM, ...), one page at a time.
