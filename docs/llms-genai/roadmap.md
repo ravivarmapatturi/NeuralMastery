@@ -7,12 +7,17 @@ sidebar_position: 2
 This is where classical deep learning turns into ChatGPT-class systems. Assumes you've covered [Deep Learning](../deep-learning/roadmap.md) first.
 
 ## 1. [Foundation Model & Transformer Internals](./foundation-model-internals.md)
+- [ ] The full pipeline: text -> tokenizer -> embeddings -> positional encoding -> transformer blocks -> LM head -> logits -> sampling -> token
 - [ ] Tokenization: BPE, WordPiece, SentencePiece
 - [ ] Embeddings and the embedding table
+- [ ] Positional encoding: RoPE and ALiBi
 - [ ] KV cache — why it makes autoregressive decoding fast
+- [ ] Attention variants: MHA, GQA, MQA, MLA
+- [ ] Sparse and sliding-window attention
 - [ ] Encoder-only vs decoder-only vs encoder-decoder architectures
+- [ ] The MLP block: SwiGLU and gating
 - [ ] Mixture of Experts (MoE) — sparse vs dense models
-- [ ] Grouped-Query Attention (GQA) vs Multi-Head Attention
+- [ ] Sampling: greedy, temperature, top-k, top-p/nucleus, repetition penalty
 - [ ] Context window limits and why they exist
 
 ## 2. [Training Pipeline](./training-pipeline.md)
