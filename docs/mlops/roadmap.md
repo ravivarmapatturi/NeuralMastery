@@ -73,8 +73,13 @@ Everything between "a model that works in a notebook" and "a model that reliably
 
 ## 15. [GPU/AI Infrastructure & Distributed Training](./gpu-and-distributed-training.md)
 - [ ] CUDA, VRAM, CUDA cores vs Tensor cores, GPU utilization, memory bandwidth
+- [ ] The CUDA programming model: SMs, warps, blocks, kernels, warp divergence, the memory hierarchy
+- [ ] Occupancy, CUDA streams, CUDA graphs
+- [ ] Profiling: Nsight Systems, Nsight Compute
 - [ ] NVIDIA stack: CUDA, cuDNN, TensorRT, Triton, NCCL
-- [ ] Data/model/pipeline/tensor parallelism, FSDP, DeepSpeed, gradient accumulation, mixed precision
+- [ ] Data/model/pipeline/tensor/expert parallelism, FSDP, DeepSpeed, gradient accumulation, mixed precision
+- [ ] 3D and 4D parallelism: how the strategies combine at frontier scale
+- [ ] Elastic training and fault tolerance: checkpointing, failure recovery, dynamic worker scaling
 
 ## 16. [LLM Inference Engines](./llm-inference-engines.md)
 - [ ] The inference stack: API gateway → serving framework → inference engine → model runtime → GPU/CUDA
