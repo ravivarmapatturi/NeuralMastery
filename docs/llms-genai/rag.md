@@ -27,15 +27,36 @@ Chunk size is a real tradeoff: too small loses context; too large dilutes the em
 
 Different embedding models trade off quality, speed, cost, and domain fit (a model tuned on general web text may underperform on legal or medical documents). Dimensionality matters too — higher-dimensional embeddings usually capture more nuance but cost more to store and search at scale.
 
-## Hybrid Search & Re-ranking
+## Dense vs. Sparse Retrieval, and BM25
 
-Pure vector search can miss exact keyword matches (product codes, names) that a simple keyword search would catch instantly. **Hybrid search** combines vector similarity with traditional keyword search (e.g. BM25), merging both result sets. A **re-ranker** — often a smaller, more expensive-per-item cross-encoder model — then re-scores the combined candidate set with higher precision than the fast initial retrieval step, before the final top-k is passed to the LLM.
+Two structurally different ways to find relevant chunks, worth distinguishing precisely rather than lumping together as "search":
+
+- **Dense retrieval**: embed both the query and every chunk into the same continuous vector space (see [Foundation Model Internals](./foundation-model-internals.md)), and retrieve by vector similarity — captures *semantic* similarity (a query about "canines" can retrieve a chunk about "dogs" even with zero shared words), at the cost of sometimes missing exact matches that matter (a specific product code, an exact legal term).
+- **Sparse retrieval**: represents text as a high-dimensional, mostly-zero vector over the vocabulary (which exact terms appear, and how often) — the classical information-retrieval approach, and still highly effective specifically because it *guarantees* exact term matches aren't missed. **BM25** is the standard modern sparse-retrieval scoring function, refining raw term-frequency matching with two corrections: it saturates the benefit of a term appearing many times in a document (the 5th occurrence of a word matters far less than the 1st), and it downweights matches on terms that are common across the whole corpus (matching "the" tells you nothing; matching a rare technical term tells you a lot) while upweighting matches on documents that are otherwise concise (a short document containing your query terms is more likely to be specifically about them than a long document that happens to mention them once).
+- **Hybrid search**: combines both — run dense and sparse retrieval independently, then merge the two ranked result sets (commonly via **Reciprocal Rank Fusion**, which combines rankings based on each result's *position* in each list rather than trying to normalize and compare two differently-scaled similarity scores directly). Hybrid search is the practical default in production RAG precisely because dense and sparse retrieval fail in different, complementary ways.
+
+## Re-ranking with Cross-Encoders
+
+The retrieval step above (dense, sparse, or hybrid) has to be fast enough to search potentially millions of chunks — it uses a **bi-encoder** architecture, embedding the query and each document *independently* so document embeddings can be precomputed and indexed once (see [Recommender Systems — Two-Tower Architecture](../machine-learning/recommender-systems.md#embeddings-and-the-two-tower-architecture) for the identical architectural pattern). A **cross-encoder** re-ranker instead feeds the query *and* a candidate document into the model *together*, letting it directly attend across both — far more accurate at judging true relevance, but far too slow to run against the entire corpus, since nothing about it can be precomputed per-document. The standard pattern is exactly this two-stage shape: cheap bi-encoder retrieval narrows millions of chunks to a few dozen candidates, then an expensive cross-encoder re-ranks just those few dozen precisely — the same retrieval-then-rank funnel as [Recommender Systems](../machine-learning/recommender-systems.md#the-two-stage-production-pipeline) and [Learning-to-Rank](../machine-learning/learning-to-rank.md).
 
 ## Query Transformation
 
 - **HyDE (Hypothetical Document Embeddings)**: have the LLM first generate a *hypothetical* answer to the query, then embed and search using *that* instead of the raw query — often more similar to real relevant documents than the terse original question.
 - **Query decomposition**: break a complex multi-part question into sub-questions, retrieve for each separately.
 - **Step-back prompting**: ask a more general question first to retrieve broader context, before answering the specific one.
+- **Multi-query retrieval**: have the LLM generate several *rephrasings* of the same query (different word choices, different framings), retrieve for each independently, and union the results — hedges against any single phrasing missing a relevant chunk purely due to vocabulary mismatch.
+- **RAG-Fusion**: multi-query retrieval's natural extension — generate multiple query variations, retrieve for each, then combine the *ranked* result lists via Reciprocal Rank Fusion (the same technique from hybrid search above) rather than a simple union, so chunks ranked highly across *multiple* query variations surface to the top.
+
+## Advanced RAG Architectures
+
+Beyond the single retrieve-then-generate pass above, several architectures address specific failure modes by adding a control loop or changing what's actually retrieved:
+
+- **Agentic RAG**: instead of one fixed retrieve→generate pass, an agent (see [Agent Architectures](../agents/agent-architectures.md)) decides *whether* to retrieve, *what* to retrieve, and *how many times* — it can issue multiple retrieval calls, reformulate its own queries based on what came back, or decide the retrieved context is insufficient and search again, rather than being locked into exactly one retrieval step per query.
+- **Corrective RAG (CRAG)**: adds an explicit evaluation step after retrieval — a lightweight grader assesses whether the retrieved chunks are actually relevant/sufficient, and if not, triggers a fallback (query rewriting, a broader search, or falling back to general web search) before generation proceeds, rather than generating from possibly-irrelevant context regardless.
+- **Self-RAG**: trains the LLM itself to emit special **reflection tokens** during generation — deciding when retrieval is needed, critiquing whether retrieved passages are actually relevant, and assessing whether its own generated output is properly supported by them — folding the "should I retrieve, was this useful, is my answer grounded" judgment directly into the generating model's own token stream instead of a separate pipeline stage.
+- **Multimodal RAG**: retrieves and grounds generation in non-text content — image embeddings (via CLIP-style models, see [Computer Vision — Modern Vision & Multimodal](../computer-vision/modern-vision-and-multimodal.md#vision-language-models-and-image-text-alignment)) alongside or instead of text chunks, for questions that need to reference charts, diagrams, or photos in the source material.
+- **SQL RAG**: instead of retrieving unstructured text chunks, translates a natural-language question into a SQL query against a structured database (see [Databases — Relational](../databases/roadmap.md)), executes it, and feeds the *query result* to the LLM as grounding context — the right approach when the answer genuinely lives in structured tables (aggregates, exact counts) rather than prose a chunk-based retriever would need to happen to contain.
+- **Code RAG**: retrieval over a codebase specifically — chunking strategies built around code structure (functions, classes) rather than fixed token windows, and embeddings from code-aware models, used for AI coding assistants that need to ground suggestions in a specific repository's actual code rather than the model's general programming knowledge.
 
 ## GraphRAG
 
@@ -43,9 +64,12 @@ Standard RAG retrieves isolated chunks, which struggles with questions that requ
 
 ## Evaluating RAG
 
-- **Faithfulness**: does the generated answer actually match what the retrieved context says (or does it hallucinate beyond it)?
-- **Relevance**: are the retrieved chunks actually relevant to the query?
-- **Context precision/recall**: of the chunks retrieved, how many were relevant (precision); of all relevant chunks that exist, how many were retrieved (recall)?
+- **Faithfulness / groundedness**: does the generated answer actually match what the retrieved context says (or does it hallucinate beyond it) — is every claim in the answer traceable back to the retrieved chunks?
+- **Answer relevance**: does the generated answer actually address the user's question (a faithful-to-context but off-topic answer still fails the user).
+- **Context precision/recall**: of the chunks retrieved, how many were relevant (precision); of all relevant chunks that exist, how many were retrieved (recall) — see [Model Evaluation & Metrics](../machine-learning/model-evaluation-metrics.md#classification-metrics) for the general precision/recall definitions this specializes.
+- **MRR and NDCG**: the same ranking-quality metrics from [Learning-to-Rank](../machine-learning/learning-to-rank.md#ranking-evaluation-metrics) apply directly to retrieval quality — did the *most* relevant chunk rank first, not just appear somewhere in the top-k.
+
+See [LLM Evaluation & RAGOps](../mlops/llm-evaluation-and-ragops.md) for the full evaluation tooling (Ragas, DeepEval) and production RAG monitoring.
 
 ## Common Failure Modes
 

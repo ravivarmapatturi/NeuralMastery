@@ -43,10 +43,12 @@ This is where classical deep learning turns into ChatGPT-class systems. Assumes 
 - [ ] RAG architecture: retriever + generator
 - [ ] Chunking strategies (fixed, semantic, recursive, parent-child)
 - [ ] Embedding model selection
-- [ ] Hybrid search (keyword + vector) and re-ranking
-- [ ] Query transformation: HyDE, decomposition, step-back prompting
-- [ ] GraphRAG
-- [ ] Evaluating RAG: faithfulness, relevance, context precision/recall
+- [ ] Dense vs sparse retrieval, BM25, hybrid search + Reciprocal Rank Fusion
+- [ ] Re-ranking: bi-encoders vs cross-encoders
+- [ ] Query transformation: HyDE, decomposition, step-back, multi-query, RAG-Fusion
+- [ ] Advanced: Agentic RAG, Corrective RAG (CRAG), Self-RAG, GraphRAG
+- [ ] Multimodal RAG, SQL RAG, Code RAG
+- [ ] Evaluating RAG: faithfulness, groundedness, answer relevance, context precision/recall, MRR/NDCG
 - [ ] Failure modes: hallucination despite correct context, "lost in the middle," stale knowledge
 
 ## 5. [Evaluation](./evaluation-and-serving.md)

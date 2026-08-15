@@ -36,7 +36,7 @@ These are worth knowing precisely, since "which metric" materially changes what 
 
 LTR models are almost always gradient-boosted trees (LambdaMART) or a deep ranking network fed a rich, heavily engineered feature set per query-item pair — the modeling technique matters less than getting these features right:
 
-- **Query-item features**: text match score (BM25, see [RAG](../llms-genai/rag.md#hybrid-search--re-ranking)), embedding similarity, category match.
+- **Query-item features**: text match score (BM25, see [RAG](../llms-genai/rag.md#dense-vs-sparse-retrieval-and-bm25)), embedding similarity, category match.
 - **Item features**: popularity, recency, price, historical CTR.
 - **User features**: personalization signals — past behavior, stated preferences, session context.
 - **Context features**: time of day, device, location — relevance is often genuinely contextual, not a fixed property of the item.
@@ -46,6 +46,6 @@ LTR models are almost always gradient-boosted trees (LambdaMART) or a deep ranki
 - **Search engines**: ranking documents/pages by relevance to a query — the original LTR use case.
 - **Recommendation ranking**: the ranking stage of the retrieval→rank→re-rank pipeline in [Recommender Systems](./recommender-systems.md).
 - **Ad ranking**: ordering ads by a combination of predicted CTR and bid price.
-- **RAG reranking**: re-ordering retrieved chunks by relevance before feeding them to an LLM — see [RAG — Hybrid Search & Re-ranking](../llms-genai/rag.md#hybrid-search--re-ranking), the same pairwise/listwise ranking principles applied to retrieved text chunks instead of search results.
+- **RAG reranking**: re-ordering retrieved chunks by relevance before feeding them to an LLM — see [RAG — Re-ranking with Cross-Encoders](../llms-genai/rag.md#re-ranking-with-cross-encoders), the same pairwise/listwise ranking principles applied to retrieved text chunks instead of search results.
 
 Back to [Supervised Learning](./supervised-learning.md) for the full overview, or [Model Evaluation & Metrics](./model-evaluation-metrics.md) to continue the Machine Learning roadmap.

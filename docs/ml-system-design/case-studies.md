@@ -16,7 +16,7 @@ Almost always built as a **two-stage pipeline**:
 
 ## Search & Ranking
 
-Similar two-stage shape: **retrieval** (find documents/items that could plausibly match a query — keyword-based, or embedding-based, or both — see [Hybrid Search](../llms-genai/rag.md#hybrid-search--re-ranking)) followed by **learning-to-rank**, a model trained specifically to order the retrieved set by relevance, typically using pairwise or listwise ranking losses rather than plain classification/regression.
+Similar two-stage shape: **retrieval** (find documents/items that could plausibly match a query — keyword-based, or embedding-based, or both — see [Hybrid Search](../llms-genai/rag.md#dense-vs-sparse-retrieval-and-bm25)) followed by **learning-to-rank**, a model trained specifically to order the retrieved set by relevance, typically using pairwise or listwise ranking losses rather than plain classification/regression.
 
 ## News Feed / Ads Ranking
 

@@ -30,6 +30,6 @@ Which metric to use is typically dictated by how the embedding model itself was 
 
 ## Hybrid Search
 
-Pure vector similarity can miss exact matches a keyword search would catch instantly (product IDs, exact names). **Hybrid search** combines vector similarity with traditional keyword/metadata filtering, merging both result sets — covered in more depth in [RAG — Hybrid Search & Re-ranking](../../llms-genai/rag.md#hybrid-search--re-ranking), since this is precisely the retrieval step every RAG pipeline depends on.
+Pure vector similarity can miss exact matches a keyword search would catch instantly (product IDs, exact names). **Hybrid search** combines vector similarity with traditional keyword/metadata filtering, merging both result sets — covered in more depth in [RAG — Dense vs. Sparse Retrieval](../../llms-genai/rag.md#dense-vs-sparse-retrieval-and-bm25), since this is precisely the retrieval step every RAG pipeline depends on.
 
 Next: [Graph Databases](../graph/overview.md) — for when relationships between entities matter more than similarity.
