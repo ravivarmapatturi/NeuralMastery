@@ -22,11 +22,13 @@ This is where classical deep learning turns into ChatGPT-class systems. Assumes 
 
 ## 2. [Training Pipeline](./training-pipeline.md)
 - [ ] Pretraining: next-token prediction at scale
+- [ ] The data pipeline: crawl -> clean -> dedupe -> filter -> tokenize -> pack
+- [ ] Scaling laws and the Chinchilla compute-optimal result
 - [ ] Supervised Fine-Tuning (SFT)
 - [ ] RLHF — Reinforcement Learning from Human Feedback
-- [ ] Direct Preference Optimization (DPO)
+- [ ] Direct Preference Optimization (DPO), IPO, KTO, ORPO, RLOO
 - [ ] Group Relative Policy Optimization (GRPO)
-- [ ] Parameter-efficient fine-tuning: LoRA, QLoRA, adapters
+- [ ] Parameter-efficient fine-tuning: LoRA, QLoRA, DoRA, adapters, IA3, prefix/prompt tuning
 - [ ] Knowledge distillation
 - [ ] Quantization (int8, int4, GPTQ, AWQ) for inference
 
