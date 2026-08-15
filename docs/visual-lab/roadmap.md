@@ -13,6 +13,7 @@ sidebar_position: 2
 - [x] [LLM Inference Flow Visualizer](./inference-flow-visualizer.md) — clickable tokenizer-to-sampling pipeline with a real live sampling playground
 - [x] [Decision Boundary Playground](./decision-boundary-playground.md) — click-to-add-points KNN / decision tree / k-means explorer
 - [x] [Embedding Space Explorer](./embedding-space-explorer.md) — real from-scratch PCA projection, cosine-similarity nearest neighbors, and word-vector analogy, live
+- [x] [Linear Regression Studio](./linear-regression-studio.md) — drag-the-line fitting, MSE/outlier experiment, and a real gradient descent lab with a live loss surface, on a real dataset
 
 ## Planned, in order
-Nothing queued right now — the full initial nine-visualization roadmap (Phases 0-3) has shipped. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site.
+Nothing queued right now. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site — a natural next candidate, per a follow-up gap-analysis request, is applying this same "drag it, break it, watch it converge" treatment to other flagship pages (Logistic Regression, Decision Trees, ...), one page at a time.

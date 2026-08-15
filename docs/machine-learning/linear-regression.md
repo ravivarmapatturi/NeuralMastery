@@ -2,6 +2,8 @@
 sidebar_position: 4.5
 ---
 
+import LinearRegressionStudio from '@site/src/components/viz/LinearRegressionStudio';
+
 # Linear Regression, In Full Depth
 
 [Supervised Learning](./supervised-learning.md) introduced linear regression in a couple of sentences. This page derives it properly — the cost function, the gradient step by step, the closed-form solution, and where gradient descent actually comes from — because "minimize squared error" means nothing until you've done the derivative by hand at least once.
@@ -26,6 +28,12 @@ The hat on $\hat{y}$ (read "y-hat") matters: it means *predicted* value, not the
 
 **A warning worth internalizing early:** a strong fit tells you $x$ and $y$ move together — it does *not* tell you $x$ *causes* $y$. Students who study more may also be more motivated overall, and that motivation — not the studying itself — could be doing some of the work. Linear regression describes correlation; establishing causation requires a controlled experiment, not just a good fit.
 
+**Before the math below — try fitting the line yourself.** Drag the slope and intercept and watch MSE respond live:
+
+<LinearRegressionStudio />
+
+Notice how you had to guess-and-check to bring MSE down — nudge $w$, see if it helped, nudge $b$, see if it helped. That's exactly the problem gradient descent (Section 6) solves systematically: instead of guessing, compute the *direction* that reduces MSE fastest, from the data itself.
+
 Everything above is the intuition. Everything below is the actual math that makes it work — precisely, not just approximately.
 
 ## 1. The Hypothesis
@@ -39,6 +47,8 @@ For multiple features, $x$ becomes a vector $\mathbf{x} \in \mathbb{R}^d$ and $w
 $$\hat{y} = \mathbf{w}^T \mathbf{x} + b$$
 
 $w$ (the weights) and $b$ (the bias/intercept) are the parameters we need to *learn* — the entire rest of this page is about finding the $w, b$ that make $\hat{y}$ match the real data $y$ as closely as possible.
+
+**Why is it called "linear"?** Not because the *input* has to appear to the first power — because the model is linear *in its parameters*. $\hat{y} = w_1 x^2 + w_2 x + b$ is still linear regression (fit $x^2$ as just another input column, and it's identical math to fitting any other feature) — only $\hat{y} = w_1 x^{w_2}$, where a parameter multiplies or exponentiates another parameter, would break linearity. This distinction matters in practice: polynomial regression is a linear model in disguise, solvable with everything on this page unchanged.
 
 ## 2. The Cost Function (Mean Squared Error)
 
@@ -109,6 +119,8 @@ where $\alpha$ is the learning rate (see [Calculus & Optimization](../mathematic
 
 Because $J$ is convex, this loop is guaranteed to converge to the global minimum (not just *a* minimum) as long as $\alpha$ is small enough — no local-minima concerns here, unlike the non-convex loss surfaces in [Deep Learning](../deep-learning/roadmap.md).
 
+Switch the [Studio](#what-is-linear-regression) above to **Gradient Descent Lab** mode to watch this loop run for real: real $\partial J/\partial w$ and $\partial J/\partial b$ computed every step, a live MSE surface with the descent path drawn on it, and a step log with the actual numbers. Push the learning rate slider too high and watch it diverge instead of converge — a direct, visceral answer to "why does the learning rate matter so much."
+
 ## 7. Closed-Form vs. Gradient Descent
 
 ![Two paths to the same minimum — normal equation vs gradient descent](./img/linear-regression-two-paths.png)
@@ -171,6 +183,23 @@ def fit_normal_equation(X, y):
 
 For a small, well-conditioned dataset, both should converge to (nearly) the same $w$ — a good way to sanity-check that a from-scratch gradient descent implementation is actually correct.
 
+**Engineering note:** `np.linalg.inv(X.T @ X) @ X.T @ y` above is the right way to *learn* the normal equation, but it's not what production numerical code actually does. Explicitly forming and inverting $X^TX$ is numerically less stable than solving the linear system directly — real implementations (scikit-learn's dense least-squares solver included) use **SVD** or **QR decomposition** instead (see [Linear Algebra — SVD](../mathematics-for-ai/linear-algebra.md#singular-value-decomposition-svd)), which avoid explicitly computing an inverse at all. Know the formula; don't ship it literally.
+
+## 10. When *Not* to Use Linear Regression
+
+The assumptions in Section 8 aren't just theory — violate them badly enough and the model quietly gives you confident, wrong answers. Reach for something else when:
+
+| Symptom | Try instead |
+|---|---|
+| Relationship is strongly nonlinear | Trees / boosting ([Decision Trees](./decision-tree.md), [Random Forest](./random-forest.md)), or a nonlinear model |
+| Severe multicollinearity (unstable, hard-to-interpret coefficients) | [Ridge Regression](./ridge-regression.md) |
+| You need automatic feature selection (many irrelevant features) | [Lasso Regression](./lasso-regression.md) |
+| Complex feature interactions | Boosting ([XGBoost/LightGBM/CatBoost](./xgboost-lightgbm-catboost.md)) |
+| Target changes over time (autocorrelated errors) | Specialized time-series forecasting |
+| Residuals show a clear pattern against $\hat{y}$ | The functional form is wrong — revisit linearity before tuning anything else |
+
+**Why Ridge comes right after this page:** Section 8 flagged multicollinearity as an assumption violation — in practice, it's one of the most common ones. When features are correlated, $X^TX$ becomes near-singular, and the normal equation's solution becomes wildly sensitive to small changes in the data: tiny noise in $y$ can flip a coefficient's sign or blow up its magnitude, even though predictions stay reasonable. [Ridge Regression](./ridge-regression.md) fixes exactly this by penalizing large weights, trading a little bias for a lot less variance in the coefficients.
+
 ---
 
-Next: [Model Evaluation & Metrics](./model-evaluation-metrics.md) for how to judge whether the resulting model is actually good.
+Next: [Ridge Regression](./ridge-regression.md) — what happens when we penalize large weights — and [Model Evaluation & Metrics](./model-evaluation-metrics.md) for how to judge whether the resulting model is actually good.

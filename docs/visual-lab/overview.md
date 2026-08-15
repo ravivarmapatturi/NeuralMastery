@@ -20,5 +20,6 @@ Each page below is one interactive component, with a short "what to try" list. M
 - **[LLM Inference Flow Visualizer](./inference-flow-visualizer.md)** — the text-to-token pipeline as a clickable graph, with a real live temperature/top-k/top-p sampling playground.
 - **[Decision Boundary Playground](./decision-boundary-playground.md)** — click to place points, pick KNN / decision tree / k-means, and watch a real boundary recompute live.
 - **[Embedding Space Explorer](./embedding-space-explorer.md)** — a real from-scratch PCA projection, cosine-similarity nearest neighbors, and the king − man + woman ≈ queen analogy, live.
+- **[Linear Regression Studio](./linear-regression-studio.md)** — drag the line yourself, or hand it to real gradient descent and watch it converge (or diverge) on a real dataset, loss surface included.
 
-That's the full initial roadmap — see the [roadmap](./roadmap.md) for what's shipped and what might come next.
+See the [roadmap](./roadmap.md) for what's shipped and what might come next.
