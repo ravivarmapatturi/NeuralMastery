@@ -25,6 +25,11 @@ How to take a model and turn it into a working, scalable production system. Fram
 - [ ] **Computer vision systems** — detection/segmentation pipelines in production
 - [ ] **GenAI / LLM systems (2026-era)** — RAG pipeline design, agent system design, LLM serving infra
 
+## [Model Catalog & Benchmarking Framework](./model-catalog-and-benchmarking.md)
+- [ ] Model categories and where each is covered on this site
+- [ ] The model card attribute checklist (architecture, params, context, license, benchmarks, hardware, and more)
+- [ ] Benchmark dimensions by system type: inference, retrieval, general quality
+
 ## Common Problems & SOTA Solutions
 - [ ] **Training-serving skew** → shared feature pipelines, feature stores
 - [ ] **Cold start** (new users/items) → content-based fallback, exploration strategies
