@@ -1,0 +1,37 @@
+---
+sidebar_position: 4
+---
+
+# Word Embeddings
+
+Before attention-based contextual embeddings ([Attention & Transformers](../deep-learning/attention-transformers.md)), NLP's biggest representational leap was learning that words could be represented as dense vectors capturing *meaning* — not just an arbitrary ID or a one-hot vector with no relationship to any other word.
+
+## The Core Idea: The Distributional Hypothesis
+
+"You shall know a word by the company it keeps" — words that appear in similar contexts tend to have similar meanings. Every method on this page operationalizes that single linguistic insight differently, but it's the shared foundation: learn a word's vector representation from the *other words that tend to surround it* across a large text corpus, with no explicit definition of "meaning" ever provided.
+
+## word2vec
+
+Introduced two closely related, shallow neural network training schemes for learning word vectors directly from raw text with no labels:
+
+- **CBOW (Continuous Bag of Words)**: predict a target word from its surrounding context words — given "the ___ sat on the mat," predict "cat." Faster to train, tends to work better on frequent words.
+- **Skip-gram**: the reverse — given a target word, predict its surrounding context words. Slower to train, tends to work better on rare words (it gets more training signal per rare-word occurrence, since it's predicting multiple context words from that single occurrence rather than needing many occurrences to average over as CBOW's context does).
+- **Why it works despite the shallow architecture**: neither is really "about" the prediction task itself — the prediction task is just a means to force the model to compress word co-occurrence statistics into a dense vector's weights via backpropagation. The learned **embedding matrix** (mapping each vocabulary word to a dense vector) is the actual product; the CBOW/skip-gram prediction head is discarded after training.
+- **The famous linear-structure property**: word2vec embeddings famously support vector arithmetic that reflects semantic relationships — $\text{vec("king")} - \text{vec("man")} + \text{vec("woman")} \approx \text{vec("queen")}$ — direct empirical evidence that the learned vector space captures real relational structure, not just similarity clustering.
+- **Negative sampling**: computing a full softmax over the entire vocabulary at every training step is expensive at real vocabulary sizes (see [Loss Functions](../deep-learning/loss-functions.md)) — negative sampling reframes training as binary classification (is this context word real, or one of a handful of randomly sampled "negative" fake ones), a large practical speedup that made training word2vec at scale feasible.
+
+## GloVe (Global Vectors)
+
+Where word2vec learns from local context windows one training example at a time, **GloVe** works directly from the corpus-wide **co-occurrence matrix** (how often every word appears near every other word, counted across the entire corpus), factorizing it — in spirit, the same low-rank matrix factorization idea as [Recommender Systems](../machine-learning/recommender-systems.md#matrix-factorization) and [SVD](../mathematics-for-ai/linear-algebra.md#singular-value-decomposition-svd), applied to word co-occurrence counts instead of ratings. GloVe's explicit use of global corpus statistics (rather than word2vec's local-window-at-a-time training) was its original selling point; in practice, the two methods produce embeddings of broadly comparable quality, and the choice between them mattered less than the shared idea both represent.
+
+## fastText and Subword Embeddings
+
+**fastText** extends word2vec by representing each word as a bag of **character n-grams** rather than a single atomic unit — "apple" is represented via pieces like "app", "ppl", "ple" in addition to the whole word. Two direct practical payoffs: it handles **out-of-vocabulary words** at inference time (a novel word can still get a reasonable embedding, built from its recognizable character pieces, where word2vec/GloVe simply have no vector for a word never seen in training), and it captures **morphological similarity** for free (related word forms like "run"/"running"/"runner" share n-grams and end up with similar embeddings, without needing lemmatization as a preprocessing step). This character-piece idea is a direct conceptual ancestor of the subword tokenization (BPE/WordPiece/SentencePiece) every modern LLM uses.
+
+## Why Contextual Embeddings Superseded Static Ones
+
+Every method above produces exactly **one fixed vector per word**, regardless of context — "bank" gets the same embedding whether it means a riverbank or a financial institution, which is a real, structural limitation, not a training-data problem more data would fix. **Contextual embeddings** (ELMo, then BERT-style Transformer encoders, see [Attention & Transformers — The BERT Lineage](../deep-learning/attention-transformers.md#encoder-only-the-bert-lineage)) fix this by computing a *different* representation for each word **occurrence**, conditioned on its actual surrounding sentence via self-attention — "bank" in "river bank" and "bank" in "savings bank" get genuinely different vectors, computed on the fly from context, rather than a static lookup. This is the single biggest reason static word embeddings (word2vec/GloVe/fastText) were largely superseded for state-of-the-art NLP — not because the distributional hypothesis stopped being true, but because a fixed-per-word vector was always a structural compromise contextual models no longer need to make.
+
+**Where static embeddings are still used**: extremely resource-constrained settings (a static embedding lookup is far cheaper than a Transformer forward pass), as a fast baseline, and as an interpretable/lightweight feature in classical ML pipelines (see [Machine Learning](../machine-learning/roadmap.md)) where a full contextual model is unnecessary overhead for the task's actual difficulty.
+
+Next: [NLP Task Taxonomy](./nlp-task-taxonomy.md) — the tasks these representations (static or contextual) actually get used for.

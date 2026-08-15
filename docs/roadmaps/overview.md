@@ -14,17 +14,19 @@ One path through everything on this site, from zero to job-ready. Each section l
 
 ## Intermediate Track — Deep Learning & Modern AI
 5. [Deep Learning](../deep-learning/roadmap.md) — neural networks, CNNs, sequence models, attention & Transformers
-6. [LLMs & GenAI](../llms-genai/roadmap.md) — foundation models, training pipelines, prompt engineering, RAG, evaluation
-7. [Databases](../databases/roadmap.md) — relational, vector (ChromaDB & friends), graph (Neo4j) — needed in parallel with RAG
+6. [Computer Vision](../computer-vision/roadmap.md) — image fundamentals, the vision task taxonomy, modern/multimodal vision
+7. [NLP](../nlp/roadmap.md) — classical NLP, word embeddings, the task taxonomy underneath modern LLMs
+8. [LLMs & GenAI](../llms-genai/roadmap.md) — foundation models, training pipelines, prompt engineering, RAG, evaluation
+9. [Databases](../databases/roadmap.md) — relational, vector (ChromaDB & friends), graph (Neo4j) — needed in parallel with RAG
 
 ## Advanced Track — Systems & Agents
-8. [Agents](../agents/roadmap.md) — agent architectures, MCP, A2A, multi-agent systems
-9. [ML System Design](../ml-system-design/roadmap.md) — the 9-step framework, recommendation/search/GenAI system case studies
-10. [MLOps](../mlops/roadmap.md) — data/experiment versioning, pipelines, containers, Kubernetes, CI/CD, monitoring, LLMOps & RAGOps
-11. [Frameworks](../frameworks/roadmap.md) — PyTorch, LangChain, MCP SDKs, serving & LLMOps tooling
+10. [Agents](../agents/roadmap.md) — agent architectures, MCP, A2A, multi-agent systems
+11. [ML System Design](../ml-system-design/roadmap.md) — the 9-step framework, recommendation/search/GenAI system case studies
+12. [MLOps](../mlops/roadmap.md) — data/experiment versioning, pipelines, containers, Kubernetes, CI/CD, monitoring, LLMOps & RAGOps
+13. [Frameworks](../frameworks/roadmap.md) — PyTorch, LangChain, MCP SDKs, serving & LLMOps tooling
 
 ## Job-Ready Track
-12. [Interview Prep](../interview-prep/roadmap.md) — DSA, ML coding, knowledge Q&A, system design, behavioral
+14. [Interview Prep](../interview-prep/roadmap.md) — DSA, ML coding, knowledge Q&A, system design, behavioral
 
 ## How to use this roadmap
 - Each section's roadmap is a checklist — work through it top to bottom, and don't skip the "Common Problems & SOTA Solutions" parts. Interviews (and real jobs) test whether you know *why* a technique exists, not just its name.
