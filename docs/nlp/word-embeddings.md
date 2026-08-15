@@ -2,6 +2,8 @@
 sidebar_position: 4
 ---
 
+import EmbeddingSpaceExplorer from '@site/src/components/viz/EmbeddingSpaceExplorer';
+
 # Word Embeddings
 
 Before attention-based contextual embeddings ([Attention & Transformers](../deep-learning/attention-transformers.md)), NLP's biggest representational leap was learning that words could be represented as dense vectors capturing *meaning* — not just an arbitrary ID or a one-hot vector with no relationship to any other word.
@@ -18,6 +20,10 @@ Introduced two closely related, shallow neural network training schemes for lear
 - **Skip-gram**: the reverse — given a target word, predict its surrounding context words. Slower to train, tends to work better on rare words (it gets more training signal per rare-word occurrence, since it's predicting multiple context words from that single occurrence rather than needing many occurrences to average over as CBOW's context does).
 - **Why it works despite the shallow architecture**: neither is really "about" the prediction task itself — the prediction task is just a means to force the model to compress word co-occurrence statistics into a dense vector's weights via backpropagation. The learned **embedding matrix** (mapping each vocabulary word to a dense vector) is the actual product; the CBOW/skip-gram prediction head is discarded after training.
 - **The famous linear-structure property**: word2vec embeddings famously support vector arithmetic that reflects semantic relationships — $\text{vec("king")} - \text{vec("man")} + \text{vec("woman")} \approx \text{vec("queen")}$ — direct empirical evidence that the learned vector space captures real relational structure, not just similarity clustering.
+
+Try that exact analogy (and others) below — real cosine similarity, real nearest-neighbor lookup, and a real [PCA](../mathematics-for-ai/linear-algebra.md#eigenvalues-and-eigenvectors) projection down to 2D, computed live over a small hand-built demo vocabulary (not a trained model):
+
+<EmbeddingSpaceExplorer />
 - **Negative sampling**: computing a full softmax over the entire vocabulary at every training step is expensive at real vocabulary sizes (see [Loss Functions](../deep-learning/loss-functions.md)) — negative sampling reframes training as binary classification (is this context word real, or one of a handful of randomly sampled "negative" fake ones), a large practical speedup that made training word2vec at scale feasible.
 
 ## GloVe (Global Vectors)

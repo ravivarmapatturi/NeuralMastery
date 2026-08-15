@@ -12,8 +12,7 @@ sidebar_position: 2
 - [x] [Agent Execution Graph](./agent-execution-graph.md) — step through a scripted, clickable ReAct loop trace
 - [x] [LLM Inference Flow Visualizer](./inference-flow-visualizer.md) — clickable tokenizer-to-sampling pipeline with a real live sampling playground
 - [x] [Decision Boundary Playground](./decision-boundary-playground.md) — click-to-add-points KNN / decision tree / k-means explorer
+- [x] [Embedding Space Explorer](./embedding-space-explorer.md) — real from-scratch PCA projection, cosine-similarity nearest neighbors, and word-vector analogy, live
 
 ## Planned, in order
-- [ ] Embedding Space Explorer — a 2D projected embedding scatter with nearest-neighbor lookup
-
-Each one ships fully (built, verified, embedded on its home content page, and added here) before the next one starts — same batch-by-batch discipline as every other section on this site.
+Nothing queued right now — the full initial nine-visualization roadmap (Phases 0-3) has shipped. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site.

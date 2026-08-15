@@ -19,5 +19,6 @@ Each page below is one interactive component, with a short "what to try" list. M
 - **[Agent Execution Graph](./agent-execution-graph.md)** — step through a scripted ReAct loop one Thought/Action/Observation at a time, or watch it play automatically.
 - **[LLM Inference Flow Visualizer](./inference-flow-visualizer.md)** — the text-to-token pipeline as a clickable graph, with a real live temperature/top-k/top-p sampling playground.
 - **[Decision Boundary Playground](./decision-boundary-playground.md)** — click to place points, pick KNN / decision tree / k-means, and watch a real boundary recompute live.
+- **[Embedding Space Explorer](./embedding-space-explorer.md)** — a real from-scratch PCA projection, cosine-similarity nearest neighbors, and the king − man + woman ≈ queen analogy, live.
 
-More are being added in the same batch-by-batch, build-verified way as the rest of this site — see the [roadmap](./roadmap.md) for what's planned next.
+That's the full initial roadmap — see the [roadmap](./roadmap.md) for what's shipped and what might come next.

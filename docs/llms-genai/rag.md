@@ -3,6 +3,7 @@ sidebar_position: 6
 ---
 
 import RagPipelineSimulator from '@site/src/components/viz/RagPipelineSimulator';
+import EmbeddingSpaceExplorer from '@site/src/components/viz/EmbeddingSpaceExplorer';
 
 # Retrieval-Augmented Generation (RAG)
 
@@ -32,6 +33,10 @@ Chunk size is a real tradeoff: too small loses context; too large dilutes the em
 ## Choosing an Embedding Model
 
 Different embedding models trade off quality, speed, cost, and domain fit (a model tuned on general web text may underperform on legal or medical documents). Dimensionality matters too — higher-dimensional embeddings usually capture more nuance but cost more to store and search at scale.
+
+What retrieval above is actually doing under the hood — comparing vectors by cosine similarity in a learned space where meaning clusters geometrically — is exactly what the [Embedding Space Explorer](../nlp/word-embeddings.md) makes clickable:
+
+<EmbeddingSpaceExplorer />
 
 ## Dense vs. Sparse Retrieval, and BM25
 
