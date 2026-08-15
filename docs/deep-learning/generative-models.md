@@ -2,6 +2,9 @@
 sidebar_position: 8.7
 ---
 
+import DiffusionRandomWalkMp4 from './img/diffusion-random-walk.mp4';
+import DiffusionRandomWalkWebm from './img/diffusion-random-walk.webm';
+
 # Generative Models: GANs & Diffusion
 
 [Autoencoders & VAEs](./autoencoders.md) were one route to generating new data. This page covers the other two dominant approaches — adversarial training and iterative denoising — and why diffusion won out for image generation specifically.
@@ -31,7 +34,15 @@ $D$ is trained to maximize this (correctly tell real from fake), $G$ is trained 
 
 ## Diffusion Models, In More Depth
 
-[Multimodal & Generative Models](../llms-genai/multimodal-generative-models.md#diffusion-models) introduced the core idea: learn to reverse a gradual noising process. The named variants below are the ones actually worth recognizing:
+[Multimodal & Generative Models](../llms-genai/multimodal-generative-models.md#diffusion-models) introduced the core idea: learn to reverse a gradual noising process. That forward process — repeatedly nudging every pixel by a small random amount until the image is pure noise — is a random walk, the same stochastic process below (Brownian motion is the canonical continuous-time example): many independent small random steps, applied over and over.
+
+<video autoPlay loop muted playsInline width="100%" style={{maxWidth: 560, display: "block", margin: "0 auto"}}>
+  <source src={DiffusionRandomWalkWebm} type="video/webm" />
+  <source src={DiffusionRandomWalkMp4} type="video/mp4" />
+</video>
+<p style={{textAlign: "center", fontSize: "0.9em", opacity: 0.75}}>A 2D random walk — the same "many small random steps" idea behind diffusion's forward noising process, one particle highlighted</p>
+
+The named variants below are the ones actually worth recognizing:
 
 - **DDPM (Denoising Diffusion Probabilistic Models)**: the paper that made diffusion practical for high-quality image generation — a fixed forward process adds Gaussian noise over many steps (often 1000), and a neural network (typically a [U-Net](./vision-architectures.md#segmentation)) is trained to predict the noise added at each step, enabling the reverse process to denoise from pure noise back to a sample.
 - **DDIM (Denoising Diffusion Implicit Models)**: reformulates the reverse process to be non-Markovian, allowing sampling with far fewer steps (tens instead of a thousand) at a small quality cost — the standard way to make diffusion sampling fast enough for interactive use.

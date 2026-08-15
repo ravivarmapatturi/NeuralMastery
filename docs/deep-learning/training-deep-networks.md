@@ -2,9 +2,18 @@
 sidebar_position: 4
 ---
 
+import TrainingLossCurveMp4 from './img/training-loss-curve.mp4';
+import TrainingLossCurveWebm from './img/training-loss-curve.webm';
+
 # Training Deep Networks
 
 Making a network *deep* (many layers) makes it more expressive, but also much harder to train — this page covers the techniques that make deep training actually work.
+
+<video autoPlay loop muted playsInline width="100%" style={{maxWidth: 700, display: "block", margin: "0 auto"}}>
+  <source src={TrainingLossCurveWebm} type="video/webm" />
+  <source src={TrainingLossCurveMp4} type="video/mp4" />
+</video>
+<p style={{textAlign: "center", fontSize: "0.9em", opacity: 0.75}}>What "training" looks like in practice: loss dropping fastest early on, noisier and slower as it approaches a floor — every technique below exists to make this curve drop faster, more smoothly, or further</p>
 
 ## Loss Functions
 

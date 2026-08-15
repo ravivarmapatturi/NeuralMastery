@@ -2,11 +2,18 @@
 sidebar_position: 3.7
 ---
 
+import OptimizerRaceMp4 from './img/optimizer-race.mp4';
+import OptimizerRaceWebm from './img/optimizer-race.webm';
+
 # Optimizers, In Full Depth
 
 [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md) introduced gradient descent and briefly named the adaptive optimizers. This page derives each one and shows, visually, why the field moved from plain SGD to today's defaults.
 
-![SGD, Momentum, and Adam racing toward the minimum of an elongated ("ravine") loss surface](./img/optimizer-trajectories.png)
+<video autoPlay loop muted playsInline width="100%" style={{maxWidth: 700, display: "block", margin: "0 auto"}}>
+  <source src={OptimizerRaceWebm} type="video/webm" />
+  <source src={OptimizerRaceMp4} type="video/mp4" />
+</video>
+<p style={{textAlign: "center", fontSize: "0.9em", opacity: 0.75}}>SGD, Momentum, and Adam racing toward the minimum of an elongated ("ravine") loss surface</p>
 
 Watch the three paths above on this deliberately elongated bowl (steep in one direction, shallow in the other — a stand-in for real loss surfaces, which are rarely nicely circular). Plain SGD (red) crawls along the shallow direction and stalls far from the minimum within the step budget. Momentum (gold) overshoots and oscillates before settling — it builds up speed but has to fight that speed to turn. Adam (green) adapts its step size per-dimension and reaches the minimum's neighborhood fastest, though it overshoots once too. This single picture motivates every optimizer below.
 
