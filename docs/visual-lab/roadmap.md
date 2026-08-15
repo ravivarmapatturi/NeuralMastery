@@ -7,9 +7,9 @@ sidebar_position: 2
 ## Shipped
 - [x] [Gradient Descent Explorer](./gradient-descent-explorer.md) — SGD / Momentum / Adam on a live, clickable loss surface
 - [x] [Neural Network Playground](./neural-network-playground.md) — configurable toy-dataset classifier, trained live in-browser
+- [x] [Attention Step-Through](./attention-step-through.md) — live QKV/softmax attention heatmap and per-token breakdown, multi-head
 
 ## Planned, in order
-- [ ] Attention Step-Through — real tokenization, live QKV/softmax/attention-heatmap walkthrough
 - [ ] RAG Pipeline Simulator — adjustable chunking/top-k/reranking, live retrieved-chunk results
 - [ ] Agent Execution Graph — an animated, clickable ReAct loop trace
 - [ ] LLM Inference Flow Visualizer — the tokenizer-to-sampling pipeline as a clickable graph

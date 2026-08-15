@@ -2,6 +2,8 @@
 sidebar_position: 7
 ---
 
+import AttentionStepThrough from '@site/src/components/viz/AttentionStepThrough';
+
 # Attention & Transformers
 
 The architecture behind GPT, Claude, LLaMA, and essentially every modern large model — text, vision, and beyond.
@@ -25,6 +27,12 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)
 Instead of one attention computation, run several in parallel ("heads"), each with its own learned Q/K/V projections, then concatenate the results. Different heads tend to specialize — one might track syntactic relationships, another long-range coreference, another local patterns. This gives the model multiple "representation subspaces" to work with simultaneously.
 
 **Grouped-Query Attention (GQA)**: a memory/speed optimization where multiple query heads share the same key/value heads, reducing the size of the KV cache (below) at inference time with minimal quality loss — used in most modern production LLMs.
+
+Type your own sentence below and watch real $QK^T/\sqrt{d_k} \to \text{softmax}$ attention weights compute live — click any row token to see exactly how much attention it pays to every other token, and switch heads to see the "different heads specialize differently" claim above actually produce different attention patterns for the same sentence.
+
+<AttentionStepThrough />
+
+*The embeddings and Q/K/V weights here are deterministic demo values, not a trained model's — this shows the real computation attention performs, not what a trained model has learned to attend to. See [Foundation Model Internals](../llms-genai/foundation-model-internals.md#tokenization) for how real tokenization (subword BPE) differs from this component's simpler word-level splitting.*
 
 ## Cross-Attention
 
