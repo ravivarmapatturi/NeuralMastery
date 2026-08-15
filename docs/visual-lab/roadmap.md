@@ -14,6 +14,7 @@ sidebar_position: 2
 - [x] [Decision Boundary Playground](./decision-boundary-playground.md) — click-to-add-points KNN / decision tree / k-means explorer
 - [x] [Embedding Space Explorer](./embedding-space-explorer.md) — real from-scratch PCA projection, cosine-similarity nearest neighbors, and word-vector analogy, live
 - [x] [Linear Regression Studio](./linear-regression-studio.md) — drag-the-line fitting, MSE/outlier experiment, and a real gradient descent lab with a live loss surface, on a real dataset
+- [x] [Logistic Regression Studio](./logistic-regression-studio.md) — real sigmoid fitting plus a live cross-entropy vs. MSE-on-sigmoid convexity comparison
 
 ## Planned, in order
-Nothing queued right now. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site — a natural next candidate, per a follow-up gap-analysis request, is applying this same "drag it, break it, watch it converge" treatment to other flagship pages (Logistic Regression, Decision Trees, ...), one page at a time.
+Nothing queued right now. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site — per a platform-wide gap-analysis request, the next candidates are applying this same "drag it, break it, watch it converge" treatment to more flagship pages (Decision Trees, SVM, Ridge/Lasso, ...), one page at a time.

@@ -2,6 +2,8 @@
 sidebar_position: 4.9
 ---
 
+import LogisticRegressionStudio from '@site/src/components/viz/LogisticRegressionStudio';
+
 # Logistic Regression, In Full Depth
 
 Despite the name, logistic regression is a *classification* algorithm, not a regression one — it predicts a probability, then a class. It's the natural next step after [Linear Regression](./linear-regression.md): same linear core, adapted to output something that behaves like a probability.
@@ -11,6 +13,10 @@ Despite the name, logistic regression is a *classification* algorithm, not a reg
 Linear regression predicts an unbounded real number. That's wrong for classification — if you're predicting "is this email spam?", you want an output between 0 and 1 that behaves like a probability, not a number that could be -40 or +1000.
 
 Logistic regression fixes this with one change: take the linear regression output and squash it through the **sigmoid function**.
+
+Same study-hours story as [Linear Regression](./linear-regression.md#what-is-linear-regression), now predicting pass/fail instead of a score. Drag $w$ and $b$ and watch the sigmoid curve — and the accuracy — respond live:
+
+<LogisticRegressionStudio />
 
 ## The Sigmoid Function
 
@@ -27,6 +33,8 @@ $\hat{p}$ is interpreted as $P(y=1 \mid \mathbf{x})$. To get an actual class pre
 ## Why Not Just Use MSE Loss?
 
 You could plug $\hat{p}$ into the same [MSE cost function](./linear-regression.md#2-the-cost-function-mean-squared-error) from linear regression. It would technically run — but the resulting cost surface is **non-convex** in $(\mathbf{w}, b)$ when combined with the sigmoid, full of local minima that gradient descent can get stuck in. Logistic regression uses a different loss specifically chosen to stay convex.
+
+Don't take that on faith — switch the Studio above to **Gradient Descent Lab** mode and toggle the **Loss function** between Cross-Entropy and MSE (naive). Both start from the same deliberately bad initialization: Cross-Entropy steadily escapes it; MSE-on-sigmoid gets stuck almost immediately and barely moves for hundreds of steps — the loss landscape panel shows exactly why: a visibly bumpier, flatter-near-the-wrong-answer surface instead of cross-entropy's clean bowl.
 
 ## The Cost Function: Binary Cross-Entropy
 
