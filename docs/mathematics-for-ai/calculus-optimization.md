@@ -12,6 +12,22 @@ A derivative measures how much a function's output changes when you nudge its in
 
 **The key idea**: the gradient points in the direction of *steepest increase* of the loss function. So to reduce the loss, you step in the *opposite* direction of the gradient. That single sentence is the entire idea behind training every neural network that exists.
 
+## Jacobians & Hessians: Derivatives of Vector-Valued and Multivariate Functions
+
+A plain gradient is the right tool when a function has many inputs but **one** scalar output (a loss function). Two extensions handle the cases that come up just as often in practice:
+
+**The Jacobian** — when a function has many inputs *and* many outputs, e.g. $\mathbf{y} = f(\mathbf{x})$ with $\mathbf{x} \in \mathbb{R}^n$, $\mathbf{y} \in \mathbb{R}^m$. The Jacobian $J$ is the $m \times n$ matrix of every output's partial derivative w.r.t. every input: $J_{ij} = \dfrac{\partial y_i}{\partial x_j}$. For a linear layer $\mathbf{y} = W\mathbf{x}$, the Jacobian is simply $W$ itself — which is exactly why backprop through a layer with multiple outputs (basically every layer) multiplies the incoming gradient by that layer's Jacobian, a direct generalization of the single-number chain rule below to the vector case.
+
+**The Hessian** — the matrix of *second* partial derivatives of a scalar function: $H_{ij} = \dfrac{\partial^2 f}{\partial x_i \partial x_j}$. Where the gradient tells you the slope, the Hessian tells you the **curvature** — is the loss surface curving up (a bowl, heading toward a minimum) or down (a dome) or a mix (a saddle)? Concretely:
+
+- If the Hessian is **positive definite** at a critical point (all eigenvalues positive — see [Linear Algebra](./linear-algebra.md#quadratic-forms-and-positive-semi-definite-matrices)), that point is a local minimum.
+- If it's **negative definite**, a local maximum.
+- If eigenvalues have mixed signs, it's a **saddle point** — flat in the gradient (∇f = 0) but not actually a minimum, which is why high-dimensional non-convex optimization (deep learning) is dominated by escaping saddle points, not just avoiding local minima.
+
+**Newton's method** uses the Hessian directly: instead of a fixed-size gradient step, it steps to $\theta - H^{-1}\nabla f$ — jumping straight to the minimum of the local quadratic approximation. This converges dramatically faster than gradient descent near a minimum, but computing and inverting an $n \times n$ Hessian for a model with billions of parameters is completely infeasible — which is precisely *why* deep learning uses first-order methods (SGD, Adam) and only approximates second-order information cheaply, if at all.
+
+**Taylor expansion** ties gradient and Hessian together: near a point $\theta_0$, $f(\theta) \approx f(\theta_0) + \nabla f(\theta_0)^T(\theta - \theta_0) + \frac{1}{2}(\theta-\theta_0)^T H (\theta-\theta_0)$ — a linear term (the gradient) plus a quadratic correction (the Hessian). This is *the* justification for why loss surfaces look locally like the elongated bowl in the [optimizer trajectories animation](../deep-learning/optimizers.md) — near any point, a smooth loss function genuinely is approximately a quadratic form, which is why understanding quadratic optimization (above) transfers so directly to understanding real training dynamics.
+
 ## The Chain Rule → Backpropagation
 
 If $y = f(g(x))$, then $\dfrac{dy}{dx} = \dfrac{dy}{dg} \cdot \dfrac{dg}{dx}$.
@@ -51,9 +67,18 @@ Plain SGD treats every parameter the same. Modern optimizers adapt the step size
 - **Decay schedules** (cosine, linear, step): reduce the learning rate over training so the model can settle into a sharper minimum near the end, rather than bouncing around it.
 - **Gradient clipping**: cap the gradient's magnitude before applying it, to prevent a single bad batch from blowing up the weights — essential when training large Transformers.
 
-## Lagrange Multipliers
+## Constrained Optimization: Lagrange Multipliers & KKT Conditions
 
-Used when optimizing a function subject to a constraint, e.g. "minimize $f(x)$ such that $g(x) = 0$." You form $\mathcal{L}(x, \lambda) = f(x) - \lambda g(x)$ and optimize jointly over $x$ and $\lambda$. This is the mathematical machinery behind Support Vector Machines (maximizing the margin subject to correct classification) and shows up again in constrained RL formulations.
+**Equality constraints**: used when optimizing a function subject to a constraint, e.g. "minimize $f(x)$ such that $g(x) = 0$." You form the **Lagrangian** $\mathcal{L}(x, \lambda) = f(x) - \lambda g(x)$ and optimize jointly over $x$ and $\lambda$ — at the solution, $\nabla f$ and $\nabla g$ point in the same (or opposite) direction, which is exactly what setting $\nabla_x \mathcal{L} = 0$ enforces.
+
+**Inequality constraints — the KKT conditions**: real constrained problems are usually inequalities, not equalities — "minimize $f(x)$ such that $g(x) \leq 0$." This is the actual formulation Support Vector Machines need (maximize the margin subject to every point being correctly classified, $y_i(w^Tx_i + b) \geq 1$ — an inequality, not an equality), so plain Lagrange multipliers aren't quite enough on their own. The **Karush-Kuhn-Tucker (KKT) conditions** generalize the Lagrangian approach to inequalities, requiring at the optimum:
+
+1. **Stationarity**: $\nabla_x \mathcal{L} = 0$, same as the equality case.
+2. **Primal feasibility**: the original constraint $g(x) \leq 0$ actually holds.
+3. **Dual feasibility**: the multiplier $\lambda \geq 0$ (unlike equality constraints, the sign matters here — it enforces that you're pushing against the constraint boundary from the right side).
+4. **Complementary slackness**: $\lambda \cdot g(x) = 0$ — either the constraint is exactly tight ($g(x) = 0$, an "active" constraint) or its multiplier is zero (the constraint wasn't binding at all).
+
+That last condition is *why* SVM has **support vectors** in the first place: complementary slackness means only the points sitting exactly on the margin boundary get a nonzero multiplier — every other point's constraint is slack (not binding), so it contributes nothing to the final decision boundary. The KKT framework is the same machinery behind constrained RL formulations (e.g. constraining a policy update's KL divergence from the previous policy, as in [PPO](../deep-learning/advanced-architectures.md#reinforcement-learning-networks)).
 
 ## Where this shows up in the rest of the curriculum
 
@@ -61,8 +86,10 @@ Used when optimizing a function subject to a constraint, e.g. "minimize $f(x)$ s
 |---|---|
 | Gradient descent | Training every neural network and LLM |
 | Chain rule / backprop | Every framework's `.backward()` call |
+| Jacobians | Backprop through any multi-output layer |
+| Hessians / Newton's method | Second-order optimization, saddle-point analysis |
 | Adam optimizer | Default optimizer for Transformers, LLMs |
 | Convexity | Why classical ML (SVM, logistic regression) has guarantees deep learning doesn't |
-| Lagrange multipliers | SVM margin maximization, constrained RL |
+| Lagrange multipliers / KKT | SVM margin maximization (support vectors), constrained RL |
 
 Next: [Probability & Statistics](./probability-statistics.md) — the math of uncertainty, which underlies loss functions, evaluation, and how LLMs generate text token by token.

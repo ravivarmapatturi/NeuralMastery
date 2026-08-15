@@ -12,7 +12,8 @@ The math you actually need before the rest of this site makes sense. Work top to
 - [ ] Rank, linear independence, span, basis
 - [ ] Eigenvalues & eigenvectors
 - [ ] Singular Value Decomposition (SVD)
-- [ ] Positive semi-definite matrices
+- [ ] Positive semi-definite matrices, quadratic forms
+- [ ] Matrix calculus: gradients w.r.t. vectors and matrices
 - [ ] Why it matters: embeddings, PCA, attention (Q·Kᵀ), weight matrices
 
 ## 2. [Calculus & Optimization](./calculus-optimization.md)
@@ -31,8 +32,10 @@ The math you actually need before the rest of this site makes sense. Work top to
 - [ ] Bayes' theorem and conditional probability
 - [ ] Maximum Likelihood Estimation (MLE) vs Maximum A Posteriori (MAP)
 - [ ] Central Limit Theorem
-- [ ] Hypothesis testing, p-values, confidence intervals
+- [ ] Hypothesis testing, p-values, confidence intervals, statistical power
 - [ ] A/B testing and statistical significance
+- [ ] Bootstrap and permutation tests (distribution-free uncertainty estimation)
+- [ ] Causal inference basics: confounders, RCTs, sampling bias
 - [ ] Entropy, cross-entropy, KL divergence — the loss-function math
 
 ## 4. [Algorithms & Data Structures](./algorithms-data-structures.md) (for ML engineering)

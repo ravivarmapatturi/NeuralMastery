@@ -41,10 +41,26 @@ The average of a large number of independent random variables tends toward a Gau
 
 ## Hypothesis Testing & Significance
 
-- **Null hypothesis**: the "nothing changed" baseline assumption.
-- **p-value**: the probability of seeing a result at least this extreme *if the null hypothesis were true*. A small p-value (conventionally < 0.05) suggests the result probably isn't just noise.
-- **Confidence intervals**: a range that's likely to contain the true value, given the observed data.
+- **Null hypothesis** ($H_0$): the "nothing changed" baseline assumption — e.g. "the new model's conversion rate equals the old one's."
+- **p-value**: the probability of seeing a result at least this extreme *if the null hypothesis were true*. A small p-value (conventionally < 0.05) suggests the result probably isn't just noise. **A p-value is not "the probability the null hypothesis is true"** — that's the single most common misinterpretation, and worth internalizing precisely: it's a statement about how surprising the *data* would be under $H_0$, not a statement of probability about the hypothesis itself.
+- **Confidence intervals**: a range constructed from the observed data such that, if you repeated the experiment many times, that construction procedure would contain the true value some target fraction (e.g. 95%) of the time. A 95% CI that excludes zero for a lift metric is the interval-based equivalent of a p-value below 0.05 — the two are directly connected, and reporting the interval (not just the p-value) also tells you the *size* of the effect, not just whether it's "significant."
+- **Statistical power**: the probability of correctly detecting a real effect when one truly exists (i.e. $1 - P(\text{false negative})$). Power depends on sample size, effect size, and significance threshold — an underpowered A/B test can run for weeks and still correctly fail to find a real 2% lift simply because too few users saw it. Compute the required sample size *before* running an experiment, not after it "didn't reach significance."
 - **A/B testing**: the practical application — before shipping a new model to 100% of users, you run it against a control group and use hypothesis testing to confirm the improvement is real, not random variation. This is one of the most common day-to-day uses of statistics in an ML engineer's job.
+
+## Bootstrap and Permutation Tests
+
+Two resampling techniques that estimate uncertainty *without* assuming a particular distribution (like the Gaussian assumption behind many classical formulas) — useful exactly when a metric's theoretical sampling distribution is unknown or intractable (e.g. the median, or a custom business metric).
+
+- **Bootstrap**: resample the observed data *with replacement* many times (each resample the same size as the original), compute the metric of interest on each resample, and use the spread of those computed values as an empirical confidence interval. If you've ever seen a metric reported with error bars from "1000 bootstrap resamples," this is exactly what produced them — and it's the same resampling-with-replacement idea bagging methods like Random Forest use internally, applied here to *uncertainty estimation* instead of ensembling.
+- **Permutation test**: to test whether two groups genuinely differ, randomly shuffle ("permute") the group labels many times, recomputing the difference in means (or whatever statistic) each time. This builds an empirical null distribution directly from the data itself, with no distributional assumptions — then the real observed difference is compared against that empirical null. The more of the permuted differences that meet or exceed the real one, the higher the p-value.
+
+## Causal Inference & Sampling Bias
+
+**Correlation is not causation** is the single most important caveat in applied statistics, and the entire field of causal inference exists to formalize when you *can* legitimately conclude causation:
+
+- **Confounders**: a variable that influences both the presumed cause and the presumed effect, creating a spurious correlation between them (e.g. ice cream sales and drowning deaths both rise with summer heat — heat is the confounder, ice cream doesn't cause drowning).
+- **Randomized controlled trials (RCTs)**: randomly assigning subjects to treatment/control is what breaks confounding — with random assignment, any systematic pre-existing difference between groups is (in expectation) eliminated, which is exactly why A/B testing (a form of RCT) is trusted to establish causation, while purely observational comparisons ("users who used feature X had higher retention") are not, without further assumptions.
+- **Sampling bias**: when the data collected systematically over- or under-represents part of the population you actually care about — e.g. training a model on logged data from users who *opted in* to a feature necessarily excludes everyone who didn't, biasing conclusions about the feature's general effect. This is a silent, common failure mode distinct from data leakage (see [ML Workflow Fundamentals](../machine-learning/ml-workflow-fundamentals.md)): leakage contaminates training with future information, sampling bias means the training distribution was never representative of the true population to begin with.
 
 ## Entropy, Cross-Entropy, and KL Divergence
 
@@ -61,5 +77,7 @@ The average of a large number of independent random variables tends toward a Gau
 | MLE / MAP | Why cross-entropy loss = MLE; why L2 regularization = MAP |
 | KL divergence | RLHF/DPO constraints, VAEs |
 | Hypothesis testing | A/B testing new models in production |
+| Bootstrap / permutation tests | Distribution-free confidence intervals and significance tests |
+| Causal inference | Distinguishing "correlated with" from "caused by" in production data |
 
 Next: [Algorithms & Data Structures](./algorithms-data-structures.md) — the CS fundamentals that show up in every ML engineering interview alongside the math.

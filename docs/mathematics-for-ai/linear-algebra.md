@@ -46,9 +46,26 @@ Any matrix $A$ (even non-square) can be decomposed as $A = U \Sigma V^T$, where 
 
 **Why it matters**: SVD is the general-purpose tool behind dimensionality reduction, recommender systems (matrix factorization: decomposing a user-item ratings matrix), noise reduction, and it underlies PCA. If you understand SVD, you understand why "compressing" a matrix by keeping only the top-$k$ singular values loses the *least* information possible for that compression level — this is exactly the intuition behind low-rank approximations used in efficient LLM fine-tuning and model compression.
 
-## Positive Semi-Definite Matrices
+## Quadratic Forms and Positive (Semi-)Definite Matrices
 
-A symmetric matrix $A$ is positive semi-definite (PSD) if $\mathbf{x}^T A \mathbf{x} \geq 0$ for every vector $\mathbf{x}$. Covariance matrices are always PSD. This property guarantees that optimization problems built on them (like many kernel methods, and second-order optimization) behave predictably — no "negative curvature" surprises.
+A **quadratic form** is the scalar $\mathbf{x}^T A \mathbf{x}$ — a matrix $A$ "sandwiched" between a vector and its transpose. It shows up everywhere curvature matters: it's the general shape of a loss surface near a minimum (see [Jacobians & Hessians](./calculus-optimization.md#jacobians--hessians-derivatives-of-vector-valued-and-multivariate-functions)), the Mahalanobis distance in statistics, and the energy term in many kernel methods.
+
+A symmetric matrix $A$ is:
+
+- **Positive semi-definite (PSD)** if $\mathbf{x}^T A \mathbf{x} \geq 0$ for every vector $\mathbf{x}$.
+- **Positive definite (PD)** if $\mathbf{x}^T A \mathbf{x} > 0$ for every *nonzero* $\mathbf{x}$ — the strict version, ruling out flat directions.
+
+Covariance matrices are always PSD (the variance of any linear combination of variables can't be negative). This property guarantees that optimization problems built on them (many kernel methods, second-order optimization) behave predictably — no "negative curvature" surprises. A quick test: **a symmetric matrix is PD if and only if all its eigenvalues are strictly positive** — this is exactly the condition [Newton's method](./calculus-optimization.md#jacobians--hessians-derivatives-of-vector-valued-and-multivariate-functions) checks on the Hessian to confirm it's actually at a minimum, not a saddle point.
+
+## Matrix Calculus: Gradients w.r.t. Vectors and Matrices
+
+Backpropagation is, mechanically, repeated application of a handful of matrix-calculus identities. The ones that come up constantly:
+
+- $\nabla_{\mathbf{x}} (A\mathbf{x}) = A^T$ — the gradient of a linear map w.r.t. its input is just the matrix's transpose. This is *why* backprop through a linear layer multiplies by the transposed weight matrix (see the Transpose row above): the forward pass computes $A\mathbf{x}$, the backward pass needs $\nabla_{\mathbf{x}}$, which the identity above hands you directly.
+- $\nabla_{\mathbf{x}} (\mathbf{x}^T A \mathbf{x}) = (A + A^T)\mathbf{x}$, which simplifies to $2A\mathbf{x}$ when $A$ is symmetric — the gradient of the quadratic form above. This single identity *is* the derivation of the OLS normal equations in [Linear Regression](../machine-learning/linear-regression.md): differentiate the squared-error loss (a quadratic form in the weights), set it to zero, solve.
+- $\nabla_W (\mathbf{w}^T \mathbf{x}) = \mathbf{x}$ and, for a full weight matrix, $\nabla_W (W\mathbf{x} + \mathbf{b})$ w.r.t. each entry of $W$ is an outer product $\mathbf{\delta}\, \mathbf{x}^T$ — the exact computation every deep learning framework's autograd performs at every `Linear`/`Dense` layer during the backward pass.
+
+You rarely derive these by hand in practice (autograd does it), but recognizing them is what makes a backprop derivation on a whiteboard *readable* instead of a wall of chain-rule symbols.
 
 ## Where this shows up in the rest of the curriculum
 
@@ -59,5 +76,7 @@ A symmetric matrix $A$ is positive semi-definite (PSD) if $\mathbf{x}^T A \mathb
 | Eigenvectors | PCA, spectral clustering |
 | SVD / low rank | LoRA fine-tuning, recommender systems, compression |
 | Transpose | Backpropagation, attention (`Qᵀ`, `Kᵀ`) |
+| Quadratic forms / PD matrices | Loss curvature, Newton's method, kernel methods |
+| Matrix calculus identities | Deriving backprop and closed-form solutions (OLS) by hand |
 
 Next: [Calculus & Optimization](./calculus-optimization.md) — how models actually *learn* by following gradients through this linear-algebra machinery.
