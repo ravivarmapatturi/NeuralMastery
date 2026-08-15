@@ -9,6 +9,7 @@ import DocVersionBadge from '@theme/DocVersionBadge';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Heading from '@theme/Heading';
 import SectionProgress from '@site/src/components/SectionProgress';
+import SectionMetaBar from '@site/src/components/SectionMetaBar';
 
 import styles from './styles.module.css';
 
@@ -41,6 +42,7 @@ function DocCategoryGeneratedIndexPageContent({ categoryGeneratedIndex }) {
           {categoryGeneratedIndex.title}
         </Heading>
         {categoryGeneratedIndex.description && <p>{categoryGeneratedIndex.description}</p>}
+        <SectionMetaBar href={category.href} />
         <SectionProgress />
       </header>
       <article className="margin-top--lg">
