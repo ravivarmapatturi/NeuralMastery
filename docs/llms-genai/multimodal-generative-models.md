@@ -16,7 +16,7 @@ Extend VLMs with an additional output head that predicts *actions* (e.g. robot m
 
 ## Diffusion Models
 
-Instead of generating autoregressively (one token/pixel at a time), diffusion models learn to reverse a gradual noising process: starting from pure noise, the model iteratively denoises step by step until a coherent image (or audio, or video) emerges. Trained by teaching the model to predict the noise that was added at each step of a forward "noising" process — a form of the same gradient-descent-on-a-loss-function idea from [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md), just with a different objective. This is the dominant approach behind modern image generation models.
+Instead of generating autoregressively (one token/pixel at a time), diffusion models learn to reverse a gradual noising process: starting from pure noise, the model iteratively denoises step by step until a coherent image (or audio, or video) emerges. Trained by teaching the model to predict the noise that was added at each step of a forward "noising" process — a form of the same gradient-descent-on-a-loss-function idea from [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md), just with a different objective. This is the dominant approach behind modern image generation models. See [Generative Models](../deep-learning/generative-models.md) for the named variants (DDPM, DDIM, Latent/Stable Diffusion, ControlNet) and how diffusion compares to its main alternative, GANs.
 
 ## Diffusion vs. Autoregressive Generation
 

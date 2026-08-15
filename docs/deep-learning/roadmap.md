@@ -46,13 +46,35 @@ Neural networks from first principles up to the architectures that dominate mode
 - [ ] The full Transformer block: attention + feed-forward + norm + residual
 - [ ] Vision Transformers (ViT) — attention beyond text
 
-## 6. [Autoencoders & Variational Autoencoders](./autoencoders.md)
+## 6. [Vision Architectures: Transformers, Detection & Segmentation](./vision-architectures.md)
+- [ ] ViT variants: DeiT (data-efficient), Swin (windowed attention)
+- [ ] Object detection: R-CNN family, YOLO, SSD, DETR
+- [ ] Segmentation: U-Net, Mask R-CNN, semantic vs instance segmentation
+
+## 7. [Autoencoders & Variational Autoencoders](./autoencoders.md)
 - [ ] The encoder/bottleneck/decoder architecture and why the bottleneck forces learning
 - [ ] Sparse and Denoising Autoencoder variants
 - [ ] VAE: probabilistic latent space, the KL regularization term, the reparameterization trick
 - [ ] VQ-VAE's discrete latent codebook
 
-## 7. Common Problems & SOTA Solutions
+## 8. [Generative Models: GANs & Diffusion](./generative-models.md)
+- [ ] GANs: Generator/Discriminator minimax training, mode collapse, training instability
+- [ ] Named GAN variants: DCGAN, Conditional GAN, CycleGAN, Pix2Pix, WGAN, StyleGAN, BigGAN
+- [ ] Diffusion in depth: DDPM, DDIM, score-based/SDE, Latent/Stable Diffusion, classifier-free guidance, ControlNet
+- [ ] Why diffusion overtook GANs for image generation
+
+## 9. [GNNs, RL Networks, Metric Learning, SSL & Multimodal Nets](./advanced-architectures.md)
+- [ ] Graph Neural Networks: GCN, GraphSAGE, GAT, message passing
+- [ ] Metric learning: Siamese networks, triplet/contrastive loss
+- [ ] RL networks: DQN, policy gradients, actor-critic, PPO
+- [ ] Self-supervised learning: contrastive (SimCLR/MoCo) and masked prediction (BERT/MAE)
+- [ ] Multimodal: CLIP-style dual encoders, fusion-based VLMs
+- [ ] Time series nets: TCN, N-BEATS, TFT
+
+## 10. [NN Layers Reference](./nn-layers-reference.md)
+- [ ] The full catalog: dense, convolutional, recurrent, attention, normalization, and graph layers in one lookup page
+
+## 11. Common Problems & SOTA Solutions
 - [ ] **Vanishing gradients in deep nets** → residual connections, normalization
 - [ ] **Overfitting on limited image data** → data augmentation, transfer learning, pretrained backbones
 - [ ] **Quadratic cost of self-attention on long sequences** → Flash Attention, sparse/linear attention

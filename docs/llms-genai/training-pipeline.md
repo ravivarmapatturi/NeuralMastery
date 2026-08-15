@@ -39,6 +39,8 @@ Full fine-tuning updates every parameter — expensive and requires storing a fu
 - **QLoRA**: combines LoRA with quantizing the frozen base model to 4-bit precision, enabling fine-tuning of very large models on a single consumer GPU.
 - **Adapters**: small trainable modules inserted between frozen layers.
 
+PEFT frameworks like **Unsloth** make this training step itself faster and more memory-efficient — but training and serving are different jobs. Once fine-tuning produces adapter weights, they still need to be handed off to a real inference engine (vLLM, llama.cpp, SGLang) to actually serve traffic — see [LLM Hosting & Serving Patterns](../mlops/llm-hosting-and-serving-patterns.md#the-fine-tuning--inference-pipeline) for that handoff, and why Unsloth itself isn't what you deploy.
+
 ## Knowledge Distillation
 
 Train a smaller "student" model to mimic a larger "teacher" model's output distribution (not just the hard labels, but the full soft probability distribution, which carries more information about the teacher's "reasoning"). Produces smaller, faster models that retain much of the teacher's capability — used heavily to create deployable small models from expensive frontier models.

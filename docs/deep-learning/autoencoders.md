@@ -43,4 +43,4 @@ Replaces VAE's continuous Gaussian latent space with a **discrete** codebook of 
 
 VAEs can generate new samples by decoding random latent vectors, but the outputs are typically blurrier and less sharp than what [diffusion models](../llms-genai/multimodal-generative-models.md#diffusion-models) produce — diffusion's iterative denoising process has become the dominant approach for high-fidelity image generation, while VAE-style architectures remain important as building blocks (VQ-VAE inside Latent Diffusion pipelines) rather than as the final generator themselves.
 
-Next: [Anomaly Detection](../machine-learning/anomaly-detection.md) — where autoencoder reconstruction error becomes a practical outlier-detection tool.
+Next: [Generative Models](./generative-models.md) — GANs and diffusion models, the other two major approaches to learning to generate data; or [Anomaly Detection](../machine-learning/anomaly-detection.md), where autoencoder reconstruction error becomes a practical outlier-detection tool.

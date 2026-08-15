@@ -16,19 +16,25 @@ A **convolution** slides a small learnable filter (e.g. 3×3) across the image, 
 
 ## The Architecture Lineage
 
-- **LeNet** (1998) — the original proof-of-concept CNN, for digit recognition.
-- **AlexNet** (2012) — the breakthrough that kicked off the deep learning boom, by training a deeper CNN on GPUs at ImageNet scale.
-- **ResNet** (2015) — introduced residual connections (see [Training Deep Networks](./training-deep-networks.md)), enabling networks over 100 layers deep, which was previously untrainable.
-- **EfficientNet** — systematically scales depth, width, and input resolution together for the best accuracy-per-compute tradeoff.
+- **LeNet** (1998) — the original proof-of-concept CNN, for digit recognition; two conv/pool stages feeding two fully-connected layers, tiny by modern standards but the template everything below descends from.
+- **AlexNet** (2012) — the breakthrough that kicked off the deep learning boom: a deeper CNN trained on GPUs at ImageNet scale, using ReLU (faster convergence than sigmoid/tanh), dropout, and data augmentation to control overfitting.
+- **ZFNet** (2013) — mostly a tuned AlexNet with smaller first-layer filters and a stride reduction, notable for pairing the architecture with deconvolution-based visualizations that made it possible to actually *see* what early CNN filters were learning.
+- **VGGNet** (2014) — replaced AlexNet's large filters with a deep stack of uniform 3×3 convolutions, showing that depth built from small, simple filters (two 3×3 layers have the same receptive field as one 5×5 layer, with fewer parameters and an extra nonlinearity) outperforms shallower networks with larger filters.
+- **GoogLeNet / Inception** (2014) — introduced the **Inception module**: run several filter sizes (1×1, 3×3, 5×5) and a pooling branch in parallel at each stage and concatenate their outputs, letting the network pick the useful scale rather than committing to one; 1×1 convolutions are used as cheap dimensionality reduction before the expensive larger filters.
+- **ResNet** (2015) — introduced residual/skip connections (see [Training Deep Networks](./training-deep-networks.md)): each block learns a residual `F(x)` added back to its input, `y = F(x) + x`, so a block can default to the identity function if depth isn't helping. This solved the degradation problem (very deep plain networks got *worse*, not just harder to train) and enabled networks over 100 layers deep for the first time.
+- **DenseNet** (2016) — pushes the skip-connection idea further: every layer receives the concatenated feature maps of *all* preceding layers, not just the previous one — maximizes feature reuse and gradient flow, at the cost of higher memory usage from all those concatenations.
+- **MobileNet** (2017) — built for phones/edge devices using **depthwise separable convolutions**: a standard convolution is factored into a depthwise convolution (one filter per input channel, spatial-only) followed by a 1×1 pointwise convolution (mixes channels) — roughly the same representational power at a fraction of the multiply-adds.
+- **EfficientNet** (2019) — systematically scales depth, width, and input resolution *together* via **compound scaling** (a single coefficient balances all three, rather than arbitrarily increasing one) for the best accuracy-per-FLOP tradeoff of the classic CNN lineage.
+- **ConvNeXt** (2022) — takes a plain ResNet and modernizes it with design choices borrowed from Vision Transformers (larger kernel sizes, fewer activation functions, LayerNorm instead of BatchNorm, an inverted bottleneck) — shows a "pure" CNN can match ViT-era accuracy without attention at all, once trained with modern recipes.
 
 ## Applications
 
 - **Image classification**: assign a single label to an image.
-- **Object detection**: locate and classify multiple objects within an image (bounding boxes).
-- **Segmentation**: classify *every pixel* — used in medical imaging, autonomous driving.
+- **Object detection**: locate and classify multiple objects within an image (bounding boxes) — see [Vision Architectures](./vision-architectures.md) for the R-CNN/YOLO/SSD lineage built for this specifically.
+- **Segmentation**: classify *every pixel* — used in medical imaging, autonomous driving; see [Vision Architectures](./vision-architectures.md) for U-Net, Mask R-CNN, and the segmentation-specific model families.
 
 ## Why Vision Moved Toward Transformers Too
 
-CNNs' locality assumption is also a limitation — capturing long-range relationships between distant parts of an image requires many stacked layers. Vision Transformers (ViT, covered in [Attention & Transformers](./attention-transformers.md)) instead split an image into patches and apply self-attention across all of them directly, letting any patch attend to any other patch from the very first layer. In practice, ViTs need more data to train well than CNNs (they lack CNNs' built-in locality bias), but they now match or beat CNNs at scale.
+CNNs' locality assumption is also a limitation — capturing long-range relationships between distant parts of an image requires many stacked layers. Vision Transformers (covered in depth in [Vision Architectures](./vision-architectures.md)) instead split an image into patches and apply self-attention across all of them directly, letting any patch attend to any other patch from the very first layer. In practice, ViTs need more data to train well than CNNs (they lack CNNs' built-in locality bias), but they now match or beat CNNs at scale.
 
 Next: [Sequence Models](./sequence-models.md) — the architectures built for data where order matters: text, time series, audio.
