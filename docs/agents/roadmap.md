@@ -29,6 +29,7 @@ How LLMs go from answering questions to taking actions, using tools, and coordin
 - [ ] **[MCP (Model Context Protocol)](./mcp/overview.md)** — standardizing how agents connect to tools and data sources
   - [ ] MCP servers vs clients
   - [ ] Resources, tools, and prompts in MCP
+  - [ ] **[Protocol Deep Dive](./mcp/protocol-deep-dive.md)** — transport (stdio/HTTP+SSE), sessions & lifecycle, tool discovery & JSON Schema, errors, auth/authz, security, enterprise deployment, building a server
 - [ ] **[A2A (Agent-to-Agent)](./a2a/overview.md)** — how independent agents discover and communicate with each other
   - [ ] Agent cards / capability discovery
   - [ ] Task delegation between agents

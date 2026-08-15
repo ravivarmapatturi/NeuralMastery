@@ -29,4 +29,4 @@ An MCP server can expose three kinds of capabilities:
 
 The [tool use fundamentals](../agent-fundamentals.md) covered *how* an agent calls tools in general — MCP is the standardized transport and interface for actually wiring those tools up, so an agent framework doesn't need bespoke integration code for every data source or API it might need to touch. This is why many modern AI coding tools expose their capabilities via MCP servers — it lets any MCP-compatible client use them without custom glue code.
 
-Next: [A2A (Agent-to-Agent)](../a2a/overview.md) — the complementary protocol for agents talking to *other agents*, rather than to tools.
+Next: [MCP Protocol Deep Dive](./protocol-deep-dive.md) — transport, sessions, tool schemas, auth, security, and building a real MCP server; or [A2A (Agent-to-Agent)](../a2a/overview.md) for the complementary protocol for agents talking to *other agents*, rather than to tools.
