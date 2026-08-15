@@ -1,0 +1,37 @@
+---
+sidebar_position: 4
+---
+
+# Other Domain Applications
+
+The same lens as [Healthcare AI](./healthcare-ai.md) — the general toolkit, plus what each domain's specific data and constraints add — applied more briefly across five more domains.
+
+## Finance
+
+- **Fraud detection**: [anomaly detection](../machine-learning/anomaly-detection.md) and classification under severe class imbalance (fraud is rare by definition) — the same imbalanced-class techniques from [ML Workflow Fundamentals](../machine-learning/ml-workflow-fundamentals.md#handling-messy-data), with latency constraints most other classification tasks don't have (a fraud decision often has to happen within the transaction's own processing window, not asynchronously afterward).
+- **Algorithmic trading and risk modeling**: [time series forecasting](../machine-learning/time-series-forecasting.md) and [uncertainty estimation](../machine-learning/model-evaluation-metrics.md#uncertainty-estimation) applied to financial time series — with the added, domain-specific difficulty that financial markets are adversarial and non-stationary in a stronger sense than most forecasting domains: a pattern that's profitable stops being profitable once enough market participants exploit it, unlike a stable physical or seasonal pattern.
+- **Regulatory constraints**: financial ML systems (especially credit and lending decisions) often face explicit regulatory requirements for [interpretability](../interpretability/roadmap.md) and fairness — a "the model just says no" decision frequently isn't legally sufficient; an explainable, auditable reason is often required.
+
+## Semiconductor
+
+- **Chip design and verification**: ML applied to physical chip layout optimization (placement and routing, traditionally solved with classical combinatorial optimization/[algorithms](../mathematics-for-ai/algorithms-data-structures.md), increasingly assisted by learned approaches) and automated defect/anomaly detection in manufacturing (reusing [computer vision](../computer-vision/roadmap.md) classification/segmentation on wafer imaging).
+- **Yield prediction**: forecasting manufacturing yield from process parameters — a structured, tabular-data prediction problem well-suited to [classical ML](../machine-learning/roadmap.md) (gradient boosting in particular) rather than requiring deep learning by default.
+
+## Cybersecurity
+
+- **Intrusion and threat detection**: [anomaly detection](../machine-learning/anomaly-detection.md) applied to network traffic and system logs — flagging behavior that deviates from an established normal baseline, the same core technique as fraud detection above, applied to a different kind of "transaction."
+- **Malware classification**: classifying files/binaries as malicious or benign, often using sequence models over byte-level or instruction-level representations — structurally similar to text classification, with "tokens" being bytes or opcodes instead of words.
+- **The double-edged nature of this domain**: AI security tooling defends systems, while [AI Security](../ai-security/roadmap.md) elsewhere on this site covers how AI systems *themselves* become attack targets — the same underlying ML techniques (anomaly detection, adversarial robustness) show up on both the defensive and the AI-system-protection side of cybersecurity.
+
+## Robotics
+
+- **Perception**: [computer vision](../computer-vision/roadmap.md) tasks (object detection, depth estimation, [optical flow](../computer-vision/vision-tasks-and-models.md#optical-flow)) feeding a robot's understanding of its physical environment in real time.
+- **Control and planning**: [reinforcement learning](../reinforcement-learning/roadmap.md) is a natural fit for robotic control specifically because the RL formulation (an agent taking actions in an environment, receiving reward) maps almost directly onto a robot moving through and manipulating the physical world — with [offline RL](../reinforcement-learning/advanced-rl.md#offline-rl) and [imitation learning](../reinforcement-learning/advanced-rl.md#imitation-learning) mattering more here than in most RL applications, since live trial-and-error exploration on physical hardware is slow, expensive, and can damage the robot.
+- **Sim-to-real transfer**: training a policy in a fast, cheap simulated environment, then transferring it to work on the real physical robot — a distribution-shift problem (the simulation is never a perfect match for physical reality) addressed with domain randomization (deliberately varying simulated physics/appearance during training so the learned policy is robust to the simulation-to-reality gap rather than overfit to one specific simulator's quirks).
+
+## Manufacturing
+
+- **Predictive maintenance**: forecasting equipment failure before it happens from sensor time-series data — directly the [Survival Analysis](../machine-learning/survival-analysis.md) framing (time-until-failure, with censoring for equipment that hasn't failed yet during the observation window) applied to industrial equipment instead of a clinical or customer-churn context.
+- **Quality control**: [computer vision](../computer-vision/roadmap.md) defect detection on a production line — a classification/segmentation task under the same severe class imbalance as fraud/intrusion detection above (defects are, hopefully, rare), with hard real-time latency constraints since inspection has to keep pace with the production line's actual throughput.
+
+Domain AI Applications section complete. Next: [Research Engineering](../research-engineering/roadmap.md) — how to read, reproduce, and extend the papers behind every technique covered across this site.

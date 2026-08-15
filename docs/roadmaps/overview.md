@@ -27,8 +27,22 @@ One path through everything on this site, from zero to job-ready. Each section l
 14. [MLOps](../mlops/roadmap.md) — data/experiment versioning, pipelines, containers, Kubernetes, CI/CD, monitoring, LLMOps & RAGOps
 15. [Frameworks](../frameworks/roadmap.md) — PyTorch, LangChain, MCP SDKs, serving & LLMOps tooling
 
+## Specialization Track — Safety, Theory & Domains
+16. [AI Security](../ai-security/roadmap.md) — the OWASP LLM Top 10, prompt injection, model extraction, data poisoning, supply-chain attacks
+17. [AI Safety & Alignment](../ai-safety/roadmap.md) — RLHF/Constitutional AI, reward hacking, specification gaming, scalable oversight
+18. [Interpretability](../interpretability/roadmap.md) — SHAP/LIME, saliency/attention analysis, probing, sparse autoencoders, mechanistic interpretability
+19. [Reinforcement Learning](../reinforcement-learning/roadmap.md) — MDPs, Bellman equations, Q-learning, policy gradients, PPO/SAC/TD3
+20. [Graph ML](../graph-ml/roadmap.md) — GNNs, graph embeddings, knowledge graphs, Graph RAG
+21. [AI for Science](../ai-for-science/roadmap.md) — drug discovery, protein structure prediction, genomics, materials science
+22. [Domain AI Applications](../domain-applications/roadmap.md) — healthcare AI in depth, plus finance, semiconductor, cybersecurity, robotics, manufacturing
+
+## Build Track
+23. [Research Engineering](../research-engineering/roadmap.md) — how to read AI papers, and the paper timeline connecting this site's architectures historically
+24. [Build From Scratch](../build-from-scratch/roadmap.md) — implement autodiff, attention, a GPT, a vector database, RAG, an agent, yourself
+25. [Projects](../projects/roadmap.md) — a six-level project ladder from a tiny afternoon build to a frontier capstone
+
 ## Job-Ready Track
-16. [Interview Prep](../interview-prep/roadmap.md) — DSA, ML coding, knowledge Q&A, system design, behavioral
+26. [Interview Prep](../interview-prep/roadmap.md) — DSA, ML coding, knowledge Q&A, system design, behavioral
 
 ## How to use this roadmap
 - Each section's roadmap is a checklist — work through it top to bottom, and don't skip the "Common Problems & SOTA Solutions" parts. Interviews (and real jobs) test whether you know *why* a technique exists, not just its name.

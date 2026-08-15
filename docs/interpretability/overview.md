@@ -1,0 +1,22 @@
+---
+sidebar_position: 1
+---
+
+# Interpretability — Overview
+
+[Model Evaluation & Metrics](../machine-learning/model-evaluation-metrics.md) mentioned explainability in one bullet: SHAP, LIME, and tree feature importance. This section is the real depth behind that bullet, extended from classical ML all the way to mechanistic interpretability of LLMs — the tools for answering "why did the model predict this" at increasing levels of rigor, from a post-hoc approximation to actually reading the computation a model performed.
+
+## What's in this section
+
+- **[Classical Interpretability: Feature Importance, SHAP & LIME](./classical-interpretability.md)** — the tools that work on any model treated as a black box, plus tree-specific feature importance.
+- **[Deep Learning & LLM Interpretability](./deep-learning-and-llm-interpretability.md)** — saliency maps, activation visualization, attention analysis, probing, sparse autoencoders, circuits, and mechanistic interpretability.
+
+## Why Interpretability Matters Beyond Curiosity
+
+This isn't just "nice to understand" — interpretability is load-bearing for several other things this site covers:
+
+- **[AI Safety](../ai-safety/roadmap.md)**: scalable oversight and detecting deception both depend on inspecting a model's actual internal computation, not just trusting its stated output (see [Scalable Oversight](../ai-safety/scalable-oversight-and-frontier-safety.md#interpretabilitys-role-in-safety)).
+- **Debugging**: when a model is wrong in production, "why" is usually the fastest path to the actual fix — a feature that's leaking information, a spurious correlation the model latched onto, a distribution shift a black-box metric alone won't localize.
+- **Regulatory and trust requirements**: some domains (healthcare, finance, hiring) require an explanation for an automated decision as a matter of policy or law, not just engineering preference — see [Legal/Licensing/Governance](../mlops/roadmap.md) for where this becomes a compliance requirement, not just a technical nicety.
+
+See the [roadmap](./roadmap.md) for the full ordered path.

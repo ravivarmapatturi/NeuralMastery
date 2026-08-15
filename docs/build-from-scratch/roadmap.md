@@ -1,0 +1,23 @@
+---
+sidebar_position: 2
+---
+
+# Build From Scratch — Roadmap
+
+## 1. [The Build List](./the-build-list.md)
+- [ ] NumPy-level array operations (understand what a tensor library actually does)
+- [ ] An autodiff engine (reverse-mode automatic differentiation, `micrograd`-style)
+- [ ] A neural network (forward pass, backprop, training loop, from the autodiff engine up)
+- [ ] A CNN (convolution and pooling as explicit operations, not a library call)
+- [ ] A BPE tokenizer
+- [ ] Self-attention (the QKV mechanism, from the matrix operations up)
+- [ ] A Transformer block (attention + MLP + residuals + normalization, composed)
+- [ ] A small GPT (`nanoGPT`-style, trained on a small corpus)
+- [ ] LoRA (low-rank adapter injection into a pretrained model)
+- [ ] A vector database (embedding storage + nearest-neighbor search, from scratch)
+- [ ] A RAG pipeline (chunk, embed, retrieve, generate — no framework)
+- [ ] An agent (a ReAct loop with real tool calls, no agent framework)
+- [ ] A minimal inference server (batching, a KV cache, a simple API)
+- [ ] A minimal distributed trainer (data parallelism across multiple processes/GPUs)
+
+Next: [Projects](../projects/roadmap.md) — larger, more complete systems that combine several of the above into something closer to a real, deployable project.
