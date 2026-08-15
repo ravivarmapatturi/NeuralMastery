@@ -18,10 +18,11 @@ One path through everything on this site, from zero to job-ready. Each section l
 ## Advanced Track — Systems & Agents
 6. [Agents](../agents/roadmap.md) — agent architectures, MCP, A2A, multi-agent systems
 7. [ML System Design](../ml-system-design/roadmap.md) — the 9-step framework, recommendation/search/GenAI system case studies
-8. [Frameworks](../frameworks/roadmap.md) — PyTorch, LangChain, MCP SDKs, serving & LLMOps tooling
+8. [MLOps](../mlops/roadmap.md) — data/experiment versioning, pipelines, containers, Kubernetes, CI/CD, monitoring, LLMOps & RAGOps
+9. [Frameworks](../frameworks/roadmap.md) — PyTorch, LangChain, MCP SDKs, serving & LLMOps tooling
 
 ## Job-Ready Track
-9. [Interview Prep](../interview-prep/roadmap.md) — DSA, ML coding, knowledge Q&A, system design, behavioral
+10. [Interview Prep](../interview-prep/roadmap.md) — DSA, ML coding, knowledge Q&A, system design, behavioral
 
 ## How to use this roadmap
 - Each section's roadmap is a checklist — work through it top to bottom, and don't skip the "Common Problems & SOTA Solutions" parts. Interviews (and real jobs) test whether you know *why* a technique exists, not just its name.

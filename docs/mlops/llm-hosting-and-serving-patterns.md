@@ -1,0 +1,63 @@
+---
+sidebar_position: 20
+---
+
+# LLM Hosting, Serving Patterns & LLMOps Monitoring
+
+An inference engine (see [LLM Inference Engines](./llm-inference-engines.md)) has to run *somewhere*, has to receive a model that came from *somewhere*, and once live, has to be watched. This page covers all three: hosting infrastructure, the fine-tuning-to-serving handoff, and the LLM-specific monitoring layer on top of everything in [Monitoring & Drift Detection](./monitoring-and-drift.md).
+
+## Cloud GPU Hosting
+
+The generic pattern, regardless of provider: **Model → Container → GPU VM → Inference Engine → Load Balancer → API**. A model artifact is packaged into a container (see [Containers](./containers.md)) running one of the Tier 1/2 engines, deployed onto a GPU-backed VM or Kubernetes node, and put behind a load balancer that fronts it as a single API.
+
+- **General cloud providers** (AWS/GCP/Azure): full control, deepest integration with the rest of a cloud-native stack (see [Cloud Computing for ML](./cloud-computing.md)), but the most operational overhead — you own GPU provisioning, scaling, and the engine deployment yourself.
+- **GPU-specialized providers** (RunPod, Modal, Together AI, Fireworks, Groq): purpose-built for exactly this workload — faster to get a model served, often cheaper per-GPU-hour than general clouds, with serverless-style GPU provisioning that avoids paying for idle capacity. Groq in particular runs custom LPU hardware rather than GPUs, trading flexibility for extremely low latency on supported models.
+- **Hugging Face Inference Endpoints**: a managed layer specifically for deploying models from the HF Hub, trading some flexibility for the least setup of any option here.
+
+The general-vs-specialized tradeoff mirrors [Cloud Computing for ML](./cloud-computing.md)'s SageMaker discussion: specialized platforms get a model served faster with less infrastructure code, general clouds give more control over cost and architecture once scale justifies owning it.
+
+## Local Hosting
+
+Running an LLM entirely on local hardware — a laptop, a workstation, an on-prem server — for development, privacy-sensitive workloads, or cost reasons at low volume:
+
+- **Ollama → llama.cpp → GGUF**: Ollama is the friendly wrapper (simple CLI/API, automatic model pulling) around llama.cpp as the underlying engine, running GGUF-format models — the most common on-ramp to running an LLM locally with zero infrastructure setup.
+- **LM Studio**: a desktop GUI application, also built on llama.cpp under the hood, for browsing, downloading, and chatting with local GGUF models without touching a command line.
+- **llama.cpp server**: llama.cpp's own built-in HTTP server (`llama-server`), for when Ollama's abstraction is unwanted and direct control over the engine's serving behavior (including grammar-constrained generation — see [LLM Inference Engines](./llm-inference-engines.md)) is needed.
+- **Self-hosted vLLM**: the step up from llama.cpp-based local tools once real throughput matters — running vLLM directly on local or on-prem GPU hardware, the same engine used in high-scale cloud deployments, just self-managed.
+
+## The Fine-Tuning → Inference Pipeline
+
+Training/fine-tuning and inference are different jobs, done by different tools, and conflating them is a common mistake. The correct pipeline:
+
+```
+Base model → Fine-tuning framework (e.g. Unsloth, LoRA/QLoRA) → Adapter/merged weights → Inference engine (vLLM / llama.cpp / SGLang / TensorRT-LLM) → Served endpoint
+```
+
+**Unsloth** is a fine-tuning/training framework — it makes LoRA/QLoRA adaptation of open-weight models dramatically faster and more memory-efficient, and that is its entire job. It is not what receives production traffic. Once fine-tuning produces adapter weights (or a merged model), those weights are handed off to a genuine inference engine — vLLM, llama.cpp (after conversion to GGUF), SGLang, or TensorRT-LLM — for actual serving. Treating Unsloth itself as a serving solution is the single most common confusion in this space; keeping the fine-tuning-framework/inference-engine distinction from [LLM Inference Engines](./llm-inference-engines.md) in mind avoids it.
+
+## Multi-LoRA Serving
+
+Rather than fully merging a LoRA adapter into a base model (one model per fine-tune, expensive to store and swap), production systems increasingly serve **one base model with many swappable LoRA adapters** loaded alongside it — a request specifies which adapter to apply, and the engine applies it on the fly. vLLM supports this natively, making it practical to serve dozens of task- or customer-specific fine-tunes from a single deployed base model instead of duplicating the full model per fine-tune.
+
+## Multimodal / VLM Inference
+
+Vision-language models (LLaVA, Qwen-VL, and similar) follow a consistent architecture: **Image → Vision Encoder → Projector → LLM** — an image encoder (often a ViT, see [CNNs & Vision Architectures](../deep-learning/cnns.md)) produces image features, a projector module maps those features into the LLM's embedding space, and the LLM then processes them as if they were additional input tokens alongside the text prompt. Serving a VLM means the inference engine must support this multi-stage forward pass (image preprocessing plus the extra encoder/projector compute) in addition to standard text generation — vLLM and TGI both have growing native VLM support, rather than requiring a fully separate serving stack.
+
+## Embedding & Reranker Inference for Production RAG
+
+RAG systems (see [LLM Evaluation & RAGOps](./llm-evaluation-and-ragops.md)) depend on two additional model types that need their own inference path, distinct from the generative LLM itself:
+
+- **Embedding models** (Sentence Transformers, BGE, E5, Jina): convert text into dense vectors for retrieval — typically small, fast, and CPU-servable relative to the generative model, but still need a real serving layer once query volume is meaningful.
+- **Reranker models** (cross-encoders): re-score a small candidate set retrieved by the embedding model, jointly encoding the query and each candidate document for much higher precision than embedding similarity alone — more expensive per comparison, which is why they only run on the retrieval shortlist, not the whole corpus.
+- **TEI (Text Embeddings Inference)**: Hugging Face's dedicated serving engine for embedding and reranker models, playing the same specialized role for these smaller models that vLLM plays for generative LLMs. Triton and plain FastAPI deployments are also common for embedding serving, especially at lower volume.
+
+## LLMOps Monitoring
+
+The operational layer sitting on top of everything above, extending [Monitoring & Drift Detection](./monitoring-and-drift.md) with signals specific to LLM serving:
+
+- **Token usage**: input/output tokens per request — the basis for both cost tracking and capacity planning.
+- **Cost**: cost per request and per 1M tokens, tracked per model/deployment, since routing the wrong requests to an oversized model is a common, quietly expensive mistake.
+- **Hallucination rate**: tracked via the evaluation techniques in [LLM Evaluation & RAGOps](./llm-evaluation-and-ragops.md), monitored in production the same way any other quality metric is monitored for drift.
+- All of the inference metrics from [LLM Inference Optimization](./llm-inference-optimization.md) — TTFT, TPOT, throughput, GPU utilization — remain the base layer this sits on top of.
+
+Next: [LLM Evaluation & RAGOps](./llm-evaluation-and-ragops.md) — how to actually measure whether everything served above is producing good outputs.
