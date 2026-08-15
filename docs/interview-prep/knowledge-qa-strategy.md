@@ -11,6 +11,8 @@ The breadth round: rapid-fire conceptual questions across everything covered in 
 - **Classical ML breadth**: bias-variance tradeoff, regularization, evaluation metric tradeoffs (see [Model Evaluation & Metrics](../machine-learning/model-evaluation-metrics.md))
 - **Deep learning breadth**: why residual connections help, normalization choices, optimizer differences (see [Training Deep Networks](../deep-learning/training-deep-networks.md))
 - **LLM/GenAI breadth**: attention mechanics, RLHF vs. DPO, RAG failure modes (see [LLMs & GenAI](../llms-genai/roadmap.md))
+- **Inference engineering breadth** (increasingly common for ML/AI infra and platform roles specifically): KV cache and why it dominates serving memory, continuous batching vs. static batching, quantization tradeoffs, why TTFT and TPOT are reported separately (see [LLM Inference Engines](../mlops/llm-inference-engines.md) and [LLM Inference Optimization](../mlops/llm-inference-optimization.md))
+- **Research-track questions** (for research scientist / research engineer interviews specifically): explain a paper's contribution and its relationship to prior work (see [How to Read AI Papers](../research-engineering/how-to-read-ai-papers.md)), propose an ablation that would isolate why a specific technique helps, critique a method's stated limitations, place a paper into [The Paper Timeline](../research-engineering/paper-timeline.md)'s lineage — this round tests research taste and literature fluency, not implementation speed
 
 ## The Two-Minute Test
 

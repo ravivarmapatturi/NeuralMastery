@@ -21,7 +21,19 @@ Once you've covered the topic sections, this is where you drill for the actual i
 - [ ] Classical ML breadth questions (bias-variance, regularization, evaluation metrics)
 - [ ] Deep learning breadth questions (architectures, training dynamics)
 - [ ] LLM/GenAI breadth questions (transformers, RAG, fine-tuning, agents)
+- [ ] Inference engineering breadth questions (KV cache, batching, quantization, TTFT/TPOT)
+- [ ] Research-track questions (paper critique, ablation design, literature fluency)
 - [ ] Rapid-fire self-check: can you explain each topic in under 2 minutes, out loud?
+
+## 3.5. [Technology Comparisons & Decision Trees](./technology-comparisons.md)
+- [ ] vLLM vs SGLang vs TensorRT-LLM vs Triton vs llama.cpp
+- [ ] LangChain vs LangGraph
+- [ ] RAG vs fine-tuning
+- [ ] LoRA vs QLoRA vs full fine-tuning
+- [ ] SQL vs vector DB vs graph DB
+- [ ] DDP vs FSDP vs ZeRO
+- [ ] CUDA vs ROCm
+- [ ] PyTorch vs JAX
 
 ## 4. [System Design](./system-design-practice.md)
 - [ ] Practice the 9-step ML system design formula on 5-10 different problems (see [ML System Design roadmap](../ml-system-design/roadmap.md))
