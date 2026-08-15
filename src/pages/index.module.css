@@ -4,20 +4,130 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 6rem 0 4rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: var(--ifm-background-color);
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+      ellipse 60% 50% at 50% -10%,
+      color-mix(in srgb, var(--ifm-color-primary) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 40% at 85% 15%,
+      color-mix(in srgb, var(--nm-accent-secondary) 14%, transparent),
+      transparent 70%
+    );
+}
+
+.heroTitle {
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(
+    135deg,
+    var(--ifm-font-color-base) 0%,
+    var(--ifm-font-color-base) 55%,
+    var(--ifm-color-primary) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.heroSubtitle {
+  font-size: 1.3rem;
+  color: var(--ifm-color-content-secondary);
+  max-width: 640px;
+  margin: 0.75rem auto 2rem;
+  position: relative;
 }
 
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.secondaryButton {
+  border-color: var(--nm-border);
+  color: var(--ifm-font-color-base);
+}
+
+.secondaryButton:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.statRow {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 3.5rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.stat {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ifm-color-primary);
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: var(--ifm-color-content-secondary);
+  max-width: 160px;
+}
+
+.demoSection {
+  padding: 3rem 0 4rem;
+}
+
+.demoIntro {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 1rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.demoText {
+  color: var(--ifm-color-content-secondary);
+  font-size: 1.05rem;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 3rem 1.5rem 2rem;
+  }
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+  .statRow {
+    gap: 2rem;
+  }
 }

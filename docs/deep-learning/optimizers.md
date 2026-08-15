@@ -4,6 +4,7 @@ sidebar_position: 3.7
 
 import OptimizerRaceMp4 from './img/optimizer-race.mp4';
 import OptimizerRaceWebm from './img/optimizer-race.webm';
+import GradientDescentExplorer from '@site/src/components/viz/GradientDescentExplorer';
 
 # Optimizers, In Full Depth
 
@@ -16,6 +17,10 @@ import OptimizerRaceWebm from './img/optimizer-race.webm';
 <p style={{textAlign: "center", fontSize: "0.9em", opacity: 0.75}}>SGD, Momentum, and Adam racing toward the minimum of an elongated ("ravine") loss surface</p>
 
 Watch the three paths above on this deliberately elongated bowl (steep in one direction, shallow in the other — a stand-in for real loss surfaces, which are rarely nicely circular). Plain SGD (red) crawls along the shallow direction and stalls far from the minimum within the step budget. Momentum (gold) overshoots and oscillates before settling — it builds up speed but has to fight that speed to turn. Adam (green) adapts its step size per-dimension and reaches the minimum's neighborhood fastest, though it overshoots once too. This single picture motivates every optimizer below.
+
+Now try it yourself — same bowl, your starting point, your learning rate:
+
+<GradientDescentExplorer />
 
 ## Gradient Descent Variants (by batch size)
 

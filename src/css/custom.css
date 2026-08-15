@@ -2,29 +2,59 @@
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
+ *
+ * These tokens are ported from visualize/design_tokens.yaml, the same
+ * source of truth every generated chart/diagram/animation on the site
+ * uses. Update both together if the palette ever changes -- see
+ * src/theme/vizTokens.js for the JS-side port used by interactive
+ * components.
  */
 
-/* You can override the default Infima variables here. */
+/* Light mode: same brand accent hue as dark mode, on a light surface. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #21a374;
+  --ifm-color-primary-dark: #1e9368;
+  --ifm-color-primary-darker: #1c8a62;
+  --ifm-color-primary-darkest: #17714f;
+  --ifm-color-primary-light: #24b380;
+  --ifm-color-primary-lighter: #26bc87;
+  --ifm-color-primary-lightest: #40cc9b;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.08);
+
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f6f7f8;
+  --ifm-font-color-base: #14161a;
+  --ifm-color-content-secondary: #5b6470;
+  --ifm-toc-border-color: #e3e6ea;
+  --ifm-table-border-color: #e3e6ea;
+  --nm-accent-secondary: #3169e0;
+  --nm-accent-warn: #b9791e;
+  --nm-accent-danger: #d43f3f;
+  --nm-border: #e3e6ea;
+  --nm-surface-alt: #eef0f2;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Dark mode: the exact palette every generated chart already uses. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #3ddc97;
+  --ifm-color-primary-dark: #2fc482;
+  --ifm-color-primary-darker: #2bb87a;
+  --ifm-color-primary-darkest: #249965;
+  --ifm-color-primary-light: #5ee3ab;
+  --ifm-color-primary-lighter: #6fe7b4;
+  --ifm-color-primary-lightest: #94eeca;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-background-color: #0a0a0b;
+  --ifm-background-surface-color: #141416;
+  --ifm-font-color-base: #f5f5f7;
+  --ifm-color-content-secondary: #ababb3;
+  --ifm-toc-border-color: #2c2c30;
+  --ifm-table-border-color: #2c2c30;
+  --nm-accent-secondary: #5b8cff;
+  --nm-accent-warn: #f4b942;
+  --nm-accent-danger: #f45b5b;
+  --nm-border: #2c2c30;
+  --nm-surface-alt: #1e1e21;
 }
