@@ -21,6 +21,9 @@ Classical ML: the algorithms, the workflow around them, and the problems that sh
 - [ ] k-Nearest Neighbors
 - [ ] Naive Bayes
 - [ ] Ensemble methods: bagging vs boosting vs stacking
+- [ ] [Survival analysis](./survival-analysis.md): Kaplan-Meier, Cox Proportional Hazards, censoring
+- [ ] [Recommender systems](./recommender-systems.md): matrix factorization, two-tower embeddings, retrieval->rank->re-rank
+- [ ] [Learning-to-rank](./learning-to-rank.md): pointwise/pairwise/listwise, NDCG/MRR
 
 ## 3. [Unsupervised Learning](./unsupervised-learning.md)
 - [ ] k-Means, hierarchical clustering, DBSCAN
@@ -32,7 +35,9 @@ Classical ML: the algorithms, the workflow around them, and the problems that sh
 - [ ] Regularization: L1, L2, dropout, early stopping
 - [ ] Classification metrics: precision, recall, F1, ROC-AUC, PR-AUC
 - [ ] Regression metrics: MSE, MAE, R²
-- [ ] Calibration and threshold tuning
+- [ ] Calibration, threshold optimization (cost-based, not just default 0.5)
+- [ ] Uncertainty estimation: prediction intervals, conformal prediction, ensemble disagreement
+- [ ] Hyperparameter optimization: grid, random, Bayesian, successive halving/Hyperband
 - [ ] Statistical significance of model improvements
 
 ## 5. Common Problems & Their State-of-the-Art Solutions

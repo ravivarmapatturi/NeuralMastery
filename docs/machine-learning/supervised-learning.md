@@ -46,4 +46,12 @@ Not a separate algorithm — a generic training engine that unifies linear/logis
 
 A structurally different problem from everything above: predicting the future of a single sequence, where order carries the information and examples are never independent. See [Time Series Forecasting: ARIMA, SARIMA, Prophet & TFT, In Full Depth](./time-series-forecasting.md) for trend/seasonality decomposition, the classical statistical models, and how attention-based deep learning (TFT) extends the same problem.
 
+## Survival Analysis
+
+Predicting *time until an event*, where some subjects haven't experienced the event yet by the time you have to analyze the data (censoring) — churn timing, equipment failure, clinical outcomes. See [Survival Analysis: Kaplan-Meier & Cox Proportional Hazards, In Full Depth](./survival-analysis.md) for why this needs its own machinery rather than plain regression, and how Cox regression gets interpretable hazard ratios without ever specifying the baseline hazard's shape.
+
+## Recommender Systems & Learning-to-Rank
+
+Predicting preference and ordering, not a single output value: matrix factorization, embeddings, the retrieval→rank→re-rank production pipeline behind Netflix/Amazon/YouTube-style recommendations, and the pairwise/listwise objectives (RankNet, LambdaMART) that directly optimize ranking quality metrics like NDCG instead of proxying through classification. See [Recommender Systems](./recommender-systems.md) and [Learning-to-Rank](./learning-to-rank.md) for the full depth — the same retrieval-then-rank pattern that also shows up in search and RAG.
+
 Next: [Unsupervised Learning](./unsupervised-learning.md) — finding structure without labels.

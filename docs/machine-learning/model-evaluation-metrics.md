@@ -42,6 +42,32 @@ Techniques that intentionally constrain a model to reduce variance/overfitting:
 
 A model can rank examples correctly (good AUC) while its predicted probabilities are systematically off (e.g. it says "70% confident" but is only right 50% of the time at that confidence level). **Calibration** measures and corrects this — critical whenever downstream decisions depend on the actual probability value, not just the ranking (e.g. risk-based pricing).
 
+## Threshold Optimization
+
+A classifier's raw output is a probability; turning it into a decision requires picking a threshold, and 0.5 is a default, not a law of nature. The right threshold depends on the same cost asymmetry that drives the precision/recall tradeoff above:
+
+- **Cost-based thresholding**: if a false negative costs 10x a false positive (a missed fraud case vs. a flagged legitimate transaction), the optimal threshold isn't where precision equals recall — it's wherever `expected_cost = FN_rate × cost_FN + FP_rate × cost_FP` is minimized, which is usually well below 0.5.
+- **Reading it off the PR or ROC curve**: since both curves are threshold-sweeps, picking a threshold means picking a *point* on that curve corresponding to the precision/recall (or TPR/FPR) tradeoff your use case actually needs, then finding which threshold produces it.
+- **The common mistake**: reporting "our model gets 90% precision" without saying at what threshold, or worse, choosing the threshold that produces the best-looking headline number on the test set — the threshold is a decision variable to be chosen deliberately for the deployment's actual cost structure, not a hyperparameter to tune for a better-looking single metric.
+
+## Uncertainty Estimation
+
+Calibration (above) asks "are the predicted *probabilities* trustworthy." Uncertainty estimation asks a related but distinct question: "how confident should I be in *this specific prediction*," which matters most when a model needs to know what it doesn't know.
+
+- **Prediction intervals** (regression): instead of a single predicted value, output a range likely to contain the true value — e.g. quantile regression trains separate models (or heads) for different quantiles (10th, 50th, 90th percentile) of the target, giving a range directly rather than a point estimate plus an assumed error distribution.
+- **Conformal prediction**: a distribution-free, model-agnostic framework for producing prediction sets/intervals with a *guaranteed* coverage rate (e.g. "the true value falls in this interval at least 90% of the time"), calibrated using a held-out calibration set — unlike many uncertainty methods, this guarantee holds regardless of what model produced the underlying predictions, which is why it's increasingly used as a wrapper around black-box models (including LLMs) rather than requiring the model itself to be uncertainty-aware.
+- **Ensemble-based uncertainty**: train several models (or use dropout at inference time — "Monte Carlo dropout") and treat the *disagreement* across them as an uncertainty signal — high variance across ensemble members on a given input suggests the model is extrapolating into territory it hasn't seen reliable examples of.
+- **Why this matters in production**: a model that can say "I don't know" (high uncertainty) on out-of-distribution inputs enables routing those cases to a human reviewer or a fallback system, instead of returning a confident-looking wrong answer — the single biggest practical payoff of uncertainty estimation over just trusting a point prediction.
+
+## Hyperparameter Optimization
+
+Model hyperparameters (learning rate, tree depth, regularization strength, number of layers) aren't learned from data the way weights are — they have to be searched over, using validation performance (see [ML Workflow Fundamentals](./ml-workflow-fundamentals.md#train--validation--test-splits)) as the search signal, never the test set.
+
+- **Grid search**: exhaustively try every combination of a predefined set of values per hyperparameter — simple and reproducible, but scales exponentially with the number of hyperparameters, wasting most of its budget on combinations that were never going to be competitive.
+- **Random search**: sample hyperparameter combinations randomly instead of exhaustively — counterintuitively often *outperforms* grid search for the same compute budget, because grid search wastes evaluations varying unimportant hyperparameters together, while random search's independent sampling spends more effective evaluations on each dimension.
+- **Bayesian optimization**: build a probabilistic surrogate model (e.g. a Gaussian Process) of "hyperparameters → validation score" from evaluations run so far, and use it to pick the *next* combination most likely to either improve on the best result or reduce uncertainty about promising regions (directly reusing [Bayes' theorem](../mathematics-for-ai/probability-statistics.md#bayes-theorem) to update belief about where the optimum lives as each new evaluation comes in) — far more sample-efficient than grid/random search when each evaluation (a full training run) is expensive, at the cost of being inherently sequential rather than trivially parallelizable.
+- **Successive halving / Hyperband**: allocate a small compute budget to many configurations, discard the worst-performing half, and give the survivors a larger budget, repeating — exploits the fact that a bad hyperparameter configuration is often identifiable early, without training it to completion, letting the search spend its real budget only on genuinely promising candidates.
+
 ## Statistical Significance of Improvements
 
 Before shipping "Model B beats Model A by 0.3%," check whether that difference is statistically significant (see [Probability & Statistics](../mathematics-for-ai/probability-statistics.md)) or just noise from the particular test split / random seed. This is exactly what A/B testing in production is designed to answer rigorously.
