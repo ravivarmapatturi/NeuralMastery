@@ -6,6 +6,8 @@ sidebar_position: 1
 
 One path through everything on this site, from zero to job-ready. Each section links to its own detailed roadmap — this page is the map of the map.
 
+Have a specific goal already (ML Engineer, LLM/GenAI Engineer, AI Research Engineer, AI Systems/Infra Engineer)? See [Suggested Paths](./suggested-paths.md) for a shorter, goal-specific route through the same sections instead.
+
 ## Beginner Track — Foundations
 1. [CS Fundamentals for AI Engineers](../cs-fundamentals/roadmap.md) — operating systems, concurrency, networking, distributed systems, Linux/Git, software engineering practice
 2. [Python Engineering for AI](../python-engineering/roadmap.md) — OOP & functional Python, decorators & generators, async/concurrency, memory management, packaging, testing, tooling
