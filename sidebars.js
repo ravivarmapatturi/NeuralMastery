@@ -17,6 +17,7 @@
 const sidebars = {
   tutorialSidebar: [
     'intro',
+    'learning-path',
     {
       type: 'category',
       label: 'Foundations',

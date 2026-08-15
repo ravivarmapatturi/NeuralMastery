@@ -5,6 +5,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import GradientDescentExplorer from '@site/src/components/viz/GradientDescentExplorer';
+import LearningPathMap from '@site/src/components/viz/LearningPathMap';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import styles from './index.module.css';
 
@@ -47,6 +48,24 @@ function HomepageHeader() {
   );
 }
 
+function LearningPathSection() {
+  return (
+    <section className={styles.demoSection}>
+      <div className="container">
+        <div className={styles.demoIntro}>
+          <span className={styles.eyebrow}>Structure</span>
+          <Heading as="h2">Know where you are, and what's next</Heading>
+          <p className={styles.demoText}>
+            Seven sections, in real dependency order — not just a flat list. Click any node to
+            jump there; the fill tracks your own progress, saved locally in your browser.
+          </p>
+        </div>
+        <LearningPathMap />
+      </div>
+    </section>
+  );
+}
+
 function LiveDemo() {
   return (
     <section className={styles.demoSection}>
@@ -75,6 +94,7 @@ export default function Home() {
       <HomepageHeader />
       <main>
         <LiveDemo />
+        <LearningPathSection />
         <HomepageFeatures />
       </main>
     </Layout>

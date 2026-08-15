@@ -106,6 +106,11 @@ const config = {
             label: 'Learn',
           },
           {
+            to: '/docs/learning-path',
+            label: 'Learning Path',
+            position: 'left',
+          },
+          {
             to: '/news',
             label: 'AI News',
             position: 'left',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SECTION_META } from '@site/src/data/sectionMeta';
+import { SECTION_META, timeEstimate } from '@site/src/data/sectionMeta';
 
 /** Time/difficulty/prerequisites badge row for a top-level category landing page. */
 export default function SectionMetaBar({ href }) {
@@ -24,7 +24,7 @@ export default function SectionMetaBar({ href }) {
         background: 'var(--ifm-color-emphasis-100)',
       }}
     >
-      <span>⏱ {meta.time}</span>
+      <span>⏱ {timeEstimate(meta.pageCount)}</span>
       <span>⭐ {meta.difficulty}</span>
       <span>Prerequisites: {meta.prerequisites}</span>
       <span>Leads to: {meta.leadsTo}</span>
