@@ -2,9 +2,15 @@
 sidebar_position: 2
 ---
 
+import AlgorithmSelector from '@site/src/components/viz/AlgorithmSelector';
+
 # Machine Learning — Roadmap
 
 Classical ML: the algorithms, the workflow around them, and the problems that show up constantly in practice.
+
+Not sure which algorithm fits your problem? Answer a few questions:
+
+<AlgorithmSelector />
 
 ## 1. [ML Workflow Fundamentals](./ml-workflow-fundamentals.md)
 - [ ] Supervised vs unsupervised vs semi-supervised vs self-supervised learning

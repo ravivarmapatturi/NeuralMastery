@@ -18,6 +18,8 @@ sidebar_position: 2
 - [x] [Ridge Regression Studio](./ridge-regression-studio.md) — real closed-form ridge solve on a multicollinear dataset, live regularization path
 - [x] [Lasso Regression Studio](./lasso-regression-studio.md) — real coordinate-descent soft-thresholding on the same dataset as Ridge, directly comparable regularization path
 - [x] `PredictFirst` widget — predict-then-reveal questions wired into all four Studios so far
+- [x] [Algorithm Selector](./algorithm-selector.md) — a real branching decision tool over this site's own ML pages
+- [x] [Learning Path map](../learning-path.md) — a clickable, progress-aware dependency graph of the whole curriculum, plus a full structured breakdown
 
 ## Planned, in order
 Nothing queued right now. Future additions will follow the same batch-by-batch, build-verified discipline as everything else on this site — the next candidates are Decision Trees and SVM, which need a genuinely different (non-gradient-descent) visualization approach than the regression Studios so far.
