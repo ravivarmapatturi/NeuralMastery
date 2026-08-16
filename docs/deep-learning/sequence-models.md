@@ -39,23 +39,51 @@ The same weight matrices $W_h$, $W_x$, $b$ are reused at *every* time step — t
 
 **LSTM (Long Short-Term Memory)** introduces a separate "cell state" $c_t$ plus three gates — forget, input, output — that explicitly control what information gets added, kept, or discarded at each step, each one its own small learned layer:
 
-$$f_t = \sigma\left(W_f [h_{t-1}, x_t] + b_f\right) \qquad \text{forget gate}$$
-$$i_t = \sigma\left(W_i [h_{t-1}, x_t] + b_i\right) \qquad \text{input gate}$$
-$$o_t = \sigma\left(W_o [h_{t-1}, x_t] + b_o\right) \qquad \text{output gate}$$
-$$\tilde{c}_t = \tanh\left(W_c [h_{t-1}, x_t] + b_c\right) \qquad \text{candidate values}$$
-$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t \qquad \text{new cell state}$$
-$$h_t = o_t \odot \tanh(c_t) \qquad \text{new hidden state}$$
+**Forget gate** — how much of the old cell state to keep:
 
-where $[h_{t-1}, x_t]$ is the previous hidden state concatenated with the current input, and $\odot$ is the **Hadamard (elementwise) product** — each gate is a vector of values in $(0,1)$ that scales its target *elementwise*, not a full matrix multiply. Read the two middle lines directly as the whole mechanism: the forget gate decides how much of the old cell state to keep, the input gate decides how much of the new candidate to add — both are $\sigma$-gated so each is a soft "keep this fraction" decision per dimension, computed fresh every time step by the gates above.
+$$f_t = \sigma\left(W_f [h_{t-1}, x_t] + b_f\right)$$
+
+**Input gate** — how much of the new candidate to add:
+
+$$i_t = \sigma\left(W_i [h_{t-1}, x_t] + b_i\right)$$
+
+**Output gate** — how much of the cell state to reveal as the hidden state:
+
+$$o_t = \sigma\left(W_o [h_{t-1}, x_t] + b_o\right)$$
+
+**Candidate values** — new content proposed for the cell state:
+
+$$\tilde{c}_t = \tanh\left(W_c [h_{t-1}, x_t] + b_c\right)$$
+
+**New cell state** — forget the old, add the new, both gated:
+
+$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$$
+
+**New hidden state** — the output gate reveals part of the (squashed) cell state:
+
+$$h_t = o_t \odot \tanh(c_t)$$
+
+where $[h_{t-1}, x_t]$ is the previous hidden state concatenated with the current input, and $\odot$ is the **Hadamard (elementwise) product** — each gate is a vector of values in $(0,1)$ that scales its target *elementwise*, not a full matrix multiply. Read the new-cell-state and new-hidden-state lines directly as the whole mechanism: the forget gate decides how much of the old cell state to keep, the input gate decides how much of the new candidate to add — both are $\sigma$-gated so each is a soft "keep this fraction" decision per dimension, computed fresh every time step by the gates above.
 
 ![LSTM cell — forget, input, and output gates controlling what's added to, kept in, and read from the cell state](./img/lstm-cell.png)
 
 **GRU (Gated Recurrent Unit)** simplifies LSTM's gating into two gates instead of three (reset and update, no separate cell state), with fewer parameters and often comparable performance — a common practical choice when compute is limited:
 
-$$z_t = \sigma\left(W_z [h_{t-1}, x_t] + b_z\right) \qquad \text{update gate}$$
-$$r_t = \sigma\left(W_r [h_{t-1}, x_t] + b_r\right) \qquad \text{reset gate}$$
-$$\tilde{h}_t = \tanh\left(W_h [r_t \odot h_{t-1}, x_t] + b_h\right) \qquad \text{candidate hidden state}$$
-$$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t \qquad \text{new hidden state}$$
+**Update gate** — how much of the old hidden state to keep vs. replace with the new candidate:
+
+$$z_t = \sigma\left(W_z [h_{t-1}, x_t] + b_z\right)$$
+
+**Reset gate** — how much of the old hidden state to use when computing the new candidate:
+
+$$r_t = \sigma\left(W_r [h_{t-1}, x_t] + b_r\right)$$
+
+**Candidate hidden state** — new content proposed, with the reset gate applied to the old state first:
+
+$$\tilde{h}_t = \tanh\left(W_h [r_t \odot h_{t-1}, x_t] + b_h\right)$$
+
+**New hidden state** — interpolate between old and candidate, weighted by the update gate:
+
+$$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t$$
 
 The last line is a direct interpolation between the old hidden state and the new candidate, controlled entirely by $z_t$ — no separate cell state to maintain, which is exactly where GRU's parameter savings come from. The reset gate $r_t$ decides how much of the *old* hidden state gets used when computing the new candidate in the first place.
 
