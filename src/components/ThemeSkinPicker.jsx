@@ -19,11 +19,25 @@ function applySkin(id) {
   }
 }
 
+// Skins are tints of a *light* page, so picking one also switches Docusaurus
+// into light mode -- otherwise a reader whose browser/OS prefers dark (the
+// common case, and why the picker was invisible by default before this fix)
+// could never actually see the result of choosing a color.
+function forceLightMode() {
+  document.documentElement.setAttribute('data-theme', 'light');
+  try {
+    window.localStorage.setItem('theme', 'light');
+  } catch (e) {
+    /* ignore */
+  }
+}
+
 // Opt-in, study-friendly background skins -- alternatives to plain white.
-// Independent of Docusaurus's own light/dark toggle: only meaningful in
-// light mode, since the skins are tints of a light page (see custom.css).
+// Always visible regardless of the current color mode: it's the control for
+// "what should the light-mode background look like," and using it commits
+// to light mode so the choice is immediately visible.
 export default function ThemeSkinPicker() {
-  const [colorMode, setColorMode] = useState(null);
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('default');
   const ref = useRef(null);
@@ -32,16 +46,7 @@ export default function ThemeSkinPicker() {
     const saved = window.localStorage.getItem(STORAGE_KEY) || 'default';
     setActive(saved);
     applySkin(saved);
-
-    const readMode = () =>
-      setColorMode(document.documentElement.getAttribute('data-theme'));
-    readMode();
-    const observer = new MutationObserver(readMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme'],
-    });
-    return () => observer.disconnect();
+    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -52,11 +57,12 @@ export default function ThemeSkinPicker() {
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, []);
 
-  if (colorMode !== 'light') return null;
+  if (!mounted) return null;
 
   function choose(id) {
     setActive(id);
     applySkin(id);
+    forceLightMode();
     window.localStorage.setItem(STORAGE_KEY, id);
     setOpen(false);
   }
