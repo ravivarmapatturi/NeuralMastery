@@ -14,13 +14,16 @@ export default function SectionMetaBar({ href }) {
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '8px 24px',
+        gap: '8px 28px',
         fontSize: 14,
         color: 'var(--ifm-color-emphasis-700)',
-        margin: '12px 0 4px',
-        padding: '12px 16px',
-        borderRadius: 8,
+        margin: '16px 0 4px',
+        padding: '14px 18px',
+        borderRadius: 10,
+        borderLeft: `4px solid ${meta.color}`,
         border: '1px solid var(--ifm-color-emphasis-200)',
+        borderLeftWidth: 4,
+        borderLeftColor: meta.color,
         background: 'var(--ifm-color-emphasis-100)',
       }}
     >
