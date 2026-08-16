@@ -18,6 +18,48 @@ function hexToRgb(hex) {
   return [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)];
 }
 
+/** Diverging gradient cell: positive -> accent green, negative -> accent red,
+ * opacity scaled by magnitude relative to the vector's own max -- the same
+ * value-as-color convention transformer-explainer uses for every tensor,
+ * applied here to the actual embedding/Q/K/V vectors this component
+ * computes but wasn't otherwise showing. */
+function TensorRow({ label, vec, posRgb, negRgb, maxAbs, textColor, labelColor, cellSize = 40 }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+      <div style={{ width: 78, fontSize: 12, fontWeight: 600, textAlign: 'right', flexShrink: 0, color: labelColor }}>
+        {label}
+      </div>
+      <div style={{ display: 'flex', gap: 3 }}>
+        {vec.map((v, i) => {
+          const [r, g, b] = v >= 0 ? posRgb : negRgb;
+          const op = 0.12 + Math.min(1, Math.abs(v) / maxAbs) * 0.82;
+          return (
+            <div
+              key={i}
+              title={v.toFixed(3)}
+              style={{
+                width: cellSize,
+                height: cellSize,
+                borderRadius: 4,
+                background: `rgba(${r}, ${g}, ${b}, ${op})`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 10,
+                fontVariantNumeric: 'tabular-nums',
+                fontFamily: 'monospace',
+                color: textColor,
+              }}
+            >
+              {v.toFixed(2)}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function AttentionStepThroughInner() {
   const t = useVizTokens();
   const [text, setText] = useState(DEFAULT_TEXT);
@@ -38,6 +80,13 @@ function AttentionStepThroughInner() {
   const width = labelW + gridW + 10;
 
   const [ar, ag, ab] = hexToRgb(t.accentPrimary);
+  const posRgb = hexToRgb(t.accentPrimary);
+  const negRgb = hexToRgb(t.accentDanger);
+  const tensorMaxAbs = useMemo(() => {
+    if (!result) return 1;
+    const all = [...result.embeddings[focusRow], ...result.Q[focusRow], ...result.K[focusRow], ...result.V[focusRow]];
+    return Math.max(0.05, ...all.map(Math.abs));
+  }, [result, focusRow]);
 
   return (
     <VizCard
@@ -72,7 +121,22 @@ function AttentionStepThroughInner() {
       <PillSelect label="Attention head" value={headIdx} onChange={setHeadIdx} options={HEAD_OPTIONS} />
 
       {result && (
-        <div style={{ display: 'flex', gap: SPACING.lg, flexWrap: 'wrap', marginTop: SPACING.sm }}>
+        <div style={{ marginTop: SPACING.sm }}>
+          <div style={{ fontSize: 13, color: t.textSecondary, marginBottom: 8 }}>
+            Every value below is real, computed live from{' '}
+            <strong style={{ color: t.textPrimary }}>&ldquo;{tokens[focusRow]}&rdquo;</strong> — color encodes sign and
+            magnitude (green = positive, red = negative, opacity = size), the same value-as-color convention used
+            throughout this walkthrough, now live instead of a fixed worked example:
+          </div>
+          <TensorRow label="Embedding" vec={result.embeddings[focusRow]} posRgb={posRgb} negRgb={negRgb} maxAbs={tensorMaxAbs} textColor={t.textPrimary} labelColor={t.textSecondary} />
+          <TensorRow label="Query" vec={result.Q[focusRow]} posRgb={posRgb} negRgb={negRgb} maxAbs={tensorMaxAbs} textColor={t.textPrimary} labelColor={t.textSecondary} />
+          <TensorRow label="Key" vec={result.K[focusRow]} posRgb={posRgb} negRgb={negRgb} maxAbs={tensorMaxAbs} textColor={t.textPrimary} labelColor={t.textSecondary} />
+          <TensorRow label="Value" vec={result.V[focusRow]} posRgb={posRgb} negRgb={negRgb} maxAbs={tensorMaxAbs} textColor={t.textPrimary} labelColor={t.textSecondary} />
+        </div>
+      )}
+
+      {result && (
+        <div style={{ display: 'flex', gap: SPACING.lg, flexWrap: 'wrap', marginTop: SPACING.md }}>
           <div style={{ overflowX: 'auto' }}>
             <svg width={width} height={height} style={{ display: 'block' }}>
               {/* column (key) labels */}
