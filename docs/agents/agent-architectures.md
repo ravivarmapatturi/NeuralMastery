@@ -3,6 +3,9 @@ sidebar_position: 4
 ---
 
 import AgentExecutionGraph from '@site/src/components/viz/AgentExecutionGraph';
+import ThemedImage from '@theme/ThemedImage';
+import reactLoopDark from './img/react-loop.png';
+import reactLoopLight from './img/react-loop-light.png';
 
 # Agent Architectures
 
@@ -12,7 +15,7 @@ Different ways to structure the loop between reasoning and acting, each with dif
 
 The foundational pattern: at each step, the model produces a short reasoning trace ("I need to find X"), then an action (a tool call), observes the result, and loops — reason, act, observe, reason, act, observe — until it has enough information to answer. Interleaving reasoning with action lets the model course-correct based on real results, rather than committing to a full plan upfront that might be wrong. See [Prompt Engineering — ReAct](../llms-genai/prompt-engineering.md#react-reasoning--acting) for the prompting technique this is built on.
 
-![ReAct loop: Thought, Action, Observation, repeating until enough information to answer](./img/react-loop.png)
+<ThemedImage alt="ReAct loop: Thought, Action, Observation, repeating until enough information to answer" sources={{light: reactLoopLight, dark: reactLoopDark}} />
 
 Step through a scripted example of the loop, one step at a time or on autoplay:
 

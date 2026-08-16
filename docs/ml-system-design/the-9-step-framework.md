@@ -2,11 +2,15 @@
 sidebar_position: 3
 ---
 
+import ThemedImage from '@theme/ThemedImage';
+import nineStepDark from './img/nine-step-framework.png';
+import nineStepLight from './img/nine-step-framework-light.png';
+
 # The 9-Step ML System Design Framework
 
 A repeatable structure for approaching any "design an ML system for X" problem — in an interview or in a real project kickoff.
 
-![The 9-step ML system design framework, from problem formulation through scaling and monitoring, with a feedback loop back to model development](./img/nine-step-framework.png)
+<ThemedImage alt="The 9-step ML system design framework, from problem formulation through scaling and monitoring, with a feedback loop back to model development" sources={{light: nineStepLight, dark: nineStepDark}} />
 
 ## 1. Problem Formulation
 

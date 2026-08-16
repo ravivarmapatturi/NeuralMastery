@@ -3,6 +3,9 @@ sidebar_position: 5.1
 ---
 
 import DecisionBoundaryPlayground from '@site/src/components/viz/DecisionBoundaryPlayground';
+import ThemedImage from '@theme/ThemedImage';
+import treeStructureDark from './img/tree-structure.png';
+import treeStructureLight from './img/tree-structure-light.png';
 
 # Decision Trees, In Full Depth
 
@@ -12,7 +15,7 @@ Every model covered so far — [Linear](./linear-regression.md), [Ridge/Lasso](.
 
 A tree is a nested set of if/else rules learned directly from data, ending in a prediction:
 
-![A depth-2 decision tree asking sequential yes/no questions](./img/tree-structure.png)
+<ThemedImage alt="A depth-2 decision tree asking sequential yes/no questions" sources={{light: treeStructureLight, dark: treeStructureDark}} />
 
 Each internal node asks a single-feature question ("Hours Studied > 5?"), each branch is an answer, and each leaf is a prediction. To predict for a new example, walk down from the root, answering each question, until reaching a leaf.
 

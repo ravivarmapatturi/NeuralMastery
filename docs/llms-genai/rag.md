@@ -4,6 +4,9 @@ sidebar_position: 6
 
 import RagPipelineSimulator from '@site/src/components/viz/RagPipelineSimulator';
 import EmbeddingSpaceExplorer from '@site/src/components/viz/EmbeddingSpaceExplorer';
+import ThemedImage from '@theme/ThemedImage';
+import ragPipelineDark from './img/rag-pipeline.png';
+import ragPipelineLight from './img/rag-pipeline-light.png';
 
 # Retrieval-Augmented Generation (RAG)
 
@@ -15,7 +18,7 @@ An LLM's knowledge is frozen at training time and limited to what fit in its wei
 2. **Retrieve**: embed the user's query the same way, find the most similar chunks (nearest-neighbor search by cosine similarity — see [Linear Algebra](../mathematics-for-ai/linear-algebra.md)).
 3. **Generate**: feed the retrieved chunks into the LLM's context alongside the query, and let it generate an answer grounded in that retrieved content.
 
-![RAG pipeline: offline indexing of documents into a vector DB, and query-time retrieval feeding the LLM](./img/rag-pipeline.png)
+<ThemedImage alt="RAG pipeline: offline indexing of documents into a vector DB, and query-time retrieval feeding the LLM" sources={{light: ragPipelineLight, dark: ragPipelineDark}} />
 
 Click any node below for what it does, then type a real question and watch retrieval actually run — real chunking, real cosine-similarity ranking, a real (if simplified) reranking pass:
 

@@ -4,6 +4,11 @@ sidebar_position: 4.5
 
 import LinearRegressionStudio from '@site/src/components/viz/LinearRegressionStudio';
 import PredictFirst from '@site/src/components/viz/primitives/PredictFirst';
+import ThemedImage from '@theme/ThemedImage';
+import trainingLoopDark from './img/linear-regression-training-loop.png';
+import trainingLoopLight from './img/linear-regression-training-loop-light.png';
+import twoPathsDark from './img/linear-regression-two-paths.png';
+import twoPathsLight from './img/linear-regression-two-paths-light.png';
 
 # Linear Regression, In Full Depth
 
@@ -128,7 +133,7 @@ $$w \leftarrow w - \alpha \frac{\partial J}{\partial w} \qquad\qquad b \leftarro
 
 where $\alpha$ is the learning rate (see [Calculus & Optimization](../mathematics-for-ai/calculus-optimization.md#gradient-descent-and-its-variants)). The full loop:
 
-![Linear regression gradient descent training loop](./img/linear-regression-training-loop.png)
+<ThemedImage alt="Linear regression gradient descent training loop" sources={{light: trainingLoopLight, dark: trainingLoopDark}} />
 
 Because $J$ is convex, this loop is guaranteed to converge to the global minimum (not just *a* minimum) as long as $\alpha$ is small enough — no local-minima concerns here, unlike the non-convex loss surfaces in [Deep Learning](../deep-learning/roadmap.md).
 
@@ -136,7 +141,7 @@ Switch the [Studio](#what-is-linear-regression) above to **Gradient Descent Lab*
 
 ## 7. Closed-Form vs. Gradient Descent
 
-![Two paths to the same minimum — normal equation vs gradient descent](./img/linear-regression-two-paths.png)
+<ThemedImage alt="Two paths to the same minimum — normal equation vs gradient descent" sources={{light: twoPathsLight, dark: twoPathsDark}} />
 
 | | Normal equation | Gradient descent |
 |---|---|---|

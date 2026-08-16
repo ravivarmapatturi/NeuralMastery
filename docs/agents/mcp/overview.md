@@ -2,6 +2,10 @@
 sidebar_position: 1
 ---
 
+import ThemedImage from '@theme/ThemedImage';
+import mcpArchDark from '../img/mcp-architecture.png';
+import mcpArchLight from '../img/mcp-architecture-light.png';
+
 # MCP (Model Context Protocol)
 
 Before MCP, every AI application that wanted to connect an LLM to a tool (a database, a file system, a SaaS API) had to write custom integration code for that specific tool, for that specific application. MCP standardizes the interface so tools and applications can be built independently and still work together.
@@ -13,7 +17,7 @@ MCP defines a standard protocol between two roles:
 - **MCP servers** expose capabilities — tools the model can call, resources (data) it can read, and prompt templates — over a standard interface.
 - **MCP clients** (typically the AI application, e.g. an IDE or agent framework) connect to one or more MCP servers and make their capabilities available to the LLM, without needing custom code per server.
 
-![MCP architecture: one AI application connecting to multiple MCP servers, each exposing tools, resources, and prompts](../img/mcp-architecture.png)
+<ThemedImage alt="MCP architecture: one AI application connecting to multiple MCP servers, each exposing tools, resources, and prompts" sources={{light: mcpArchLight, dark: mcpArchDark}} />
 
 This is analogous to what USB-C did for device connectors, or what LSP (Language Server Protocol) did for code editors and language tooling — a shared interface so an $M \times N$ integration problem (every app × every tool) becomes an $M + N$ problem (every app supports MCP; every tool exposes an MCP server).
 

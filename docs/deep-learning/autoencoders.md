@@ -2,13 +2,17 @@
 sidebar_position: 8.5
 ---
 
+import ThemedImage from '@theme/ThemedImage';
+import autoencoderDark from './img/autoencoder-architecture.png';
+import autoencoderLight from './img/autoencoder-architecture-light.png';
+
 # Autoencoders & Variational Autoencoders, In Full Depth
 
 Every model in [Deep Learning](./roadmap.md) so far has been supervised — trained against labels. Autoencoders learn from data with no labels at all, using a strikingly simple trick: train a network to reconstruct its own input, and force the information through a narrow bottleneck along the way.
 
 ## The Autoencoder Architecture
 
-![Autoencoder: an encoder compresses input into a low-dimensional latent code, a decoder reconstructs it, and reconstruction error is the training signal](./img/autoencoder-architecture.png)
+<ThemedImage alt="Autoencoder: an encoder compresses input into a low-dimensional latent code, a decoder reconstructs it, and reconstruction error is the training signal" sources={{light: autoencoderLight, dark: autoencoderDark}} />
 
 Two halves: an **encoder** compresses the input $\mathbf{x}$ down to a low-dimensional **latent code** $\mathbf{z}$ (the bottleneck), and a **decoder** tries to reconstruct the original input from just that compressed code, $\hat{\mathbf{x}}$. Trained by minimizing reconstruction error — typically [MSE](../deep-learning/loss-functions.md#regression-losses) for continuous data — with no labels involved anywhere.
 

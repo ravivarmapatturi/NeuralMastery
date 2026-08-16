@@ -2,6 +2,18 @@
 sidebar_position: 6
 ---
 
+import ThemedImage from '@theme/ThemedImage';
+import rnnUnrolledDark from './img/rnn-unrolled.png';
+import rnnUnrolledLight from './img/rnn-unrolled-light.png';
+import lstmCellDark from './img/lstm-cell.png';
+import lstmCellLight from './img/lstm-cell-light.png';
+import gruCellDark from './img/gru-cell.png';
+import gruCellLight from './img/gru-cell-light.png';
+import seq2seqEncDecDark from './img/seq2seq-encoder-decoder.png';
+import seq2seqEncDecLight from './img/seq2seq-encoder-decoder-light.png';
+import seq2seqAttnDark from './img/seq2seq-attention.png';
+import seq2seqAttnLight from './img/seq2seq-attention-light.png';
+
 # Sequence Models
 
 Text, audio, time series, DNA — anywhere order carries meaning, you need an architecture that processes sequences, not fixed-size independent inputs.
@@ -31,7 +43,7 @@ $$h_t = \tanh\left(W_h h_{t-1} + W_x x_t + b\right)$$
 
 The same weight matrices $W_h$, $W_x$, $b$ are reused at *every* time step — this weight sharing is what lets an RNN handle sequences of any length with a fixed number of parameters, and it's also exactly why gradients have to flow through so many repeated multiplications during training (below). In principle, this lets information from any earlier point in the sequence influence later predictions.
 
-![RNN unrolled through time — the same cell and weights reused at every step, with the hidden state carried forward](./img/rnn-unrolled.png)
+<ThemedImage alt="RNN unrolled through time — the same cell and weights reused at every step, with the hidden state carried forward" sources={{light: rnnUnrolledLight, dark: rnnUnrolledDark}} />
 
 **The vanishing gradient problem, again**: because the same weights are applied repeatedly across many time steps, gradients during backpropagation-through-time shrink (or explode) even faster than in a deep feedforward network (see [Training Deep Networks](./training-deep-networks.md)). In practice, plain RNNs struggle to remember anything more than ~10-20 steps back.
 
@@ -65,7 +77,7 @@ $$h_t = o_t \odot \tanh(c_t)$$
 
 where $[h_{t-1}, x_t]$ is the previous hidden state concatenated with the current input, and $\odot$ is the **Hadamard (elementwise) product** — each gate is a vector of values in $(0,1)$ that scales its target *elementwise*, not a full matrix multiply. Read the new-cell-state and new-hidden-state lines directly as the whole mechanism: the forget gate decides how much of the old cell state to keep, the input gate decides how much of the new candidate to add — both are $\sigma$-gated so each is a soft "keep this fraction" decision per dimension, computed fresh every time step by the gates above.
 
-![LSTM cell — forget, input, and output gates controlling what's added to, kept in, and read from the cell state](./img/lstm-cell.png)
+<ThemedImage alt="LSTM cell — forget, input, and output gates controlling what's added to, kept in, and read from the cell state" sources={{light: lstmCellLight, dark: lstmCellDark}} />
 
 **GRU (Gated Recurrent Unit)** simplifies LSTM's gating into two gates instead of three (reset and update, no separate cell state), with fewer parameters and often comparable performance — a common practical choice when compute is limited:
 
@@ -87,13 +99,13 @@ $$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t$$
 
 The last line is a direct interpolation between the old hidden state and the new candidate, controlled entirely by $z_t$ — no separate cell state to maintain, which is exactly where GRU's parameter savings come from. The reset gate $r_t$ decides how much of the *old* hidden state gets used when computing the new candidate in the first place.
 
-![GRU cell — a reset gate and an update gate interpolating between the old hidden state and a new candidate](./img/gru-cell.png)
+<ThemedImage alt="GRU cell — a reset gate and an update gate interpolating between the old hidden state and a new candidate" sources={{light: gruCellLight, dark: gruCellDark}} />
 
 ## Sequence-to-Sequence Models
 
 For tasks where both input and output are sequences of different lengths (translation, summarization): an **encoder** RNN compresses the input sequence into a fixed representation, and a **decoder** RNN generates the output sequence from that representation, one token at a time.
 
-![Sequence-to-sequence: an encoder RNN compresses the whole input into one fixed-size context vector, which a decoder RNN then unpacks](./img/seq2seq-encoder-decoder.png)
+<ThemedImage alt="Sequence-to-sequence: an encoder RNN compresses the whole input into one fixed-size context vector, which a decoder RNN then unpacks" sources={{light: seq2seqEncDecLight, dark: seq2seqEncDecDark}} />
 
 **The bottleneck problem**: compressing an entire input sequence into one fixed-size vector loses information, especially for long sequences — no matter how long the input is, it has to fit through that same single vector.
 
@@ -101,7 +113,7 @@ For tasks where both input and output are sequences of different lengths (transl
 
 The direct fix, and the direct predecessor to the Transformer: instead of forcing the encoder to compress everything into one fixed-size context vector, let the decoder look back at *all* encoder hidden states directly, at every output step, weighted by relevance to what it's generating right now.
 
-![Sequence-to-sequence with attention — the decoder computes a fresh weighted combination of every encoder state at each output step, instead of relying on one fixed summary](./img/seq2seq-attention.png)
+<ThemedImage alt="Sequence-to-sequence with attention — the decoder computes a fresh weighted combination of every encoder state at each output step, instead of relying on one fixed summary" sources={{light: seq2seqAttnLight, dark: seq2seqAttnDark}} />
 
 This is the **Bahdanau/Luong attention** mechanism: at each decoder step, score the current decoder state against every encoder state, turn those scores into weights (softmax), and take a weighted sum of the encoder states as that step's context — recomputed fresh every step, so the decoder can effectively "look at" whichever part of the input matters most for the token it's producing right now. This architecture is what proved attention works, before the 2017 "Attention Is All You Need" paper removed the RNN entirely and built a model out of attention alone (see [Attention & Transformers](./attention-transformers.md)).
 

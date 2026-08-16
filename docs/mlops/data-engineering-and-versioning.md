@@ -2,13 +2,17 @@
 sidebar_position: 4
 ---
 
+import ThemedImage from '@theme/ThemedImage';
+import dataPipelineDark from './img/data-pipeline.png';
+import dataPipelineLight from './img/data-pipeline-light.png';
+
 # Data Engineering & Versioning
 
 MLOps starts with data, not models. A perfectly engineered training pipeline running on badly-sourced, unvalidated data produces a model that's precisely wrong.
 
 ## The Data Pipeline
 
-![Data source through ingestion, validation, transformation, storage, feature engineering, to training](./img/data-pipeline.png)
+<ThemedImage alt="Data source through ingestion, validation, transformation, storage, feature engineering, to training" sources={{light: dataPipelineLight, dark: dataPipelineDark}} />
 
 - **Data sources**: CSV/JSON/Parquet files, relational databases, REST APIs, object storage (S3-style), streaming systems (Kafka) — real production systems usually pull from several of these simultaneously.
 - **Ingestion**: getting data from the source into your system, on a schedule or continuously.
