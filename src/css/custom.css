@@ -58,3 +58,53 @@
   --nm-border: #2c2c30;
   --nm-surface-alt: #1e1e21;
 }
+
+/**
+ * Study-friendly background skins -- alternatives to plain white, opt-in via
+ * the swatch picker (src/components/ThemeSkinPicker.jsx). Only background/
+ * surface/border tokens change; text, links, and the brand accent stay the
+ * light-mode values above, so contrast stays high (dark ink on a pastel
+ * ground is still >12:1). Scoped to light mode only -- picking a skin has no
+ * effect while dark mode is active, since these are tints of a light page,
+ * not alternate dark palettes.
+ */
+:root[data-theme='light'][data-page-theme='sepia'] {
+  --ifm-background-color: #f6eedd;
+  --ifm-background-surface-color: #efe4cc;
+  --ifm-toc-border-color: #e3d5b8;
+  --ifm-table-border-color: #e3d5b8;
+  --nm-border: #e3d5b8;
+  --nm-surface-alt: #ece0c9;
+}
+:root[data-theme='light'][data-page-theme='rose'] {
+  --ifm-background-color: #fbeef3;
+  --ifm-background-surface-color: #f6e1ea;
+  --ifm-toc-border-color: #efd0de;
+  --ifm-table-border-color: #efd0de;
+  --nm-border: #efd0de;
+  --nm-surface-alt: #f4dce6;
+}
+:root[data-theme='light'][data-page-theme='sage'] {
+  --ifm-background-color: #ebf4ec;
+  --ifm-background-surface-color: #dfeee1;
+  --ifm-toc-border-color: #cde5d1;
+  --ifm-table-border-color: #cde5d1;
+  --nm-border: #cde5d1;
+  --nm-surface-alt: #dcebde;
+}
+:root[data-theme='light'][data-page-theme='lavender'] {
+  --ifm-background-color: #f1ecfa;
+  --ifm-background-surface-color: #e6def5;
+  --ifm-toc-border-color: #d8cbf0;
+  --ifm-table-border-color: #d8cbf0;
+  --nm-border: #d8cbf0;
+  --nm-surface-alt: #e3daf3;
+}
+:root[data-theme='light'][data-page-theme='sky'] {
+  --ifm-background-color: #eaf2fb;
+  --ifm-background-surface-color: #dceafa;
+  --ifm-toc-border-color: #c8dff5;
+  --ifm-table-border-color: #c8dff5;
+  --nm-border: #c8dff5;
+  --nm-surface-alt: #d8e7f8;
+}
