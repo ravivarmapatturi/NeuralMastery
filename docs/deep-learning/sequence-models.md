@@ -6,6 +6,23 @@ sidebar_position: 6
 
 Text, audio, time series, DNA — anywhere order carries meaning, you need an architecture that processes sequences, not fixed-size independent inputs.
 
+## What Is Sequential Data?
+
+Most of the models covered elsewhere on this site (linear/logistic regression, a plain feedforward network, a CNN on a single image) assume every input is **independent and identically distributed (i.i.d.)** — shuffle the rows of your training set and nothing changes, because each row is a self-contained example with no relationship to the ones before or after it.
+
+**Sequential data breaks that assumption on purpose**: each element's meaning depends on its position and on the elements around it, and shuffling the order destroys information a model needs.
+
+| Domain | Sequential data | Why order matters |
+|---|---|---|
+| Text | A sentence, a document | "dog bites man" and "man bites dog" use identical words in a different order, with opposite meaning |
+| Audio / speech | A waveform, a spectrogram over time | A phoneme only means something relative to the sounds immediately before and after it |
+| Time series | Stock prices, sensor readings, weather | Tomorrow's value depends on the recent trend, not just today's isolated number |
+| Video | A sequence of frames | A single frame can't show motion — motion *is* the relationship between consecutive frames |
+| Biology | DNA/RNA/protein sequences | The order of base pairs or amino acids determines structure and function, not just their composition |
+| User behavior | Clickstreams, purchase histories | What a user does next depends on the sequence of actions that led there, not any single past action alone |
+
+**Sequential models** are architectures built specifically to consume data in this form — processing elements in order (or at least order-aware), so a prediction at any point can depend on everything that came before it, not just the current element in isolation. Everything below is one family of approaches to that same problem, roughly in the order the field actually solved it.
+
 ## Recurrent Neural Networks (RNNs)
 
 An RNN processes a sequence one element at a time, maintaining a **hidden state** that's updated at each step and carries information forward: $h_t = f(h_{t-1}, x_t)$. In principle, this lets information from any earlier point in the sequence influence later predictions.
