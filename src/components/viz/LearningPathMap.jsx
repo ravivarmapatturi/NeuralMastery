@@ -9,29 +9,23 @@ import VizCard from './primitives/VizCard';
 import { SECTION_META, SECTION_ORDER, timeEstimate } from '@site/src/data/sectionMeta';
 import { useProgress } from '@site/src/contexts/ProgressContext';
 
-// The 7 top-level groups from sidebars.js, laid out as a real dependency
-// graph (not a flat list): Foundations feeds Models, which fans out into
-// Agents & Applications and Systems & Infrastructure, both feeding Safety &
-// Evaluation, then Research & Build, then Career.
-const NODE_LAYOUT = [
-  { key: '/docs/category/foundations', x: 200, y: 0 },
-  { key: '/docs/category/models', x: 200, y: 140 },
-  { key: '/docs/category/agents--applications', x: 0, y: 320 },
-  { key: '/docs/category/systems--infrastructure', x: 400, y: 320 },
-  { key: '/docs/category/safety--evaluation', x: 200, y: 500 },
-  { key: '/docs/category/research--build', x: 200, y: 640 },
-  { key: '/docs/category/career', x: 200, y: 780 },
-];
+// The 7 top-level groups from sidebars.js, laid out as ONE single linear
+// path -- matching both sidebars.js's actual array order (SECTION_ORDER)
+// and roadmaps/overview.md's own written sequence exactly. There is no
+// fork: Agents & Applications and Systems & Infrastructure don't depend on
+// each other in parallel, they're just adjacent steps in one sequence.
+// Laid out as a left-right switchback so it visibly reads as one path,
+// not a plain column.
+const COL_X = [40, 420];
+const ROW_Y = 170;
 
-const EDGES = [
-  ['/docs/category/foundations', '/docs/category/models'],
-  ['/docs/category/models', '/docs/category/agents--applications'],
-  ['/docs/category/models', '/docs/category/systems--infrastructure'],
-  ['/docs/category/agents--applications', '/docs/category/safety--evaluation'],
-  ['/docs/category/systems--infrastructure', '/docs/category/safety--evaluation'],
-  ['/docs/category/safety--evaluation', '/docs/category/research--build'],
-  ['/docs/category/research--build', '/docs/category/career'],
-];
+const NODE_LAYOUT = SECTION_ORDER.map((key, i) => ({
+  key,
+  x: COL_X[i % 2],
+  y: i * ROW_Y,
+}));
+
+const EDGES = NODE_LAYOUT.slice(1).map((node, i) => [NODE_LAYOUT[i].key, node.key]);
 
 function completionFor(key, understood) {
   const meta = SECTION_META[key];

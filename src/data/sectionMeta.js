@@ -31,7 +31,7 @@ export const SECTION_META = {
     pageCount: 76,
     difficulty: 'Intermediate → Advanced',
     prerequisites: 'Foundations',
-    leadsTo: 'Agents & Applications, Systems & Infrastructure',
+    leadsTo: 'Agents & Applications',
     subsections: [
       { dir: 'machine-learning', label: 'Machine Learning' },
       { dir: 'deep-learning', label: 'Deep Learning' },
@@ -65,7 +65,7 @@ export const SECTION_META = {
     description: 'Designing, building, and running production ML/AI systems at scale.',
     pageCount: 42,
     difficulty: 'Advanced',
-    prerequisites: 'Models',
+    prerequisites: 'Agents & Applications',
     leadsTo: 'Safety & Evaluation',
     subsections: [
       { dir: 'ml-system-design', label: 'ML System Design' },
@@ -81,7 +81,7 @@ export const SECTION_META = {
     description: 'Knowing whether a system is good, secure, and safe — not just whether it runs.',
     pageCount: 17,
     difficulty: 'Advanced',
-    prerequisites: 'Models, Systems & Infrastructure',
+    prerequisites: 'Systems & Infrastructure',
     leadsTo: 'Research & Build',
     subsections: [
       { dir: 'ai-evaluation', label: 'AI Evaluation' },
@@ -97,7 +97,7 @@ export const SECTION_META = {
     description: 'Reading the literature, and building real things — from scratch, and as full projects.',
     pageCount: 24,
     difficulty: 'Advanced',
-    prerequisites: 'Models',
+    prerequisites: 'Safety & Evaluation',
     leadsTo: 'Career',
     subsections: [
       { dir: 'research-engineering', label: 'Research Engineering' },

@@ -18,7 +18,7 @@ Have a specific goal already? [Suggested Paths](./roadmaps/suggested-paths.md) t
 
 - **Each bar = your progress.** Every page has a "Mark as understood" button at the bottom; this reflects that live, stored only in your browser — no account, nothing sent anywhere.
 - **Click a node** to jump straight to that section.
-- **Follow the arrows** if you're not sure what to read next: Foundations feeds everything; Models is the largest section by far and feeds both Agents & Applications and Systems & Infrastructure; both of those feed Safety & Evaluation; Research & Build and Career come last.
+- **Follow the arrows** if you're not sure what to read next — it's one straight path, not a set of parallel tracks: Foundations → Models (by far the largest section) → Agents & Applications → Systems & Infrastructure → Safety & Evaluation → Research & Build → Career.
 - If you already know a section (say, you're already strong on the math), skip it — the graph shows the *typical* dependency order, not a mandatory gate.
 
 ## The Full Curriculum
