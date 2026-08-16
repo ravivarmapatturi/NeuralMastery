@@ -18,3 +18,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local Claude Code skills symlink (points outside this repo, machine-specific)
+.claude/
