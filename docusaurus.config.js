@@ -116,8 +116,7 @@ const config = {
             position: 'left',
           },
           {
-            // TODO: replace with your real YouTube channel URL
-            href: 'https://www.youtube.com/@YOUR_CHANNEL_HANDLE',
+            href: 'https://www.youtube.com/@neuralmastery',
             label: 'YouTube',
             position: 'right',
           },
@@ -144,8 +143,7 @@ const config = {
             items: [
               {
                 label: 'YouTube',
-                // TODO: replace with your real YouTube channel URL
-                href: 'https://www.youtube.com/@YOUR_CHANNEL_HANDLE',
+                href: 'https://www.youtube.com/@neuralmastery',
               },
             ],
           },
