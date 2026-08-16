@@ -25,7 +25,11 @@ Most of the models covered elsewhere on this site (linear/logistic regression, a
 
 ## Recurrent Neural Networks (RNNs)
 
-An RNN processes a sequence one element at a time, maintaining a **hidden state** that's updated at each step and carries information forward: $h_t = f(h_{t-1}, x_t)$. In principle, this lets information from any earlier point in the sequence influence later predictions.
+An RNN processes a sequence one element at a time, maintaining a **hidden state** that's updated at each step and carries information forward. Written out with its actual weights:
+
+$$h_t = \tanh\left(W_h h_{t-1} + W_x x_t + b\right)$$
+
+The same weight matrices $W_h$, $W_x$, $b$ are reused at *every* time step — this weight sharing is what lets an RNN handle sequences of any length with a fixed number of parameters, and it's also exactly why gradients have to flow through so many repeated multiplications during training (below). In principle, this lets information from any earlier point in the sequence influence later predictions.
 
 ![RNN unrolled through time — the same cell and weights reused at every step, with the hidden state carried forward](./img/rnn-unrolled.png)
 
@@ -33,11 +37,27 @@ An RNN processes a sequence one element at a time, maintaining a **hidden state*
 
 ## LSTM and GRU
 
-**LSTM (Long Short-Term Memory)** introduces a separate "cell state" plus gating mechanisms (input, forget, output gates) that explicitly control what information gets added, kept, or discarded at each step — a direct, engineered fix for the vanishing gradient problem in RNNs.
+**LSTM (Long Short-Term Memory)** introduces a separate "cell state" $c_t$ plus three gates — forget, input, output — that explicitly control what information gets added, kept, or discarded at each step, each one its own small learned layer:
+
+$$f_t = \sigma\left(W_f [h_{t-1}, x_t] + b_f\right) \qquad \text{forget gate}$$
+$$i_t = \sigma\left(W_i [h_{t-1}, x_t] + b_i\right) \qquad \text{input gate}$$
+$$o_t = \sigma\left(W_o [h_{t-1}, x_t] + b_o\right) \qquad \text{output gate}$$
+$$\tilde{c}_t = \tanh\left(W_c [h_{t-1}, x_t] + b_c\right) \qquad \text{candidate values}$$
+$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t \qquad \text{new cell state}$$
+$$h_t = o_t \odot \tanh(c_t) \qquad \text{new hidden state}$$
+
+where $[h_{t-1}, x_t]$ is the previous hidden state concatenated with the current input, and $\odot$ is the **Hadamard (elementwise) product** — each gate is a vector of values in $(0,1)$ that scales its target *elementwise*, not a full matrix multiply. Read the two middle lines directly as the whole mechanism: the forget gate decides how much of the old cell state to keep, the input gate decides how much of the new candidate to add — both are $\sigma$-gated so each is a soft "keep this fraction" decision per dimension, computed fresh every time step by the gates above.
 
 ![LSTM cell — forget, input, and output gates controlling what's added to, kept in, and read from the cell state](./img/lstm-cell.png)
 
-**GRU (Gated Recurrent Unit)** simplifies LSTM's gating into two gates instead of three (reset and update, no separate cell state), with fewer parameters and often comparable performance — a common practical choice when compute is limited.
+**GRU (Gated Recurrent Unit)** simplifies LSTM's gating into two gates instead of three (reset and update, no separate cell state), with fewer parameters and often comparable performance — a common practical choice when compute is limited:
+
+$$z_t = \sigma\left(W_z [h_{t-1}, x_t] + b_z\right) \qquad \text{update gate}$$
+$$r_t = \sigma\left(W_r [h_{t-1}, x_t] + b_r\right) \qquad \text{reset gate}$$
+$$\tilde{h}_t = \tanh\left(W_h [r_t \odot h_{t-1}, x_t] + b_h\right) \qquad \text{candidate hidden state}$$
+$$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t \qquad \text{new hidden state}$$
+
+The last line is a direct interpolation between the old hidden state and the new candidate, controlled entirely by $z_t$ — no separate cell state to maintain, which is exactly where GRU's parameter savings come from. The reset gate $r_t$ decides how much of the *old* hidden state gets used when computing the new candidate in the first place.
 
 ![GRU cell — a reset gate and an update gate interpolating between the old hidden state and a new candidate](./img/gru-cell.png)
 
