@@ -111,7 +111,9 @@ Scaling by $\sqrt{d_k}$ and softmax are both shape-preserving (softmax normalize
 
 $$\text{softmax}\!\left(\frac{\overbrace{(6,512)}^{Q} \times \overbrace{(512,6)}^{K^T}}{\sqrt{512}}\right)_{(6,6)} \times \overbrace{(6,512)}^{V} = \overbrace{(6,512)}^{\text{output}}$$
 
-The $(6,6)$ attention-weight matrix times the $(6,512)$ Value matrix cancels the shared $6$, landing back at $(6,512)$ — self-attention's output is the *same shape* as its input, one context-mixed vector per token, which is exactly what lets these blocks stack $N$ times without the shape ever changing.
+The $(6,6)$ attention-weight matrix times the $(6,512)$ Value matrix cancels the shared $6$, landing back at $(6,512)$ — self-attention's output is the *same shape* as its input, one context-mixed vector per token, which is exactly what lets these blocks stack $N$ times without the shape ever changing. That $(6,512)$ output isn't just shape-compatible with the input — each of its 6 rows is now that word's vector carrying real information about its relationship to every other word in the sentence, mixed in proportion to the attention weights computed above.
+
+To be precise about what this single computation is: everything derived in this section — one $Q$, one $K$, one $V$, one $(6,6)$ score matrix — is **self-attention**, run once. **Multi-head attention** (next) is this exact same computation repeated $h$ times in parallel on different learned projections of the input, then concatenated — self-attention is the atomic operation multi-head is built from, not a different mechanism.
 
 ### A Full Worked Example
 
