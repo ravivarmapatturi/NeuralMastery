@@ -75,19 +75,43 @@ Before any of the individual mechanisms, here's every block named once, top to b
 
 ## Input Embeddings
 
-Each token in the vocabulary is looked up in a learned embedding table, producing a vector of length $d_{\text{model}} = 512$ in the base model — the same lookup at every position, with **positional encoding** (below) added afterward to inject order:
+Getting from raw text to a vector the model can compute with is a short pipeline, and every step in it matters:
+
+1. **Tokenization** — split the raw sentence into tokens. Take "your cat is a lovely cat": word-level tokenization splits it into `["your", "cat", "is", "a", "lovely", "cat"]`. (Real models use subword tokenization like BPE instead of whole words — see [Foundation Model Internals](../llms-genai/foundation-model-internals.md#tokenization) — but the rest of this pipeline is identical either way.)
+2. **Vocabulary → input IDs** — the model has a fixed **vocabulary**: every token it knows about, each assigned a unique integer ID once, ahead of training, covering the entire training corpus. Tokenization turns text into a sequence of these IDs, e.g. `[71, 1274, 253, 6, 5309, 1274]` — notice **"cat" maps to the same ID (1274) both times it appears**, since it's the same vocabulary entry.
+3. **Embedding lookup** — each input ID indexes one row of a learned **embedding table** of shape (vocab_size, $d_{\text{model}}$) — $d_{\text{model}}=512$ in the base model. The lookup is just indexing, not a computation, and it's the same table at every position in the sequence.
 
 <ThemedImage alt="A token is looked up in a learned embedding table, producing a d_model=512 vector" sources={{light: tokEmbLight, dark: tokEmbDark}} />
 
+Because the lookup only depends on the token, not where it sits in the sentence, both occurrences of "cat" above get back the exact same 512-dimensional vector at this stage — the model has no way yet to tell "cat" (word 2) from "cat" (word 6) apart. That's precisely the gap **positional encoding** (below) exists to close, added directly on top of this embedding before anything else happens to it.
+
 ## Self-Attention: Query, Key, Value
+
+Self-attention as a mechanism predates the Transformer — earlier Seq2Seq+Attention models (see [Sequence Models](./sequence-models.md#sequence-to-sequence-with-attention)) already used an attention mechanism, just between a decoder and a separate encoder. The Transformer's contribution is building an entire architecture out of it, starting with using it *within* one sequence: every token attends to every other token in the *same* sequence, all at once. "All at once" is the key phrase — this is one batched matrix operation ($QK^T$, below) covering the whole sequence in a single step, not a loop over token pairs the way an RNN loops over time steps.
 
 For each token, the model computes three vectors via learned linear projections: a **Query** (what am I looking for), a **Key** (what do I contain, for others to find), and a **Value** (what do I actually offer if selected).
 
 <ThemedImage alt="Self-attention: token embeddings produce Query, Key, and Value, which combine into a weighted output" sources={{light: attentionQkvLight, dark: attentionQkvDark}} />
 
+**A token attends to itself, too**: because $Q$, $K$, and $V$ all come from projecting the *same* input sequence, token $i$'s query gets dotted against token $i$'s own key along with every other token's key — there's nothing that excludes it. That score sits on the diagonal of the $QK^T$ matrix, and it's frequently one of the largest scores in its row (a token's content is often maximally "relevant to itself"), meaning a real, substantial share of each token's output is a copy of its own Value, blended with everyone else's. The worked example below shows this concretely.
+
 Attention scores between token $i$ and token $j$ are computed as $Q_i \cdot K_j$ (a dot product — see [Linear Algebra](../mathematics-for-ai/linear-algebra.md)), scaled and passed through softmax to get weights, which are then used to compute a weighted sum of all Value vectors:
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$
+
+### Matrix Shapes: Why QKᵀ Produces an n-by-n Grid
+
+Worth tracking the actual matrix shapes once, since everything above is a batch operation across the whole sequence at once, not one token at a time. A sequence of $n$ tokens, each a $d_{\text{model}}$-dimensional vector, is one input matrix of shape $(n, d_{\text{model}})$ — six words at $d_{\text{model}}=512$ is a $(6, 512)$ matrix. $Q$ and $K$ (after their linear projections) keep that same $(n, d_k)$ shape. Transposing $K$ flips it to $(d_k, n)$, and matrix multiplication cancels the shared inner dimension:
+
+$$\underbrace{(n, d_k)}_{Q} \times \underbrace{(d_k, n)}_{K^T} = \underbrace{(n, n)}_{QK^T}$$
+
+$(6, 512) \times (512, 6) \to (6, 6)$: the $512$ cancels, leaving a $6\times 6$ grid — one row per Query token, one column per Key token, exactly the "every token scored against every token" matrix the worked example below computes with real numbers.
+
+Scaling by $\sqrt{d_k}$ and softmax are both shape-preserving (softmax normalizes each row, it doesn't change the matrix's dimensions), so the full formula's shape trace for six 512-dimensional tokens is:
+
+$$\text{softmax}\!\left(\frac{\overbrace{(6,512)}^{Q} \times \overbrace{(512,6)}^{K^T}}{\sqrt{512}}\right)_{(6,6)} \times \overbrace{(6,512)}^{V} = \overbrace{(6,512)}^{\text{output}}$$
+
+The $(6,6)$ attention-weight matrix times the $(6,512)$ Value matrix cancels the shared $6$, landing back at $(6,512)$ — self-attention's output is the *same shape* as its input, one context-mixed vector per token, which is exactly what lets these blocks stack $N$ times without the shape ever changing.
 
 ### A Full Worked Example
 
@@ -104,6 +128,8 @@ The formula above is compact enough to skim past without really seeing it comput
 **3. Raw attention scores** — every Query dotted against every Key, $QK^T$:
 
 <ThemedImage alt="Raw attention scores as a 3x3 matrix from Q times K transpose" sources={{light: w3Light, dark: w3Dark}} />
+
+The diagonal of this matrix — 3, 3, 9 — is each token's score against *itself* ($Q_1{\cdot}K_1$, $Q_2{\cdot}K_2$, $Q_3{\cdot}K_3$): "The" attending to "The", "cat" attending to "cat", "sat" attending to "sat". Notice "sat"'s self-score (9) is already the largest value in its whole row before softmax even runs — a concrete instance of the "attends to itself" point above, not just an abstract claim.
 
 **4. Scale by $\sqrt{d_k}$** — divide every score by $\sqrt{4}=2$:
 
@@ -167,20 +193,22 @@ In encoder-decoder architectures (like the original Transformer for translation)
 
 ## Positional Encoding
 
-Attention has no inherent sense of token order — $QK^T$ treats the sequence as an unordered set unless you tell it otherwise. **Positional encoding** injects order information:
+The embedding lookup above gives every occurrence of a given token the *identical* vector, regardless of where it sits in the sentence — attention itself compounds this, since $QK^T$ scores every pair of tokens by content alone and has no inherent sense of order; shuffle the tokens and $QK^T$ produces the same set of pairwise scores, just relabeled. **Positional encoding** is the fix: inject a position-dependent signal so the model can tell "cat" (word 2) apart from "cat" (word 6), and — just as importantly — learn to treat nearby words as *close* and distant words as *distant*, the same intuitive notion of proximity a sentence actually has.
 
 - **Absolute (sinusoidal)**: add a fixed, deterministic pattern based on position directly to each token's embedding.
 - **RoPE (Rotary Position Embedding)**: instead of adding a position signal, *rotates* the Q and K vectors by an angle proportional to position — has the elegant property that the dot product between two rotated vectors naturally encodes their *relative* distance. This is the dominant choice in modern LLMs because it generalizes better to sequence lengths longer than what was seen in training.
 
-The original paper's sinusoidal formula:
+The original paper's sinusoidal formula — one special, fixed vector of length $d_{\text{model}}=512$ per position, computed once (not learned, not data-dependent) and simply added to that position's token embedding:
 
 $$PE(pos, 2i) = \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right) \qquad PE(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$$
+
+$pos$ is the token's position in the sequence (0, 1, 2, ...) and $2i$/$2i{+}1$ are the even/odd dimension indices within the 512-length vector — so half the dimensions get a sine, half get a cosine, each pair at a different frequency set by $10000^{2i/d_{\text{model}}}$. Every position uses this exact same formula; nothing about it depends on which sentence or which words are being encoded, only on the position and dimension indices — which is also why it can be computed once, up front, and reused for every input.
 
 Plotted for real — a handful of dimensions across 100 positions, each a sine/cosine wave at a different frequency:
 
 <ThemedImage alt="Positional encoding sinusoids at different frequencies across sequence position" sources={{light: posencSinLight, dark: posencSinDark}} />
 
-Why *sine and cosine specifically*, not some other periodic function: for any fixed offset $k$, $PE(pos+k)$ can be written as a linear function of $PE(pos)$ — the encoding makes relative position linearly recoverable, which is exactly what lets attention learn to use it. Stacking every dimension into one matrix shows the pattern the formula produces: low dimensions oscillate fast (fine position detail), high dimensions oscillate slow (coarse position), so every position gets a unique fingerprint across the full vector:
+**Why sine and cosine specifically**: intuitively, they're a natural choice for encoding *pattern* — periodic, smoothly repeating functions that never blow up (always bounded in $[-1,1]$, unlike, say, just using $pos$ itself, which would grow unboundedly with sequence length and dominate the embedding). More precisely: for any fixed offset $k$, $PE(pos+k)$ can be written as a *linear function* of $PE(pos)$ — the encoding makes relative position linearly recoverable, which is exactly what lets attention learn to use it. Stacking every dimension into one matrix shows the pattern the formula produces: low dimensions oscillate fast (fine position detail), high dimensions oscillate slow (coarse position), so every position gets a unique fingerprint across the full vector:
 
 <ThemedImage alt="The full positional encoding matrix as a heatmap, low dimensions oscillating fast and high dimensions slow" sources={{light: posencHeatLight, dark: posencHeatDark}} />
 
