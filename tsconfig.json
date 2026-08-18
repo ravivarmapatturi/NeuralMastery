@@ -1,0 +1,7 @@
+{
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "exclude": [".docusaurus", "build", "node_modules", "docusaurus.config.js"]
+}
