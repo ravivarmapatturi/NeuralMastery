@@ -147,6 +147,14 @@ The diagonal of this matrix — 3, 3, 9 — is each token's score against *itsel
 
 Read the last two steps as the whole mechanism in miniature: softmax turns raw compatibility scores into a proper probability distribution per token, and the weighted sum is a soft, differentiable lookup — "give me mostly Value 3's content, a little of Value 2's, almost none of Value 1's," instead of a hard, non-differentiable index lookup.
 
+### Two Properties of Self-Attention
+
+**It's permutation-equivariant** (often loosely called "permutation-invariant"): reorder the input tokens, and the output tokens come out reordered by *exactly the same permutation*, with every individual output vector's *value* completely unchanged. Take the worked example's rows for "cat" and "sat" — output vectors $[1.000, 1.547, 1.547, 1.878]$ and $[1.000, 1.665, 1.665, 1.755]$. Swap "cat" and "sat" in the *input*, recompute everything from scratch, and those exact same two vectors come back out — just in swapped positions. This isn't a coincidence: $Q=XW_Q$, $K=XW_K$, $V=XW_V$ are computed **per row, independently** — row $i$ of $Q$ only ever depends on row $i$ of $X$ — so permuting $X$'s rows permutes $Q$, $K$, $V$'s rows identically. That permutes $QK^T$'s rows *and* columns the same way (a Key's column index moves with it), softmax is applied independently per row so it doesn't care what order the rows arrive in, and the final weighted sum for a given token only ever mixes *that token's own row* of attention weights with $V$. Nothing in the mechanism has any notion of "row 2 comes before row 3" — order only enters the model at all because of **positional encoding**, added before any of this runs.
+
+**It requires no parameters of its own**: look again at the formula, $\text{softmax}(QK^T/\sqrt{d_k})\,V$ — there is no learnable weight anywhere inside it. Every parameter in a self-attention *layer* belongs to the linear projections that produce $Q$, $K$, $V$ in the first place ($W_Q$, $W_K$, $W_V$ — and $W^O$ for multi-head, below), not to the attention operation itself. In the simplest possible version of self-attention — scoring the raw embeddings directly against each other, $\text{softmax}(XX^T/\sqrt{d})\,X$, no $Q/K/V$ projections at all — the *entire* interaction between words is driven purely by their embeddings and positional encoding, with zero learned parameters governing how they interact. Adding learned $W_Q$, $W_K$, $W_V$ projections (as derived above) is what lets the model *learn* how tokens should relate to each other, rather than being stuck with a fixed, untrainable notion of similarity.
+
+**A related expectation**: because a token's Query is dotted against its *own* Key among everything else (self-attending, above), and a vector's dot product with itself is often its single largest dot product with anything, the diagonal of $QK^T$ is frequently — though not guaranteed to be — the highest score in its row, as seen concretely with "sat" in the worked example.
+
 ### Why Scale by the Square Root of the Key Dimension
 
 The part most explanations wave a hand at instead of deriving. If a Query and Key's components are independent with mean 0 and variance 1, their dot product $q \cdot k = \sum_{i=1}^{d_k} q_i k_i$ is a sum of $d_k$ independent terms — and variance adds across independent terms, so the dot product ends up with **variance $d_k$**, not variance 1. As $d_k$ grows, raw scores grow with it, pushing softmax toward a near-one-hot distribution where gradients through every non-max entry are vanishingly small. Dividing by $\sqrt{d_k}$ renormalizes the variance back down to 1, regardless of dimension:
@@ -163,7 +171,17 @@ Instead of one attention computation, run several in parallel ("heads"), each wi
 
 <ThemedImage alt="Multi-head attention: d_model splits into 8 parallel heads, each running attention independently, concatenated and projected through W_O" sources={{light: multiHeadLight, dark: multiHeadDark}} />
 
+### How the Split Actually Happens
+
+Start with $Q = XW_Q$, the same full projection derived earlier — shape $(n, d_{\text{model}})$, one 512-wide vector per token, call it $Q'$ to match the "project, then split" order of operations. Rather than 8 separate small $(d_{\text{model}}, d_k)$ projection matrices, one per head, $Q'$ is simply **split along its feature dimension** into 8 equal chunks of width $d_k=64$ each — head 1 gets columns 0-63, head 2 gets columns 64-127, and so on. $K$ and $V$ are split the identical way. This single-big-matrix-then-split is mathematically equivalent to having 8 separate small projections (splitting the output of one big matmul into column blocks gives the same numbers as multiplying by each of those column blocks separately) but is one efficient batched operation instead of 8 small ones — which is also why real implementations reshape rather than loop.
+
+### Attention() vs. head$_i$: the Same Function, Different Inputs
+
+Worth being precise about the difference between the generic $\text{Attention}(Q,K,V)$ defined earlier and $\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)$ from the paper's Equation 2: **they're the exact same function** — $\text{Attention}(\cdot,\cdot,\cdot) = \text{softmax}(\cdot\,\cdot^T/\sqrt{d_k})\cdot$, unchanged. What differs is only *what gets passed in*. The generic version takes whatever $Q$, $K$, $V$ you hand it; $\text{head}_i$ calls that identical function, but first passes $Q$, $K$, $V$ through head $i$'s own slice of the projection ($QW_i^Q$ instead of raw $Q$) — every head reuses one primitive operation, on 8 different projected views of the same input.
+
 $$\text{MultiHead}(Q,K,V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_8)\,W^O$$
+
+**Putting it together, in order**: project $Q$, $K$, $V$ once each (full $d_{\text{model}}$ width) → split each into 8 heads along the feature dimension → run the identical $\text{Attention}()$ primitive independently per head, in parallel → concatenate the 8 outputs back to $d_{\text{model}}$ width → project once more through $W^O$ to mix information across heads before it leaves the block.
 
 **Grouped-Query Attention (GQA)**: a memory/speed optimization where multiple query heads share the same key/value heads, reducing the size of the KV cache (below) at inference time with minimal quality loss — used in most modern production LLMs.
 
@@ -176,6 +194,8 @@ Type your own sentence below and watch real $QK^T/\sqrt{d_k} \to \text{softmax}$
 ## Masking
 
 Two unrelated reasons to block certain positions from attending to certain others, both implemented the same way: set the blocked score to $-\infty$ before softmax (`masked_fill(condition, -inf)`), so it becomes exactly 0 probability after softmax.
+
+**Why $-\infty$ becomes exactly 0, precisely**: softmax turns a row of scores into probabilities via $\text{softmax}(z)_i = e^{z_i} / \sum_j e^{z_j}$. Set a blocked position's score $z_i = -\infty$, and its numerator is $e^{-\infty}$ — and $e^z \to 0$ as $z \to -\infty$ (a negative exponent shrinks $e^z$ toward zero as it grows more negative, with no floor), so $e^{-\infty}=0$ exactly, not just very small. That position's numerator vanishes, so its output probability is $0/(\text{sum}) = 0$ exactly — a hard, mathematically clean zero, not an approximation — and it also contributes exactly $0$ to the denominator sum, so it has zero effect on every *other* position's probability either. In practice, implementations use a very large negative finite number (like `-1e9`) rather than literal infinity, purely to avoid `NaN` from computing $-\infty - (-\infty)$ during softmax's numerical-stability subtraction step — but $e^{-1e9}$ underflows to exactly $0.0$ in floating point anyway, so the effect is identical.
 
 **Padding mask** — sequences in a batch are padded to a common length; a real token should never attend to a `<pad>` placeholder, since it carries no information:
 
