@@ -53,6 +53,14 @@ The architecture behind GPT, Claude, LLaMA, and essentially every modern large m
 
 ## Why This Architecture Exists
 
+### Problems With RNNs
+
+Three specific, compounding problems, in the order they actually bite:
+
+- **Inputs are processed sequentially** — step $t$ can't start until $h_{t-1}$ exists, so there's no parallelism across time, no matter how much compute is available.
+- **Slow computation for long sequences** — a direct consequence of the above: a sequence of length $T$ costs $T$ sequential steps, with no shortcut around it.
+- **Vanishing or exploding gradients** — the same weight matrix gets multiplied into the gradient once per time step during backpropagation-through-time, so gradients either shrink toward zero or blow up exponentially over long sequences. See [Vanishing and Exploding Gradients, Derived](./sequence-models.md#vanishing-and-exploding-gradients-derived) for the full chain-rule walkthrough of exactly how and why this happens.
+
 [Sequence Models](./sequence-models.md) covers RNN/LSTM/GRU/Seq2Seq in depth and ends on their shared limitation: everything up through Seq2Seq+Attention kept **recurrence** — step $t$ can't start until step $t-1$ finishes, so there's no parallelism across time, and training on long sequences is slow no matter how good the gating is. The Transformer's move is to remove recurrence entirely and let every position attend directly to every other position, in parallel, regardless of distance:
 
 <ThemedImage alt="RNN processes tokens strictly sequentially, each step waiting for the previous one; attention gives every position direct, parallel access to every other position" sources={{light: rnnVsAttnLight, dark: rnnVsAttnDark}} />

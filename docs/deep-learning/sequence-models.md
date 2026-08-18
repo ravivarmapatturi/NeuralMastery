@@ -45,7 +45,38 @@ The same weight matrices $W_h$, $W_x$, $b$ are reused at *every* time step — t
 
 <ThemedImage alt="RNN unrolled through time — the same cell and weights reused at every step, with the hidden state carried forward" sources={{light: rnnUnrolledLight, dark: rnnUnrolledDark}} />
 
-**The vanishing gradient problem, again**: because the same weights are applied repeatedly across many time steps, gradients during backpropagation-through-time shrink (or explode) even faster than in a deep feedforward network (see [Training Deep Networks](./training-deep-networks.md)). In practice, plain RNNs struggle to remember anything more than ~10-20 steps back.
+### Three Problems With Plain RNNs
+
+- **Processed strictly sequentially**: step $t$ can't start until $h_{t-1}$ exists, so there's no parallelism across time — the GPU can't compute step 47 before step 46 is done, no matter how much compute is available.
+- **Slow for long sequences**: a direct consequence of the above — a sequence of length $T$ costs $T$ sequential steps, with no way to shortcut that; wall-clock time grows linearly and can't be reduced by throwing more hardware at a single sequence.
+- **Vanishing or exploding gradients**: derived in full below, because it's worth actually seeing the mechanism rather than just being told it happens.
+
+### Vanishing and Exploding Gradients, Derived
+
+Backpropagation-through-time (BPTT) unrolls the recurrence and applies the chain rule across every time step. Take the loss $L$ at the final step $T$, and ask how it depends on a much earlier hidden state $h_t$:
+
+$$\frac{\partial L}{\partial h_t} = \frac{\partial L}{\partial h_T} \cdot \frac{\partial h_T}{\partial h_t}$$
+
+The second factor is where the problem lives. $h_T$ depends on $h_{T-1}$, which depends on $h_{T-2}$, all the way back to $h_t$ — so by the chain rule, $\partial h_T/\partial h_t$ is itself a **product** across every intermediate step:
+
+$$\frac{\partial h_T}{\partial h_t} = \prod_{k=t+1}^{T} \frac{\partial h_k}{\partial h_{k-1}}$$
+
+Each factor comes directly from differentiating the recurrence $h_k = \tanh(W_h h_{k-1} + W_x x_k + b)$ with respect to $h_{k-1}$:
+
+$$\frac{\partial h_k}{\partial h_{k-1}} = \text{diag}\big(\tanh'(z_k)\big)\, W_h \qquad \text{where } z_k = W_h h_{k-1} + W_x x_k + b$$
+
+So the gradient flowing back to an early step is a product of $(T-t)$ of these — one $\tanh'(z_k)$ term times $W_h$, repeated once per step in between:
+
+$$\frac{\partial h_T}{\partial h_t} = \prod_{k=t+1}^{T} \text{diag}\big(\tanh'(z_k)\big)\, W_h$$
+
+A product, not a sum — that's the entire problem. $\tanh'(z) = 1 - \tanh^2(z)$ has a maximum of exactly 1 (at $z=0$) and is smaller everywhere else, so every one of these $(T-t)$ factors is bounded by roughly $\|W_h\|$ at best:
+
+- **Vanishing**: if the dominant eigenvalue of $W_h$, scaled by $\tanh'$, is less than 1 — the typical case, since $\tanh'$ is usually well under its max of 1 — every factor shrinks the gradient. Multiplying $(T-t)$ numbers each below 1 decays *exponentially*, the same way $0.9^{50} \approx 0.005$. Concretely: a scalar RNN with weight $w=0.5$ and a typical $\tanh'(z)\approx 0.9$ gives a per-step factor of $0.45$; after just 10 steps, $0.45^{10} \approx 0.0003$ — the gradient has effectively vanished, and nothing that far back can influence learning anymore.
+- **Exploding**: if that same product exceeds 1 instead — larger weights, or activations sitting where $\tanh'$ is closer to its max — the gradient grows exponentially rather than decaying, e.g. $1.5^{10}\approx 57$. In practice this shows up as huge gradient norms, `NaN` losses, and training that diverges instead of converging.
+
+Both failure modes are the same mechanism — a long product of Jacobians during BPTT — just on opposite sides of 1. And it's exactly the weight *sharing* that makes RNNs parameter-efficient (above) that causes this: every one of those $(T-t)$ factors reuses the identical $W_h$, so there's no averaging-out the way there might be with independent random matrices — a single dominant eigenvalue of $W_h$ compounds unchecked across the whole sequence.
+
+**The standard fixes**: gradient clipping directly caps the exploding case (rescale the gradient if its norm crosses a threshold — cheap and effective). The vanishing case is harder, and is exactly what LSTM and GRU's gating mechanisms below are built to solve, by giving gradients an additive path through the cell state instead of a purely multiplicative one. See [Training Deep Networks](./training-deep-networks.md#vanishing--exploding-gradients) for the same problem's general (non-recurrent) form, and residual connections as its feedforward-network fix.
 
 ## LSTM and GRU
 
